@@ -1,0 +1,17 @@
+.card {
+  background-color: rgb(41, 129, 66);
+  height: 150px;
+  width: 90px;
+  margin: 1px;
+  border-radius: 10px;
+
+
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transition: .5s;
+  background-color: grey;
+  transform: translateY(-10px);
+  cursor: pointer;
+}
