@@ -1,0 +1,9 @@
+.other-player-card {
+  height: 150px;
+  width: 60px;
+  margin: 5px -12px;
+  background-image: url('../../assets/background-card.jpg');
+  background-size: cover;
+  background-position: center top;
+  border-radius: 10px;
+}

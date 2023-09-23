@@ -1,9 +1,10 @@
 import './App.css'
-import Hand from './components/Card/Hand'
+import Table from './components/Table/Table'
 
 function App() {
   return (
     <>
+      <Table nOfPlayers={4} />
     </>
   )
 }
