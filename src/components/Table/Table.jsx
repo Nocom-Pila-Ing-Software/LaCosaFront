@@ -17,6 +17,9 @@ const Table = (props) => {
           <div key={index} className={classes[player]}><OtherPlayerHand name={index} /> </div>
         )
       })}
+      <div className={classes['center-button']}>
+        <button>Robar carta</button>
+      </div>
     </div>
 
   );
