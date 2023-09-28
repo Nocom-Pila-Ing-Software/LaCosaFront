@@ -19,6 +19,14 @@
   background-size: cover;
 }
 
+.center-button {
+  grid-area: PLAYER; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}
+
 .divHidden {
   visibility: hidden;
 }

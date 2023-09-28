@@ -71,6 +71,9 @@ const Table = (props) => {
           </div>
         )
       })}
+      <div className={classes['center-button']}>
+        <button>Robar carta</button>
+      </div>
     </div>
 
   );
