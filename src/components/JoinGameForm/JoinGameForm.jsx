@@ -1,6 +1,6 @@
-import classes from './Form.module.css';
+import classes from './JoinGameForm.module.css';
 
-const Form = () => {
+const JoinGameForm = () => {
   return (
     <div className={classes['form-background']}>
       <div>
@@ -18,4 +18,4 @@ const Form = () => {
     )
 }
 
-export default Form;
+export default JoinGameForm;
