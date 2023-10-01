@@ -1,23 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Creepster&family=Fjalla+One&display=swap');
+
 .form-background {
-  font-family: 'Fjalla One' ,sans-serif;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  font-family: 'Fjalla One', sans-serif;
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
   align-items: center;
-  background-image: url('https://img.freepik.com/free-vector/watercolour-smoke-background_91008-448.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  margin: 0 auto;
   padding: 20px;
   border-radius: 8px;
+  max-width: 30%;
   background-color: rgba(31, 75, 25, 0.8);
   box-shadow: 0px 0px 10px rgba(26, 77, 26, 0.2);
 }
@@ -31,18 +30,16 @@
 }
 
 
-
-.form-container label {
-  display: block;
-    
-}
-  
 .form-container input {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   border: 1px solid #214b17;
-  border-radius: 4px;
   margin-bottom: 20px;
+  border: 2px solid rgb(114, 175, 0);
+  border-radius: 8px;
+  font-family: 'Fjalla One', sans-serif;
+  text-align: center;
+  font-size: 15px;
 }
 
 .form-container button {
@@ -55,4 +52,17 @@
   background-color: #2ab13591;
   cursor: pointer;
   transition: border-color 0.25s;
-} 
+}
+
+.form-container button:hover {
+  background-color: #4CAF50;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: grab;
+}
+
+.form-container:hover {
+  border: 1px solid yellow;
+  transition: .5s;
+  box-shadow: 0px 0px 10px rgba(26, 77, 26, 0.2);
+}

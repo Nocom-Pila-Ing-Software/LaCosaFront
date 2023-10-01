@@ -9,8 +9,9 @@ function App() {
 
   return (
     <>
-      <JoinGameForm />
       <CreateGameForm />
+      <JoinGameForm />
+
     </>
   )
 }

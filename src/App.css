@@ -4,3 +4,9 @@
   box-sizing: border-box;
 }
 
+body {
+  background-image: url('https://img.freepik.com/free-vector/watercolour-smoke-background_91008-448.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
