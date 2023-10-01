@@ -11,7 +11,7 @@ const Table = ({ nOfPlayers }) => {
       <Hand name="Tu mano" />
       {actualTable.map((player, index) => {
         return (
-          <div key={index} className={classes[player]}><OtherPlayerHand name="Jugador " /> </div>
+          <div key={index} className={classes[player]}><OtherPlayerHand name={index} /> </div>
         )
       })}
     </div>
