@@ -12,11 +12,6 @@
   height: 100vh;
 }
 
-.form-background h1 {
-  color: #193812;
-  text-shadow: 2px 2px 4px hsla(56, 82%, 40%, 0.502); 
-}
-
 .form-container {
   display: flex;
   flex-direction: column;

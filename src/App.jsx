@@ -1,5 +1,7 @@
 import './App.css'
 import JoinGameForm from './components/JoinGameForm/JoinGameForm'
+import React from 'react'
+
 
 function App() {
 

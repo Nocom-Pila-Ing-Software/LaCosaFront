@@ -1,10 +1,10 @@
+import React from 'react'
 import classes from './JoinGameForm.module.css';
 
 const JoinGameForm = () => {
   return (
     <div className={classes['form-background']}>
       <div>
-        <h1>LA COSA</h1>
         <form action="" className={classes['form-container']}>
           <h2>Unirse a una partida</h2>
           <label htmlFor="">Nombre de la partida</label>
