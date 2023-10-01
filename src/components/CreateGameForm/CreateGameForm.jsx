@@ -8,8 +8,7 @@ const CreateGameForm = () => {
         <h1>LA COSA</h1>
         <form action="" className={classes['form-container']}>
           <h2>Crear partida</h2>
-          <label htmlFor='name'>Nombre de la partida</label>
-          <input type="text" required id='name' />
+          <input type="text" required id='name' placeholder='Nombre de la partida'/>
           <button>Crear partida</button>
         </form>
       </div>
