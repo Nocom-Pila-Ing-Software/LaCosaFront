@@ -1,0 +1,33 @@
+.hand-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hand-container__hand {
+  display: flex;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+
+}
+
+button {
+  background-color: #427c44;
+  margin: 10px;
+  border: none;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+button:hover {
+  transition: .5s;
+  transform: scale(1.1);
+  cursor: pointer;
+}
