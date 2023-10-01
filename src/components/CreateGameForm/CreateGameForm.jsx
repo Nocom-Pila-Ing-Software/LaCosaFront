@@ -1,4 +1,5 @@
 import classes from './CreateGameForm.module.css';
+import React from 'react';
 
 const CreateGameForm = () => {
   return (
