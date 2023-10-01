@@ -3,8 +3,10 @@ import Hand from '../Card/Hand'
 import classes from './Table.module.css'
 import sitConfigs from "../../utils/sitConfigs"
 import React from 'react'
+import PropTypes from 'prop-types';
 
-const Table = ({ nOfPlayers }) => {
+
+const Table = ({ nOfPlayers, otherProp }) => {
   const actualTable = sitConfigs[nOfPlayers];
 
   return (
@@ -19,5 +21,10 @@ const Table = ({ nOfPlayers }) => {
 
   );
 };
+
+Table.propTypes = {
+  nOfPlayers: PropTypes.number.isRequired,
+  otherProp: PropTypes.any
+}
 
 export default Table;

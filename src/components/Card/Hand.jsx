@@ -2,6 +2,7 @@ import Card from "./Card";
 import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const Hand = props => {
   return (
@@ -21,6 +22,11 @@ const Hand = props => {
     </div>
 
   )
+}
+
+Hand.propTypes = {
+  name: PropTypes.string.isRequired,
+  otherProp: PropTypes.any
 }
 
 export default Hand;

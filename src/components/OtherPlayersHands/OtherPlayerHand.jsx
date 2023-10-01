@@ -1,6 +1,7 @@
 import OtherPlayerCard from './OtherPlayerCard';
 import classes from './OtherPlayerHand.module.css'
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const OtherPlayerHand = props => {
   return (
@@ -16,5 +17,11 @@ const OtherPlayerHand = props => {
 
   )
 }
+
+OtherPlayerHand.propTypes = {
+  name: PropTypes.string.isRequired,
+  otherProp: PropTypes.any
+}
+
 
 export default OtherPlayerHand;
