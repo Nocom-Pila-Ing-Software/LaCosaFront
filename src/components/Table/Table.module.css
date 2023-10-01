@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Skranji&display=swap');
+
+.table-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  width: 100%;
+  height: 100vh;
+  grid-template-areas:
+    "P3 P4 P5 P6 P7 P8 P9"
+    "P2 PLAYER PLAYER PLAYER PLAYER PLAYER P10"
+    "P1 PLAYER PLAYER PLAYER PLAYER PLAYER P11"
+    "-- PLAYER PLAYER PLAYER PLAYER PLAYER ---";
+
+  background-image: url('https://img.freepik.com/free-vector/watercolour-smoke-background_91008-448.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.divHidden {
+  visibility: hidden;
+}
+
+.PLAYER {
+  grid-area: PLAYER;
+  justify-content: end;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+
+  font-size: 25px;
+  letter-spacing: 5px;
+  font-family: 'Skranji', cursive;
+  color: rgb(185, 206, 0);
+
+}
+
+.PLAYER p {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.P1 {
+  grid-area: P1;
+  width: 100%;
+  height: 100%;
+}
+
+.P2 {
+  grid-area: P2;
+  width: 100%;
+  height: 100%;
+}
+
+.P3 {
+  grid-area: P3;
+  width: 100%;
+  height: 100%;
+}
+
+.P4 {
+  grid-area: P4;
+  width: 100%;
+  height: 100%;
+}
+
+.-- {
+  grid-area: --;
+}
+
+.--- {
+  grid-area: ---;
+}
+
+.P5 {
+  grid-area: P5;
+  width: 100%;
+  height: 100%;
+}
+
+.P6 {
+  grid-area: P6;
+  width: 100%;
+  height: 100%;
+}
+
+.P7 {
+  grid-area: P7;
+  width: 100%;
+  height: 100%;
+}
+
+.P8 {
+  grid-area: P8;
+  width: 100%;
+  height: 100%;
+}
+
+.P9 {
+  grid-area: P9;
+  width: 100%;
+  height: 100%;
+}
+
+.P10 {
+  grid-area: P10;
+  width: 100%;
+  height: 100%;
+}
+
+.P11 {
+  grid-area: P11;
+  width: 100%;
+  height: 100%;
+}
