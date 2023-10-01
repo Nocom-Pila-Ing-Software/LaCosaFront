@@ -1,0 +1,19 @@
+.form-background {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://img.freepik.com/free-vector/watercolour-smoke-background_91008-448.jpg');
+  background-repeat: no-repeat;
+  margin: auto;
+  overflow: auto;
+  background-size: cover;
+  height: 100vh;
+}
+  
+.form-background h1 {
+  color: #193812;
+  text-shadow: 2px 2px 4px hsla(56, 82%, 40%, 0.502);
+}
+

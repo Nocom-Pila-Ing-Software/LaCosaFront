@@ -1,20 +1,20 @@
 import classes from './CreateGameForm.module.css';
 
+
 const CreateGameForm = () => {
-    return (
-        <div className={classes['form-background']}>
-            <h2>Crear juego</h2>
-            <form className={classes['form-container']}>
-                <div className={classes.control}>
-                    <label htmlFor='name'>Nombre del juego</label>
-                    <input type='text' required id='name' />
-                </div>
-                <div className={classes.actions}>
-                    <button>Crear</button>
-                </div>
-            </form>
-        </div>
-    );
+  return (
+    <div className={classes['form-background']}>
+      <div>
+        <h1>LA COSA</h1>
+        <form action="" className={classes['form-container']}>
+          <h2>Crear partida</h2>
+          <label htmlFor='name'>Nombre de la partida</label>
+          <input type="text" required id='name' />
+          <button>Crear partida</button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default CreateGameForm;
