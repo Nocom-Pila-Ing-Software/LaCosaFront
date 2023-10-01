@@ -6,8 +6,8 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 
-const Table = ({ nOfPlayers, otherProp }) => {
-  const actualTable = sitConfigs[nOfPlayers];
+const Table = (props) => {
+  const actualTable = sitConfigs[props.nOfPlayers];
 
   return (
     <div className={classes['table-container']}>
@@ -23,8 +23,7 @@ const Table = ({ nOfPlayers, otherProp }) => {
 };
 
 Table.propTypes = {
-  nOfPlayers: PropTypes.number.isRequired,
-  otherProp: PropTypes.any
+  nOfPlayers: PropTypes.number.isRequired
 }
 
 export default Table;
