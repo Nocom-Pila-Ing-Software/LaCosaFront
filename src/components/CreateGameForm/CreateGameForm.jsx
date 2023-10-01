@@ -1,6 +1,5 @@
 import classes from './CreateGameForm.module.css';
 
-
 const CreateGameForm = () => {
   return (
     <div className={classes['form-background']}>
