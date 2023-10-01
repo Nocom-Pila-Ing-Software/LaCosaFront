@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Creepster&family=Fjalla+One&display=swap');
 .form-background {
+  font-family: 'Fjalla One' ,sans-serif;
   display: flex;
   flex-direction: column;
   text-align: center;
