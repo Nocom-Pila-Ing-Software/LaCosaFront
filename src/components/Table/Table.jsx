@@ -1,7 +1,8 @@
 import OtherPlayerHand from "../OtherPlayersHands/OtherPlayerHand";
 import Hand from '../Card/Hand'
 import classes from './Table.module.css'
-import sitConfigs from "../../utils/sitConfigs";
+import sitConfigs from "../../utils/sitConfigs"
+import React from 'react'
 
 const Table = ({ nOfPlayers }) => {
   const actualTable = sitConfigs[nOfPlayers];

@@ -1,6 +1,7 @@
 import Card from "./Card";
 import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
+import React from 'react'
 
 const Hand = props => {
   return (

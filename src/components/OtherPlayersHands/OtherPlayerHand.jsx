@@ -1,5 +1,6 @@
 import OtherPlayerCard from './OtherPlayerCard';
 import classes from './OtherPlayerHand.module.css'
+import React from 'react'
 
 const OtherPlayerHand = props => {
   return (
