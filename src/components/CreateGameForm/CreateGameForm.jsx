@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classes from '../styles/form-style.module.css';
 import { URL_BACKEND } from '../../utils/constants';
+import PropTypes from 'prop-types';
 
 const CreateGameForm = ({ onStartGame }) => {
   const [hostName, setHostName] = useState('');
@@ -12,8 +13,8 @@ const CreateGameForm = ({ onStartGame }) => {
     onStartGame();
   };
 
-  const handleCreateGame = (e) => {
-    
+  const handleCreateGame = () => {
+
     if (hostName.trim()!=='' && roomName.trim()!==''){
       setGameCreated(true);
     }
@@ -68,6 +69,10 @@ const CreateGameForm = ({ onStartGame }) => {
       </form>
     </div>
   );
+};
+
+CreateGameForm.propTypes = {
+  onStartGame: PropTypes.func.isRequired,
 };
 
 export default CreateGameForm;
