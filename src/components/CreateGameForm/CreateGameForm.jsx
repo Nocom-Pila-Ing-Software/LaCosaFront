@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import classes from '../styles/form-style.module.css';
+import { URL_BACKEND } from '../../utils/constants';
 
 const CreateGameForm = ({ onStartGame }) => {
-  const [playerName, setPlayerName] = useState('');
-  const [gameName, setGameName] = useState('');
+  const [hostName, setHostName] = useState('');
+  const [roomName, setRoomName] = useState('');
   const [gameCreated, setGameCreated] = useState(false);
 
   const handleStartGame = () => {
@@ -11,12 +12,33 @@ const CreateGameForm = ({ onStartGame }) => {
     onStartGame();
   };
 
-  const handleCreateGame = () => {
+  const handleCreateGame = (e) => {
     // Realiza la lógica para crear la partida aquí si es necesario
     // Luego, establece gameCreated en true para mostrar el botón "Iniciar partida"
-    if (playerName.trim()!=='' && gameName.trim()!==''){
+    if (hostName.trim()!=='' && roomName.trim()!==''){
       setGameCreated(true);
     }
+
+    const json_string = JSON.stringify({
+      "roomName": roomName,
+      "hostName": hostName
+    })
+
+    const requestOptions = {
+      method: 'POST',
+      headers: new Headers({ 
+        'content-type': 'application/json'
+      }),
+      body: json_string
+    }
+
+    fetch(URL_BACKEND + 'room', requestOptions)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw response;
+      })
   };
 
   const handleSubmit = (e) => {
@@ -32,15 +54,15 @@ const CreateGameForm = ({ onStartGame }) => {
           type="text"
           required
           placeholder="Nombre del jugador"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
+          value={hostName}
+          onChange={(e) => setHostName(e.target.value)}
         />
         <input
           type="text"
           required
           placeholder="Nombre de la partida"
-          value={gameName}
-          onChange={(e) => setGameName(e.target.value)}
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
         />
         <button onClick={handleCreateGame}>Crear partida</button>
         {gameCreated && (<button onClick={handleStartGame}>Iniciar partida</button>)}
