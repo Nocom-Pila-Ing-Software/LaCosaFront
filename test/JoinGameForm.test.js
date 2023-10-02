@@ -1,6 +1,11 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import MockAdapter from 'axios-mock-adapter';
 import JoinGameForm from './JoinGameForm';
+import { URL_BACKEND } from '../../utils/constants';
+
+const axiosMock = new MockAdapter(axios);
 
 describe ('JoinGameForm' , () =>{
   it('renders correctly', () => {
@@ -63,5 +68,25 @@ describe ('JoinGameForm' , () =>{
     fireEvent.click(joinGameButton);
     fireEvent.click(screen.getByText('Salir'));
     expect(joinGameButton).not.toBeDisabled();
+  });
+  it('shows an error message when the room name is not valid' , async () => {
+    render(<JoinGameForm />);
+    const playerNameInput = screen.getByPlaceholderText('Nombre del jugador');
+    const roomNameInput = screen.getByPlaceholderText('Nombre de la partida');
+    const joinGameButton = screen.getByText('Unirse');
+
+    fireEvent.change(playerNameInput, {target: {value: 'Jugador 1'}});
+    fireEvent.change(roomNameInput, {target: {value: 'Partida 1'}});
+    
+    fireEvent.click(joinGameButton);
+    axiosMock.onPost('${URL_BACKEND}/room/Partida 1/players').reply(404);
+    expect(screen.getByText('Partida no encontrada')).toBeInTheDocument();
+
+    await waitFor(() => { 
+      const modal = screen.queryByTestId('modal');
+      expect(window.alert).toHaveBeenCalledWith('La sala no existe');
+      expect(joinGameButton).not.toBeDisabled();
+      expect(modal).toBeNull();
+    });
   });
 });
