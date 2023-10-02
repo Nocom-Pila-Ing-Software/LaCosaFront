@@ -1,4 +1,4 @@
-import classes from './CreateGameForm.module.css';
+import classes from '../styles/form-style.module.css';
 import React from 'react';
 
 const CreateGameForm = () => {

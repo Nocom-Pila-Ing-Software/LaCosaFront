@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Creepster&family=Fjalla+One&display=swap');
+
 .form-background {
   font-family: 'Fjalla One' ,sans-serif;
   display: flex;
@@ -6,10 +7,6 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  background-image: url('https://img.freepik.com/free-vector/watercolour-smoke-background_91008-448.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
 }
 
 .form-container {
