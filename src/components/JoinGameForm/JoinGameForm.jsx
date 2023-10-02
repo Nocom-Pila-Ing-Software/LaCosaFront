@@ -14,8 +14,12 @@ const JoinGameForm = () => {
     e.preventDefault();
   };
   const openModal = () => {
-      setIsModalOpen(true);
-      setIsJoinButtonDisabled(true);
+      if (roomName.trim() !== '' && playerName.trim() !== '') {
+        setIsModalOpen(true);
+        setIsJoinButtonDisabled(true);
+      }else{
+        alert('Por favor ingresa un nombre de partida y un nombre de jugador');
+      }   
   };
   const closeModal = () => {
     setIsModalOpen(false);
