@@ -8,13 +8,12 @@ const CreateGameForm = ({ onStartGame }) => {
   const [gameCreated, setGameCreated] = useState(false);
 
   const handleStartGame = () => {
-    // Llama a la función onStartGame para indicar que la partida ha comenzado
+    // Calls the onStartGame function to indicate that the game has started
     onStartGame();
   };
 
   const handleCreateGame = (e) => {
-    // Realiza la lógica para crear la partida aquí si es necesario
-    // Luego, establece gameCreated en true para mostrar el botón "Iniciar partida"
+    
     if (hostName.trim()!=='' && roomName.trim()!==''){
       setGameCreated(true);
     }
