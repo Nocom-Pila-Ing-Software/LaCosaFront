@@ -1,19 +1,29 @@
-
-import './App.css'
-import JoinGameForm from './components/JoinGameForm/JoinGameForm'
+import './App.css';
+import JoinGameForm from './components/JoinGameForm/JoinGameForm';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm';
-import React from 'react'
-
+import Table from './components/Table/Table'; 
+import React, { useState } from 'react';
 
 function App() {
+  const [gameStarted, setGameStarted] = useState(false);
+
+  const handleStartGame = () => {
+
+    setGameStarted(true);
+  };
 
   return (
-    <>
-      <CreateGameForm />
-      <JoinGameForm />
-
-    </>
-  )
+    <div className="App">
+      {gameStarted ? (
+        <Table nOfPlayers={4}/>
+      ) : (
+        <>
+          <CreateGameForm onStartGame={handleStartGame} />
+          <JoinGameForm />
+        </>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
