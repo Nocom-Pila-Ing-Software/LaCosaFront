@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import classes from '../styles/form-style.module.css';
 import { URL_BACKEND } from '../../utils/constants';
-import axios from 'axios';
 import PropTypes from 'prop-types';
+import * as api from '../../services.js';
 
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
@@ -13,7 +13,7 @@ const CreateGameForm = (props) => {
   const handleStartGame = (e) => {
     // Calls the onStartGame function to indicate that the game has started
     e.preventDefault();
-    axios.post(`${URL_BACKEND}game`, {'roomID': roomID})
+    api.createGame({'roomID': roomID})
     props.onStartGame();
   };
 
@@ -23,34 +23,12 @@ const CreateGameForm = (props) => {
       setGameCreated(true);
     }
 
-    const json_string = JSON.stringify({
-      "roomName": roomName,
-      "hostName": hostName
-    })
-
-    const requestOptions = {
-      method: 'POST',
-      headers: new Headers({
-        'content-type': 'application/json'
-      }),
-      body: json_string
-    }
-
-    fetch(URL_BACKEND + 'room', requestOptions)
-      .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw response;
-    })
+    api.createRoom({ "roomName": roomName, "hostName": hostName })
     .then(data => {
-      // Assuming data is the JSON response from the server
       const roomID = data.roomID;
-      // Call setRoomID with the value of roomID
       setRoomID(roomID);
     })
     .catch(error => {
-      // Handle any errors here
       console.error('Error:', error);
     });
   };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import classes from '../styles/form-style.module.css';
 import Modal from './JoinGameFormModal';
-import axios from 'axios';
+import * as api from '../../services.js';
 import { URL_BACKEND } from '../../utils/constants';
 
 const JoinGameForm = ( props ) => {
@@ -13,7 +13,7 @@ const JoinGameForm = ( props ) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${URL_BACKEND}room/${roomID}/players`, {'playerName': playerName})
+    api.addPlayerToWaitingRoom(roomID, {'playerName': playerName})
     .then((response) => {
       openModal();
       if (response.ok) {
@@ -29,9 +29,9 @@ const JoinGameForm = ( props ) => {
     })
   }
   const pollRoom = () => {
-    axios.get(`${URL_BACKEND}room/${roomID}`)
-    .then((response) => {
-        if (response.data.hasStarted) {
+    api.getRoomInfo(roomID)
+    .then((data) => {
+        if (data.hasStarted) {
             props.onStartGame()
         } else {
           // The game hasn't started yet, continue polling after 3 seconds.
