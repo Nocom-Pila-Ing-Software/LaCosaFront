@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Modal({closeModal}) {
+const Modal = (closeModal) => {
   return(
     <div>
       <div>

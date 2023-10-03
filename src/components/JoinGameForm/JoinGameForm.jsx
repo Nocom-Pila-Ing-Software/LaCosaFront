@@ -14,9 +14,10 @@ const JoinGameForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${URL_BACKEND}/room/${roomID}/players`, {playerName: 'playerName'})
+    axios.post(`${URL_BACKEND}room/${1}/players`, {'playerName': playerName})
     .then((response) => {
-      if (response.ok) {
+      openModal();
+      if (response.ok) {        
         console.log(response);
       }
     })
@@ -26,7 +27,7 @@ const JoinGameForm = () => {
       console.log("La sala no existe");
       alert('La sala no existe');
     })
-    }
+  }
 
   const openModal = () => {
       if (roomID.trim() !== '' && playerName.trim() !== '') {
@@ -46,7 +47,7 @@ const JoinGameForm = () => {
         <h2>Unirse a una partida</h2>
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)}/>
         <input type="text" required placeholder='Nombre de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)}/>
-        <button onClick={openModal} disabled={isJoinButtonDisabled}>Unirse</button>
+        <button onClick={handleSubmit} disabled={isJoinButtonDisabled}>Unirse</button>
         {isModalOpen && <Modal closeModal={closeModal}/>}
       </form>
     </div>
