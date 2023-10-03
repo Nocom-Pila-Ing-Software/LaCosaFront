@@ -8,18 +8,19 @@ const JoinGameForm = ( props ) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
-  const [roomID, setRoomID] = useState('');
   const [playerName, setPlayerName] = useState('');
+  // create local roomID, because global roomID is an int
+  const [roomID, setRoomID] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     api.addPlayerToWaitingRoom(roomID, {'playerName': playerName})
-    .then((response) => {
+    .then((data) => {
       openModal();
-      if (response.ok) {
-        console.log(response);
-      }
       pollRoom()
+      // update global IDs
+      props.setRoomID(parseInt(roomID))
+      props.setPlayerID(data.playerID)
     })
     .catch((error) => {
       closeModal();
@@ -58,7 +59,7 @@ const JoinGameForm = ( props ) => {
       <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
         <h2>Unirse a una partida</h2>
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)}/>
-        <input type="text" required placeholder='ID de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)}/>
+        <input type="text" required placeholder='ID de la partida' value={props.roomID} onChange={(e) => setRoomID(e.target.value)}/>
         <button onClick={handleSubmit} disabled={isJoinButtonDisabled}>Unirse</button>
         {isModalOpen && <Modal closeModal={closeModal}/>}
       </form>

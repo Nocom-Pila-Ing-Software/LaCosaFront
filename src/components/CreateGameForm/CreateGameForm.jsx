@@ -7,13 +7,12 @@ import * as api from '../../services.js';
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [roomID, setRoomID] = useState('');
   const [gameCreated, setGameCreated] = useState(false);
 
   const handleStartGame = (e) => {
     // Calls the onStartGame function to indicate that the game has started
     e.preventDefault();
-    api.createGame({'roomID': roomID})
+    api.createGame({'roomID': props.roomID})
     props.onStartGame();
   };
 
@@ -25,8 +24,8 @@ const CreateGameForm = (props) => {
 
     api.createRoom({ "roomName": roomName, "hostName": hostName })
     .then(data => {
-      const roomID = data.roomID;
-      setRoomID(roomID);
+      props.setRoomID(data.roomID);
+      props.setPlayerID(data.playerID)
     })
     .catch(error => {
       console.error('Error:', error);
