@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={4}/>
+        <Table nOfPlayers={2}/>
       ) : (
         <>
           <CreateGameForm onStartGame={handleStartGame} />
