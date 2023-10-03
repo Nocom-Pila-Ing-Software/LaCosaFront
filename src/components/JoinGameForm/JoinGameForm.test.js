@@ -8,7 +8,7 @@ describe("JoinGameForm", () => {
         render(<JoinGameForm />);
 
         expect(screen.getByPlaceholderText('Nombre del jugador')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('Nombre de la partida')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('ID de la partida')).toBeInTheDocument();
         expect(screen.getByText('Unirse')).toBeInTheDocument();
     });
 });

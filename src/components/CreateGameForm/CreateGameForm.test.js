@@ -8,7 +8,7 @@ import CreateGameForm from './CreateGameForm.jsx';
 test('form renders with correct fields', () => {
   const { getByPlaceholderText } = render(<CreateGameForm onStartGame={() => {}}/>);
 
-  const hostNameInput = getByPlaceholderText('Nombre del jugador');
+  const hostNameInput = getByPlaceholderText('Nombre del anfitrion');
   const roomNameInput = getByPlaceholderText('Nombre de la partida');
 
   expect(hostNameInput).toBeInTheDocument();
