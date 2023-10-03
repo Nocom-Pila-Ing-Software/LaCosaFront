@@ -44,7 +44,7 @@ const CreateGameForm = ({ onStartGame }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
   }
-
+  
   return (
     <div className={classes['form-background']}>
       <h1>LA COSA</h1>
