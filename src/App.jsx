@@ -1,7 +1,7 @@
 import './App.css';
 import JoinGameForm from './components/JoinGameForm/JoinGameForm';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm';
-import Table from './components/Table/Table'; 
+import Table from './components/Table/Table';
 import React, { useState } from 'react';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
       ) : (
         <>
           <CreateGameForm onStartGame={handleStartGame} />
-          <JoinGameForm />
+          <JoinGameForm onStartGame={handleStartGame}/>
         </>
       )}
     </div>

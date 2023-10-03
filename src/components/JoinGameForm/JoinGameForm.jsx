@@ -4,7 +4,7 @@ import Modal from './JoinGameFormModal';
 import axios from 'axios';
 import { URL_BACKEND } from '../../utils/constants';
 
-const JoinGameForm = () => {
+const JoinGameForm = ( props ) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
@@ -13,12 +13,13 @@ const JoinGameForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${URL_BACKEND}room/${1}/players`, {'playerName': playerName})
+    axios.post(`${URL_BACKEND}room/${roomID}/players`, {'playerName': playerName})
     .then((response) => {
       openModal();
-      if (response.ok) {        
+      if (response.ok) {
         console.log(response);
       }
+      pollRoom()
     })
     .catch((error) => {
       closeModal();
@@ -27,6 +28,18 @@ const JoinGameForm = () => {
       alert('La sala no existe');
     })
   }
+  const pollRoom = () => {
+    axios.get(`${URL_BACKEND}room/${roomID}`)
+    .then((response) => {
+        if (response.data.hasStarted) {
+            props.onStartGame()
+        } else {
+          // The game hasn't started yet, continue polling after 3 seconds.
+          setTimeout(pollRoom, 3000);
+        }
+    })
+  }
+
 
   const openModal = () => {
       if (roomID.trim() !== '' && playerName.trim() !== '') {
@@ -34,7 +47,7 @@ const JoinGameForm = () => {
         setIsJoinButtonDisabled(true);
       }else{
         alert('Por favor ingresa un nombre de partida y un nombre de jugador');
-      }   
+      }
   };
   const closeModal = () => {
     setIsModalOpen(false);
@@ -45,7 +58,7 @@ const JoinGameForm = () => {
       <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
         <h2>Unirse a una partida</h2>
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)}/>
-        <input type="text" required placeholder='Nombre de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)}/>
+        <input type="text" required placeholder='ID de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)}/>
         <button onClick={handleSubmit} disabled={isJoinButtonDisabled}>Unirse</button>
         {isModalOpen && <Modal closeModal={closeModal}/>}
       </form>
