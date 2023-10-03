@@ -4,7 +4,6 @@ import Modal from './JoinGameFormModal';
 import axios from 'axios';
 import { URL_BACKEND } from '../../utils/constants';
 
-
 const JoinGameForm = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
