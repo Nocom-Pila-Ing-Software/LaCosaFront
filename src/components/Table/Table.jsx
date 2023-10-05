@@ -10,6 +10,7 @@ import { getGameInfo, getPlayerInfo } from "../../services";
 const Table = (props) => {
   const actualTable = sitConfigs[props.nOfPlayers];
 
+
   const [playersInfo, setPlayersInfo] = useState([])
   const [localPlayerInfo, setLocalPlayerInfo] = useState('')
   const [allGameData, setAllGameData] = useState('')

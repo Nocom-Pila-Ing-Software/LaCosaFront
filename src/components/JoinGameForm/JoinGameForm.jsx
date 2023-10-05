@@ -4,6 +4,7 @@ import Modal from './JoinGameFormModal';
 import * as api from '../../services.js';
 import PropTypes from 'prop-types'
 
+
 const JoinGameForm = (props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
