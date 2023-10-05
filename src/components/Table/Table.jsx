@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { getGameInfo, getPlayerInfo } from "../../services";
 
 const Table = (props) => {
-  const actualTable = sitConfigs[props.nOfPlayers];
+  let actualTable = sitConfigs[props.nOfPlayers];
 
   const [playersInfo, setPlayersInfo] = useState([])
   const [localPlayerInfo, setLocalPlayerInfo] = useState('')
@@ -67,7 +67,7 @@ const Table = (props) => {
           <div key={index}
             className={classes[player]}>
             <OtherPlayerHand
-              name={sorted[index]} />
+              name={sorted[index] !== undefined ? sorted[index] : 'MUERTO'} />
           </div>
         )
       })}
