@@ -1,16 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Creepster&family=Fjalla+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
 
 .form-background {
+  background-color: #00240f;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   text-align: center;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
+  transform: ease .3s;
 
 }
 
 .form-background h1 {
-  color: #193812;
-  text-shadow: 2px 2px 4px hsla(56, 82%, 40%, 0.502);
+  color: #d2ff9e;
+  text-shadow: 2px 2px 4px hsla(56, 100%, 83%, 0.502);
   padding-top: 10px;
+  font-size: 120px;
+  font-family: 'Creepster', cursive;
 }
 
 .form-container {
@@ -21,44 +31,46 @@
   align-items: center;
   padding: 30px;
   border-radius: 8px;
-  background-color: rgb(31, 75, 25, 0.8);
-  box-shadow: 0px 0px 10px rgba(26, 77, 26, 0.2);
+  background-color: rgba(47, 71, 44, 0.8);
+  box-shadow: 0px 0px 10px rgba(24, 238, 24, 0.2);
   max-width: 30%;
-  margin: 10% auto;
+  margin: 50px auto;
+
 }
 
 .form-container h2 {
-  font-family: 'Fjalla One', sans-serif;
-  font-size: 24px;
+  font-family: 'Metal Mania', cursive;
+  font-size: 35px;
   margin-bottom: 10px;
   text-align: center;
+  color: #74c774;
 }
 
 .form-container:hover {
-  border: 1px solid yellow;
+  border: 1px solid rgb(202, 202, 91);
   transition: .5s;
-  box-shadow: 0px 0px 10px rgba(26, 77, 26, 0.2);
+
 }
 
 .form-container input {
   width: 80%;
   margin-top: 20px;
   padding: 0.6em 1.2em;
-  font-size: 15px;
+  font-size: 20px;
   border-radius: 8px;
-  border: 2px solid rgb(114, 175, 0);
+  border: 2px solid rgb(125, 145, 88);
   color: black;
   text-align: center;
-  font-family: 'Fjalla One', sans-serif;
+  font-family: 'Metal Mania', cursive;
 }
 
 .form-container button {
-  width: 50%;
+  width: 80%;
   margin-top: 20px;
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-family: 'Fjalla One', sans-serif;
-  font-weight: 500;
+  font-family: 'Nosifer', cursive;
+  font-size: 20px;
   border-radius: 8px;
   border: 1px solid transparent;
   background-color: #2ab13591;
@@ -66,6 +78,7 @@
   text-decoration: none;
   text-align: center;
   cursor: pointer;
+  transition: .5;
 }
 
 .form-container button:hover {
@@ -73,4 +86,22 @@
   color: white;
   transition: background-color 0.3s, color 0.3s;
   cursor: grab;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4cc753;
+  border-radius: 10px;
+  width: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eaec7a;
+  border-radius: 6px;
+  width: 1px;
+
 }

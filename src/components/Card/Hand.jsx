@@ -1,10 +1,13 @@
 import Card from "./Card";
 import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types';
+import * as api from "../../services.js";
+import { useState } from "react";
 
 const Hand = props => {
+
   return (
     <div className={HandClass.PLAYER}>
       <div className={classes.buttons}>

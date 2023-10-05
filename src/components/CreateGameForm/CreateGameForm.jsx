@@ -13,24 +13,24 @@ const CreateGameForm = (props) => {
   const handleStartGame = (e) => {
     // Calls the onStartGame function to indicate that the game has started
     e.preventDefault();
-    api.createGame({'roomID': roomID})
-    props.onStartGame();
+    api.createGame({ 'roomID': roomID })
+    props.onStartGame(hostName);
   };
 
   const handleCreateRoom = () => {
 
-    if (hostName.trim()!=='' && roomName.trim()!==''){
+    if (hostName.trim() !== '' && roomName.trim() !== '') {
       setGameCreated(true);
     }
 
     api.createRoom({ "roomName": roomName, "hostName": hostName })
-    .then(data => {
-      const roomID = data.roomID;
-      setRoomID(roomID);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then(data => {
+        const roomID = data.roomID;
+        setRoomID(roomID);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -40,8 +40,8 @@ const CreateGameForm = (props) => {
   return (
     <div className={classes['form-background']}>
       <h1>LA COSA</h1>
-      <form action="" className={classes['form-container']}onSubmit={handleSubmit}>
-        <h2>Crear partida</h2>
+      <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
+        <h2>Crear una partida</h2>
         <input
           type="text"
           required
