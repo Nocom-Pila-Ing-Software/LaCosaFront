@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import classes from '../styles/form-style.module.css';
 import Modal from './JoinGameFormModal';
 import * as api from '../../services.js';
+import PropTypes from 'prop-types'
 
 const JoinGameForm = (props) => {
 
@@ -66,6 +67,10 @@ const JoinGameForm = (props) => {
       </form>
     </div>
   )
+}
+
+JoinGameForm.propTypes = {
+  onStartGame: PropTypes.func.isRequired,
 }
 
 export default JoinGameForm;

@@ -10,7 +10,6 @@ import { getGameInfo, getPlayerInfo } from "../../services";
 const Table = (props) => {
   const actualTable = sitConfigs[props.nOfPlayers];
   const [gameInfo, setGameInfo] = useState([])
-  const [handsInfo, setHandsInfo] = useState([])
 
   useEffect(() => {
 
@@ -64,7 +63,8 @@ const Table = (props) => {
 };
 
 Table.propTypes = {
-  nOfPlayers: PropTypes.number.isRequired
+  nOfPlayers: PropTypes.number.isRequired,
+  localName: PropTypes.string.isRequired,
 }
 
 export default Table;

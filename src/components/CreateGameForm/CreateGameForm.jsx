@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import classes from '../styles/form-style.module.css';
-import { URL_BACKEND } from '../../utils/constants';
 import PropTypes from 'prop-types';
 import * as api from '../../services.js';
 
