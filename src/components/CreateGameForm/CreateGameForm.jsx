@@ -6,7 +6,6 @@ import * as api from '../../services.js';
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [roomID, setRoomID] = useState('');
   const [gameCreated, setGameCreated] = useState(false);
 
   const handleStartGame = (e) => {

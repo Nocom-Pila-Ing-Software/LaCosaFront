@@ -8,8 +8,9 @@ const JoinGameForm = (props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
-  const [roomID, setRoomID] = useState('');
   const [playerName, setPlayerName] = useState('');
+  // create local roomID, because global roomID is an int
+  const [roomID, setRoomID] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
