@@ -13,8 +13,9 @@
     "P1 PLAYER PLAYER PLAYER PLAYER PLAYER P11"
     "-- PLAYER PLAYER PLAYER PLAYER PLAYER ---";
 
-  background-image: url('https://img.freepik.com/free-vector/watercolour-smoke-background_91008-448.jpg');
+  background-image: url('https://images.wallpaperscraft.com/image/single/paint_grunge_green_124502_1920x1080.jpg');
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
 }
 
@@ -29,7 +30,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  overflow: auto;
+
 
   font-size: 25px;
   letter-spacing: 5px;
