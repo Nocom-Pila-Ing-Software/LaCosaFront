@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+
 .hand-container {
   display: flex;
   flex-direction: column;
@@ -55,4 +57,9 @@
   color: rgb(179, 255, 0);
   font-size: 18px;
 
+}
+
+.death-text {
+  font-family: 'Nosifer', cursive;
+  color: rgb(255, 73, 73);
 }

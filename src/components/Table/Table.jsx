@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { getGameInfo, getPlayerInfo } from "../../services";
 
 const Table = (props) => {
-  const actualTable = sitConfigs[props.nOfPlayers];
+  let actualTable = sitConfigs[props.nOfPlayers];
 
   const [playersInfo, setPlayersInfo] = useState([])
   const [localPlayerInfo, setLocalPlayerInfo] = useState('')
@@ -26,6 +26,7 @@ const Table = (props) => {
         const players = gameStartedInfo.players;
         setPlayersInfo(players);
         setAllGameData(gameStartedInfo);
+        actualTable = gameStartedInfo.players
 
         // Info of current player
         const playerFound = players.find((player) => player.username === localPlayer);
@@ -44,7 +45,7 @@ const Table = (props) => {
     return () => {
       clearInterval(pollingIntervalId);
     };
-  }, [props.localName]);
+  }, [props.localName, props.gameStartedInfo]);
 
 
   const arrayOfNames = playersInfo.map((user) => user.username);
@@ -63,11 +64,12 @@ const Table = (props) => {
       />
 
       {actualTable.map((player, index) => {
+
         return (
           <div key={index}
             className={classes[player]}>
             <OtherPlayerHand
-              name={sorted[index]} />
+              name={sorted[index] !== undefined ? sorted[index] : 'MUERTO'} />
           </div>
         )
       })}
