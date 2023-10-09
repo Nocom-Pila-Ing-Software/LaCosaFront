@@ -56,10 +56,13 @@ const Hand = (props) => {
 
   const handleCardClick = (cardId) => {
     setClickedCardId(cardId)
+
   }
+
 
   const handlePlayCard = () => {
     const currentPlayerIndex = props.allGameData.players.findIndex((player) => player.playerID === actualTurn)
+
 
     let nextPlayer = null;
     for (let i = 1; i < props.allGameData.players.length; i++) {
@@ -111,7 +114,7 @@ const Hand = (props) => {
     <div className={HandClass.PLAYER}>
       <Deck />
       <p className={classes.turn}>Turno de <span>{actualTurnUsername}</span></p>
-      <p className={classes['last-played']}><span>Monguito Monoaurelio</span> jugó {lastCardPlayed}</p>
+      <p className={classes['last-played']}>Se jugó {lastCardPlayed}</p>
 
 
       <div className={classes.buttons}>
