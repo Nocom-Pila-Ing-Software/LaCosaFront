@@ -45,7 +45,7 @@ const Table = (props) => {
     return () => {
       clearInterval(pollingIntervalId);
     };
-  }, [props.localName, props.gameStartedInfo]);
+  }, [props.localName]);
 
 
   const arrayOfNames = playersInfo.map((user) => user.username);
