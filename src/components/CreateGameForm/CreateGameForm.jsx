@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import classes from '../styles/form-style.module.css';
-import { URL_BACKEND } from '../../utils/constants';
 import PropTypes from 'prop-types';
 import * as api from '../../services.js';
 
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [roomID, setRoomID] = useState('');
   const [gameCreated, setGameCreated] = useState(false);
 
   const handleStartGame = (e) => {
     // Calls the onStartGame function to indicate that the game has started
     e.preventDefault();
-    api.createGame({'roomID': props.roomID})
-    props.onStartGame();
+    api.createGame({ 'roomID': roomID })
+    props.onStartGame(hostName);
   };
 
   const handleCreateRoom = () => {
 
-    if (hostName.trim()!=='' && roomName.trim()!==''){
+    if (hostName.trim() !== '' && roomName.trim() !== '') {
       setGameCreated(true);
     }
 
     api.createRoom({ "roomName": roomName, "hostName": hostName })
-    .then(data => {
-      props.setRoomID(data.roomID);
-      props.setPlayerID(data.playerID)
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then(data => {
+        const roomID = data.roomID;
+        setRoomID(roomID);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -39,8 +39,8 @@ const CreateGameForm = (props) => {
   return (
     <div className={classes['form-background']}>
       <h1>LA COSA</h1>
-      <form action="" className={classes['form-container']}onSubmit={handleSubmit}>
-        <h2>Crear partida</h2>
+      <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
+        <h2>Crear una partida</h2>
         <input
           type="text"
           required
