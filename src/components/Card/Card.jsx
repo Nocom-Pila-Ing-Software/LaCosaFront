@@ -16,21 +16,14 @@ const Card = (props) => {
     if (selectedCard) {
       setSelectedCard(false);
     } else {
-      console.log(props.id);
-      console.log(props.name);
-      console.log(props.description);
-
       const { id, name, description } = props;
       props.onCardClick(id, name, description);
-
     }
 
   }
 
   const cardNumber = 'card-' + props.id
   const cardName = 'card-' + props.name.replace(/\s+/g, '-');
-  console.log(cardName);
-
   return (
     <div className={`${classes[cardName]} ${classes[cardNumber]} ${classes.card} ${selectedCard ? classes.selected : ''}`} onClick={playCard}>
 

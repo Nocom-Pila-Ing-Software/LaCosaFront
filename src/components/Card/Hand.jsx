@@ -47,8 +47,11 @@ const Hand = (props) => {
       // Last played card state
       setLastCardPlayed(props.allGameData.lastPlayedCard.name)
 
-      // LIfe cicle
-      setIsAlive(props.localPlayerInfo.playerFound.is_alive)
+      // Life cicle
+      const usernamesDead = (props.allGameData.deadPlayers).map((player) => player.username)
+      setIsAlive(!usernamesDead.includes(props.localPlayerInfo.playerFound.username));
+      console.log(props.allGameData);
+
     }
   }, [props.localPlayerInfo, props.allGameData.playerPlayingTurn]);
 
@@ -144,7 +147,7 @@ const Hand = (props) => {
           ))}
         </div>
       ) : (
-        <p>Estas muerto!</p>
+        <p className={classes['death-text']}>Estas muerto!</p>
       )}
 
       <p>{props.name}</p>
