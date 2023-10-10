@@ -63,7 +63,7 @@ const JoinGameForm = (props) => {
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
         <input type="text" required placeholder='ID de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)} />
         <button onClick={handleSubmit} disabled={isJoinButtonDisabled}>Unirse</button>
-        {isModalOpen && <Modal closeModal={closeModal} />}
+        {isModalOpen && <Modal />}
       </form>
     </div>
   )
