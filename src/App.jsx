@@ -18,7 +18,7 @@ function App() {
       setNOfPlayers(players)
       setLocalPlayer(localPlayerName)
       setGameStarted(true);
-
+      
     } catch (error) {
       // Maneja los errores aquí
       console.error(error);

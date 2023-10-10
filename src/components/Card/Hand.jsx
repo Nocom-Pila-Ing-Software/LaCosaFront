@@ -106,7 +106,7 @@ const Hand = (props) => {
     }
   }
 
-
+  
   return (
     <div className={HandClass.PLAYER}>
       <Deck />
