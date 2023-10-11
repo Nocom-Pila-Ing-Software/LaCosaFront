@@ -25,8 +25,6 @@ const JoinGameForm = (props) => {
       .catch((error) => {
         closeModal();
         console.log(error);
-        console.log("La sala no existe");
-        alert('La sala no existe');
       })
   }
   const pollRoom = () => {
