@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classes from '../styles/form-style.module.css';
+import classes from '../styles/form-style.module.css'
 import PropTypes from 'prop-types';
 import * as api from '../../services.js';
 
