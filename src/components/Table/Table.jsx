@@ -77,6 +77,7 @@ const Table = (props) => {
           <div key={index}
             className={classes[player]}>
             <OtherPlayerHand
+
               name={nameOfDeaths.includes(playerName) ? 'MUERTO' : playerName} />
           </div>
         )
