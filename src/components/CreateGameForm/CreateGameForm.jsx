@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classes from '../styles/form-style.module.css';
+import classes from '../styles/form-style.module.css'
 import PropTypes from 'prop-types';
 import * as api from '../../services.js';
 
@@ -8,6 +8,7 @@ const CreateGameForm = (props) => {
   const [roomName, setRoomName] = useState('');
   const [roomID, setRoomID] = useState('');
   const [gameCreated, setGameCreated] = useState(false);
+  const [createButtonDisabled, setButtonDisabled] = useState(false);
 
   const handleStartGame = (e) => {
     // Calls the onStartGame function to indicate that the game has started
@@ -20,6 +21,7 @@ const CreateGameForm = (props) => {
 
     if (hostName.trim() !== '' && roomName.trim() !== '') {
       setGameCreated(true);
+      setButtonDisabled(true);
     }
 
     api.createRoom({ "roomName": roomName, "hostName": hostName })
@@ -55,7 +57,7 @@ const CreateGameForm = (props) => {
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
         />
-        <button onClick={handleCreateRoom}>Crear partida</button>
+        <button disabled={createButtonDisabled} onClick={handleCreateRoom}>Crear partida</button>
         {gameCreated && (<button onClick={handleStartGame}>Iniciar partida</button>)}
       </form>
     </div>
@@ -67,3 +69,5 @@ CreateGameForm.propTypes = {
 };
 
 export default CreateGameForm;
+
+//button for disabled button in create game form

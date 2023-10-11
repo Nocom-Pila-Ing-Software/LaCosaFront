@@ -4,6 +4,9 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 const OtherPlayerHand = props => {
+  const textStyle = props.name === 'MUERTO' ? { color: 'red' } : {};
+
+
   return (
     <div className={classes['other-player-hand-container']}>
       <div className={classes['other-player-hand-container__hand']}>
@@ -12,7 +15,7 @@ const OtherPlayerHand = props => {
         <OtherPlayerCard />
         <OtherPlayerCard />
       </div>
-      <p>{props.name}</p>
+      <p style={textStyle}>{props.name}</p>
     </div>
 
   )

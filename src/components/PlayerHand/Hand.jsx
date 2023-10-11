@@ -3,7 +3,7 @@ import Card from "./Card";
 import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
-import Deck from "../Table/Deck";
+import Deck from "../UI/Deck";
 import { drawCard, playCard } from "../../services";
 
 const Hand = (props) => {
@@ -17,6 +17,7 @@ const Hand = (props) => {
   // Interface effects
   const [hasDrawnCard, setHasDrawnCard] = useState(false);
   const [actualTurnUsername, setActualTurnUsername] = useState('')
+  const [playersLiving, setPlayersLiving] = useState(0)
 
   // CardHandling
   const [clickedCardId, setClickedCardId] = useState(0)
@@ -29,8 +30,6 @@ const Hand = (props) => {
   useEffect(() => {
     console.log(props.localPlayerInfo);
     console.log(props.allGameData)
-
-    console.log();
     if (props.localPlayerInfo) {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
@@ -47,8 +46,13 @@ const Hand = (props) => {
       // Last played card state
       setLastCardPlayed(props.allGameData.lastPlayedCard.name)
 
-      // LIfe cicle
-      setIsAlive(props.localPlayerInfo.playerFound.is_alive)
+      // Life cicle
+      const usernamesDead = (props.allGameData.deadPlayers).map((player) => player.username)
+      setIsAlive(!usernamesDead.includes(props.localPlayerInfo.playerFound.username));
+
+      // Players living
+      setPlayersLiving(props.allGameData.players.length)
+
     }
   }, [props.localPlayerInfo, props.allGameData.playerPlayingTurn]);
 
@@ -58,8 +62,10 @@ const Hand = (props) => {
     setClickedCardId(cardId)
   }
 
+
   const handlePlayCard = () => {
     const currentPlayerIndex = props.allGameData.players.findIndex((player) => player.playerID === actualTurn)
+
 
     let nextPlayer = null;
     for (let i = 1; i < props.allGameData.players.length; i++) {
@@ -71,6 +77,21 @@ const Hand = (props) => {
         break;
       }
     }
+
+    let leftPlayer = null;
+    for (let i = 1; i < props.allGameData.players.length; i++) {
+      const leftIndex = (currentPlayerIndex - i + props.allGameData.players.length) % props.allGameData.players.length;
+      const potentialLeftPlayer = props.allGameData.players[leftIndex];
+
+      if (potentialLeftPlayer.is_alive) {
+        leftPlayer = potentialLeftPlayer;
+        break;
+      }
+    }
+
+
+    console.log(nextPlayer);
+    console.log(leftPlayer);
 
     if (nextPlayer) {
       const bodyContent = {
@@ -87,6 +108,7 @@ const Hand = (props) => {
         .catch((error) => {
           console.error(error);
         })
+
     } else {
       alert('No hay mas jugadores')
     }
@@ -107,24 +129,25 @@ const Hand = (props) => {
   }
 
 
+
   return (
     <div className={HandClass.PLAYER}>
       <Deck />
-      <p className={classes.turn}>Turno de <span>{actualTurnUsername}</span></p>
-      <p className={classes['last-played']}><span>Monguito Monoaurelio</span> jugó {lastCardPlayed}</p>
 
+      <p className={classes.turn}>Turno de <span>{actualTurnUsername}</span></p>
+      <p className={classes['last-played']}>{lastCardPlayed !== '' && `Se jugó ${lastCardPlayed}`}</p>
 
       <div className={classes.buttons}>
 
         <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !hasDrawnCard}
+          disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
           onClick={handlePlayCard}>Jugar Carta</button>
 
         <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
           disabled={!isTurn || !hasDrawnCard}>Descartar Carta</button>
 
-        <button className={(isTurn && isAlive) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !isAlive}
+        <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
+          disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
           onClick={handleDrawCard}>Robar Carta</button>
       </div>
       {isAlive ? (
@@ -137,11 +160,12 @@ const Hand = (props) => {
               description={card.description}
               onCardClick={handleCardClick}
               disabled={!isTurn}
+              selectedCardID={clickedCardId}
             />
           ))}
         </div>
       ) : (
-        <p>Estas muerto!</p>
+        <p className={classes['death-text']}>Estas muerto!</p>
       )}
 
       <p>{props.name}</p>
