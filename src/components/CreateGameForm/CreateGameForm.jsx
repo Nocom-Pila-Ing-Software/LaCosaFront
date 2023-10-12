@@ -11,7 +11,7 @@ const CreateGameForm = (props) => {
   const [createButtonDisabled, setButtonDisabled] = useState(false);
 
   const handleStartGame = (e) => {
-    // Calls the onStartGame function to indicate that the game has started
+
     e.preventDefault();
     api.createGame({ 'roomID': roomID })
     props.onStartGame(hostName);
@@ -19,10 +19,12 @@ const CreateGameForm = (props) => {
 
   const handleCreateRoom = () => {
 
-    if (hostName.trim() !== '' && roomName.trim() !== '') {
-      setGameCreated(true);
-      setButtonDisabled(true);
+    if (hostName.trim() === '' || roomName.trim() === '') {
+      alert("Por favor, complete ambos campos antes de crear una partida");
+      return;
     }
+    setGameCreated(true);
+    setButtonDisabled(true);
 
     api.createRoom({ "roomName": roomName, "hostName": hostName })
       .then(data => {
@@ -45,14 +47,12 @@ const CreateGameForm = (props) => {
         <h2>Crear una partida</h2>
         <input
           type="text"
-          required
           placeholder="Nombre del anfitrion"
           value={hostName}
           onChange={(e) => setHostName(e.target.value)}
         />
         <input
           type="text"
-          required
           placeholder="Nombre de la partida"
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
@@ -69,5 +69,3 @@ CreateGameForm.propTypes = {
 };
 
 export default CreateGameForm;
-
-//button for disabled button in create game form
