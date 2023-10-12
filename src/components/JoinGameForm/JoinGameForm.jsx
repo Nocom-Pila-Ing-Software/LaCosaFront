@@ -13,20 +13,34 @@ const JoinGameForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
-      .then((response) => {
-        openModal();
-        if (response.ok) {
-          console.log(response);
-        }
-        pollRoom()
+    if (roomID.trim() !== '' && playerName.trim() !== '') {
+      api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
+        .then((response) => {
+          openModal();
+          if (response && response.ok) {
+            console.log(response);
+          }
+          pollRoom()
 
-      })
-      .catch((error) => {
-        closeModal();
-        console.log(error);
-      })
+        })
+        .catch((error) => {
+          if(error.response && error.response.status === 404){ 
+            console.log("La sala no existe");
+            alert('La sala no existe, introduce una ID de sala existente.');
+          } else if(error.response && error.response.status === 400){
+            if(error.response.data && error.response.data.detail === "Game has already started"){
+              console.log("El juego ya ha comenzado, no puedes unirte.");
+              alert('El juego ya ha comenzado, no puedes unirte.');
+            }else{
+            console.log("El nombre de jugador introducido ya existe, por favor ingrese otro.");
+            alert('El nombre de jugador introducido ya existe, por favor ingrese otro.');
+            }
+          }
+        })} else {
+          alert('Por favor ingresa ID de partida y un nombre de jugador.');
+        }
   }
+  
   const pollRoom = () => {
     api.getRoomInfo(roomID)
       .then((data) => {
@@ -41,16 +55,8 @@ const JoinGameForm = (props) => {
 
 
   const openModal = () => {
-    if (roomID.trim() !== '' && playerName.trim() !== '') {
-      setIsModalOpen(true);
-      setIsJoinButtonDisabled(true);
-    } else {
-      alert('Por favor ingresa un nombre de partida y un nombre de jugador');
-    }
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setIsJoinButtonDisabled(false);
+    setIsModalOpen(true);
+    setIsJoinButtonDisabled(true);
   };
 
 
