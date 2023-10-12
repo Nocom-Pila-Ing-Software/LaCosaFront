@@ -10,7 +10,7 @@ const Hand = (props) => {
   // Hand handling
   const [hand, setHand] = useState([])
 
-  // Check my turn 
+  // Check my turn
   const [isTurn, setIsTurn] = useState(true)
   const [actualTurn, setActualTurn] = useState(1)
 
@@ -172,8 +172,8 @@ const Hand = (props) => {
         <div className={classes['hand-container__hand']}>
           {hand.map((card) => (
             <Card
-              key={card.id}
-              id={card.id}
+              key={card.cardID}
+              id={card.cardID}
               name={card.name}
               description={card.description}
               onCardClick={handleCardClick}

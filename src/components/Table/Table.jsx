@@ -38,6 +38,7 @@ const Table = (props) => {
 
       } catch (error) {
         console.error(error);
+        alert("La partida ha terminado")
       }
     };
 
