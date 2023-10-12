@@ -5,7 +5,6 @@ import JoinGameForm from './JoinGameForm';
 import Modal from './JoinGameFormModal';
 import * as api from '../../services.js';
 
-jest.mock('../../services.js');
 
 
 describe("JoinGameForm", () => {
