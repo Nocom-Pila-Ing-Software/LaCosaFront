@@ -28,7 +28,6 @@ const Hand = (props) => {
   const [isAlive, setIsAlive] = useState(true)
 
   const [selectedPlayer, setSelectedPlayer] = useState('nextPlayer')
-  const [isLanzallama, setIsLanzallama] = useState(false)
 
 
 
