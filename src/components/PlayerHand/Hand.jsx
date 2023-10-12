@@ -22,9 +22,14 @@ const Hand = (props) => {
   // CardHandling
   const [clickedCardId, setClickedCardId] = useState(0)
   const [lastCardPlayed, setLastCardPlayed] = useState('')
+  const [clickedCardUsername, setClickedCardUsername] = useState('')
 
   // Live effect
   const [isAlive, setIsAlive] = useState(true)
+
+  const [selectedPlayer, setSelectedPlayer] = useState('nextPlayer')
+  const [isLanzallama, setIsLanzallama] = useState(false)
+
 
 
   useEffect(() => {
@@ -58,14 +63,14 @@ const Hand = (props) => {
 
 
 
-  const handleCardClick = (cardId) => {
+  const handleCardClick = (cardId, cardName) => {
     setClickedCardId(cardId)
+    setClickedCardUsername(cardName)
   }
 
 
   const handlePlayCard = () => {
     const currentPlayerIndex = props.allGameData.players.findIndex((player) => player.playerID === actualTurn)
-
 
     let nextPlayer = null;
     for (let i = 1; i < props.allGameData.players.length; i++) {
@@ -89,14 +94,24 @@ const Hand = (props) => {
       }
     }
 
+    let targetPlayer = nextPlayer;
 
-    console.log(nextPlayer);
-    console.log(leftPlayer);
+    if (selectedPlayer === 'nextPlayer' && nextPlayer) {
+      targetPlayer = nextPlayer;
+    } else if (selectedPlayer === 'leftPlayer' && leftPlayer) {
+      targetPlayer = leftPlayer;
+    }
 
-    if (nextPlayer) {
+    applyCardEffect(targetPlayer)
+
+    setHasDrawnCard(false)
+  }
+
+  const applyCardEffect = (targetPlayer) => {
+    if (targetPlayer) {
       const bodyContent = {
         "playerID": actualTurn,
-        "targetPlayerID": nextPlayer.playerID,
+        "targetPlayerID": targetPlayer.playerID,
         "cardID": clickedCardId
       }
 
@@ -112,9 +127,8 @@ const Hand = (props) => {
     } else {
       alert('No hay mas jugadores')
     }
-
-    setHasDrawnCard(false)
   }
+
 
   const handleDrawCard = async () => {
     const body = {
@@ -149,6 +163,11 @@ const Hand = (props) => {
         <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
           disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
           onClick={handleDrawCard}>Robar Carta</button>
+
+        <select className={classes.select} value={selectedPlayer} onChange={(e) => setSelectedPlayer(e.target.value)} disabled={clickedCardUsername !== 'Lanzallamas'}>
+          <option value="nextPlayer">Aplicar al jugador de la derecha</option>
+          <option value="leftPlayer">Aplicar al jugador a tu izquierda</option>
+        </select>
       </div>
       {isAlive ? (
         <div className={classes['hand-container__hand']}>
