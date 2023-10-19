@@ -27,10 +27,14 @@ function App() {
     setShowLobbyModal(false);
     setRoomID(-1);
   };
+  //const [roomID, setRoomID] = useState('')
+  const [gameID, setGameID] = useState('')
 
-  const handleStartGame = async (localPlayerName) => {
+  const handleStartGame = async (localPlayerName, RoomID, GameID) => {
     try {
-      const responsePromise = getRoomInfo(1);
+      setGameID(GameID);
+      setRoomID(RoomID);
+      const responsePromise = getRoomInfo(roomID);
       const response = await responsePromise;
       const players = await response.CountPlayers;
       setNOfPlayers(players);
@@ -46,7 +50,7 @@ function App() {
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={nOfPlayers} localName={localPlayer} />
+        <Table nOfPlayers={nOfPlayers} localName={localPlayer} gameID={gameID} />
       ) : (
         <>
           <CreateGameForm onRoomCreated={handleRoomCreated} />

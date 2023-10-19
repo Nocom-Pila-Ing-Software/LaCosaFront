@@ -20,7 +20,7 @@ const Table = (props) => {
 
     const fetchData = async () => {
       try {
-        const gameStartedInfo = await getGameInfo(1);
+        const gameStartedInfo = await getGameInfo(props.gameID);
 
         // Game data
         const players = (gameStartedInfo.players).concat(gameStartedInfo.deadPlayers);
@@ -92,6 +92,7 @@ const Table = (props) => {
 Table.propTypes = {
   nOfPlayers: PropTypes.number.isRequired,
   localName: PropTypes.string.isRequired,
+  gameID: PropTypes.string.isRequired,
 }
 
 export default Table;

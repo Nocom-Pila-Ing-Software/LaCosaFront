@@ -115,7 +115,7 @@ const Hand = (props) => {
       }
 
 
-      playCard(1, bodyContent)
+      playCard(props.allGameData.gameID, bodyContent)
         .then((data) => {
           console.log("Respuesta de playCard: ", data);
         })
@@ -134,7 +134,7 @@ const Hand = (props) => {
       "playerID": actualTurn
     }
     try {
-      await drawCard(1, body)
+      await drawCard(props.allGameData.gameID, body)
       setHasDrawnCard(true)
     } catch (error) {
       console.error(error)
