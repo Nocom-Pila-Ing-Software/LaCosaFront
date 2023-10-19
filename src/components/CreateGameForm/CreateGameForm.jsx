@@ -9,12 +9,21 @@ const CreateGameForm = (props) => {
   const [roomID, setRoomID] = useState('');
   const [gameCreated, setGameCreated] = useState(false);
   const [createButtonDisabled, setButtonDisabled] = useState(false);
+  const [gameID, setGameID] = useState('');
 
   const handleStartGame = (e) => {
 
     e.preventDefault();
     api.createGame({ 'roomID': roomID })
-    props.onStartGame(hostName);
+    .then((response) => {
+      if (response && response.ok) {
+        console.log(response);
+        setGameID(response.data.gameID);
+      }
+    }).catch((error) => {
+      console.log(error);
+    })
+    props.onStartGame(hostName, roomID, gameID);
   };
 
   const handleCreateRoom = () => {

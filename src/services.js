@@ -93,4 +93,12 @@ export const getPlayerInfo = async (player_id) => {
     }
 };
 
-
+export const getWaitingRooms = async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/room/rooms`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}; 
