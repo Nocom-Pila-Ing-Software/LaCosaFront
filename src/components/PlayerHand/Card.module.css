@@ -20,6 +20,17 @@
   border-radius: 10px;
 }
 
+.card-Nada-de-barbacoas{
+  background-image: url('../../assets/nada-de-barbacoas-card.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 130px;
+  width: 90px;
+  margin: 1px;
+  border-radius: 10px;
+}
+
 .card {
   background-color: rgb(41, 129, 66);
   height: 190px;
