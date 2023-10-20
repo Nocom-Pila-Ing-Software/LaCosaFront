@@ -7,13 +7,13 @@ import { getRoomInfo } from './services';
 import LobbyScreenModal from './components/LobbyScreenModal/LobbyScreenModal';
 
 function App() {
-  const [roomCreated, setRoomCreated] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [nOfPlayers, setNOfPlayers] = useState(0);
   const [localPlayer, setLocalPlayer] = useState('');
-
+  const [roomCreated, setRoomCreated] = useState(false);
   const [showLobbyModal, setShowLobbyModal] = useState(false);
-  const [roomID, setRoomID] = useState(-1);
+  const [roomID, setRoomID] = useState('');
+
 
 
   const handleRoomCreated = (createdRoomID, localPlayerName) => {
@@ -25,7 +25,7 @@ function App() {
 
   const handleLeaveRoom = () => {
     setShowLobbyModal(false);
-    setRoomID(-1);
+    setRoomID('');
   };
 
   const handleStartGame = async (localPlayerName) => {
@@ -58,7 +58,7 @@ function App() {
           roomID={roomID}
           onStartGame={handleStartGame}
           onLeave={handleLeaveRoom}
-          localName ={localPlayer}
+          localName={localPlayer}
       />
       )}
     </div>

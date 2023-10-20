@@ -8,7 +8,7 @@ const JoinGameForm = (props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
-  const [roomID, setRoomID] = useState(-1);
+  const [roomID, setRoomID] = useState('');
   const [playerName, setPlayerName] = useState('');
 
   const handleSubmit = (e) => {
