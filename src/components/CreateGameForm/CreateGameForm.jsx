@@ -26,7 +26,12 @@ const CreateGameForm = (props) => {
     setGameCreated(true);
     setButtonDisabled(true);
 
-    api.createRoom({ "roomName": roomName, "hostName": hostName })
+    api.createRoom({
+        "roomName": roomName,
+        "hostName": hostName,
+        "minPlayers": 2, // FIXME no usar valor hardcodeado
+        "maxPlayers": 8, // FIXME no usar valor hardcodeado
+    })
       .then(data => {
         const roomID = data.roomID;
         setRoomID(roomID);
