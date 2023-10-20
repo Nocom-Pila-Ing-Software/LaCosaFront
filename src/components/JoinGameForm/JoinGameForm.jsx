@@ -8,20 +8,21 @@ const JoinGameForm = (props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
-  const [roomID, setRoomID] = useState('');
+  const [roomID, setRoomID] = useState(-1);
   const [playerName, setPlayerName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+
     if (roomID.trim() !== '' && playerName.trim() !== '') {
       api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
         .then((response) => {
           openModal();
+          props.onRoomCreated(roomID, playerName);
           if (response && response.ok) {
             console.log(response);
           }
-          pollRoom()
-
         })
         .catch((error) => {
           if(error.response && error.response.status === 404){ 
@@ -40,25 +41,11 @@ const JoinGameForm = (props) => {
           alert('Por favor ingresa ID de partida y un nombre de jugador.');
         }
   }
-  
-  const pollRoom = () => {
-    api.getRoomInfo(roomID)
-      .then((data) => {
-        if (data.hasStarted) {
-          props.onStartGame(playerName)
-        } else {
-          // The game hasn't started yet, continue polling after 3 seconds.
-          setTimeout(pollRoom, 3000);
-        }
-      })
-  }
-
 
   const openModal = () => {
     setIsModalOpen(true);
     setIsJoinButtonDisabled(true);
   };
-
 
   return (
     <div className={classes['form-background']}>
@@ -74,7 +61,7 @@ const JoinGameForm = (props) => {
 }
 
 JoinGameForm.propTypes = {
-  onStartGame: PropTypes.func.isRequired,
+  onRoomCreated: PropTypes.func.isRequired,
 }
 
 export default JoinGameForm;

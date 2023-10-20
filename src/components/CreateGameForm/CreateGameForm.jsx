@@ -6,16 +6,9 @@ import * as api from '../../services.js';
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [roomID, setRoomID] = useState('');
-  const [gameCreated, setGameCreated] = useState(false);
+  const [roomID, setRoomID] = useState(-1);
+  //const [gameCreated, setGameCreated] = useState(false);
   const [createButtonDisabled, setButtonDisabled] = useState(false);
-
-  const handleStartGame = (e) => {
-
-    e.preventDefault();
-    api.createGame({ 'roomID': roomID })
-    props.onStartGame(hostName);
-  };
 
   const handleCreateRoom = () => {
 
@@ -23,13 +16,18 @@ const CreateGameForm = (props) => {
       alert("Por favor, complete ambos campos antes de crear una partida");
       return;
     }
-    setGameCreated(true);
+    //setGameCreated(true);
     setButtonDisabled(true);
 
     api.createRoom({ "roomName": roomName, "hostName": hostName })
       .then(data => {
-        const roomID = data.roomID;
-        setRoomID(roomID);
+        const aux = data.roomID;
+
+        console.log(aux);
+
+        setRoomID(aux);
+
+        props.onRoomCreated(aux, hostName);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -58,14 +56,13 @@ const CreateGameForm = (props) => {
           onChange={(e) => setRoomName(e.target.value)}
         />
         <button disabled={createButtonDisabled} onClick={handleCreateRoom}>Crear partida</button>
-        {gameCreated && (<button onClick={handleStartGame}>Iniciar partida</button>)}
       </form>
     </div>
   );
 };
 
 CreateGameForm.propTypes = {
-  onStartGame: PropTypes.func.isRequired,
+  onRoomCreated: PropTypes.func.isRequired,
 };
 
 export default CreateGameForm;
