@@ -94,3 +94,13 @@ export const getPlayerInfo = async (player_id) => {
 };
 
 
+
+export const discardCard = async (roomID, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${roomID}/discard-card`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
