@@ -75,7 +75,7 @@ export const getRoomInfo = async (room_id) => {
 
 export const addPlayerToWaitingRoom = async (roomID, bodyContent) => {
     try {
-        const response = await axios.post(`${baseUrl}/room/${roomID}/players`, bodyContent);
+        const response = await axios.post(`${baseUrl}/room/${roomID}/player`, bodyContent);
         return response.data;
     } catch (error) {
         console.error(error);

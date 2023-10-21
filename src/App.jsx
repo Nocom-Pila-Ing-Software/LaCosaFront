@@ -13,28 +13,29 @@ function App() {
   const [localPlayer, setLocalPlayer] = useState('');
 
   const [showLobbyModal, setShowLobbyModal] = useState(false);
-  const [roomID, setRoomID] = useState(-1);
+  const [roomID, setRoomID] = useState('');
 
 
   const handleRoomCreated = (createdRoomID, localPlayerName) => {
     setRoomCreated(true);
     setShowLobbyModal(true);
+    console.log(roomCreated);
     setRoomID(createdRoomID);
     setLocalPlayer(localPlayerName);
   }
 
   const handleLeaveRoom = () => {
     setShowLobbyModal(false);
-    setRoomID(-1);
+    setRoomID('');
   };
-  //const [roomID, setRoomID] = useState('')
+  const [roomIDStarted, setRoomIDStarted] = useState('')
   const [gameID, setGameID] = useState('')
 
   const handleStartGame = async (localPlayerName, RoomID, GameID) => {
     try {
+      setRoomIDStarted(RoomID);
       setGameID(GameID);
-      setRoomID(RoomID);
-      const responsePromise = getRoomInfo(roomID);
+      const responsePromise = getRoomInfo(roomIDStarted);
       const response = await responsePromise;
       const players = await response.CountPlayers;
       setNOfPlayers(players);

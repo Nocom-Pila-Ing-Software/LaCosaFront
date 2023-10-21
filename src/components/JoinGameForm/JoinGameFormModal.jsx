@@ -34,6 +34,7 @@ const Modal = (props) => {
       if (response && response.ok) {
         console.log(response);
       }
+      props.onRoomCreated(roomID, props.playerName);
 
     })
     .catch((error) => {
@@ -51,9 +52,9 @@ const Modal = (props) => {
       }})
   }
 
-  const CanJoin = async (roomID, max_players, player_amount) => {
+  const CanJoin = async (roomID, maxPlayers, playerAmount) => {
     const data = await api.getRoomInfo(roomID);
-    if (!data.hasStarted && max_players > player_amount) {
+    if (!data.hasStarted && maxPlayers > playerAmount) {
       console.log(data.hasStarted);
       return true;
     }else if (data.hasStarted){
@@ -70,13 +71,13 @@ const Modal = (props) => {
 						<span>{room.name}</span>
             </div> 
 						<span>
-						  Jugadores : {room.player_amount} / {room.max_players}
+						  Jugadores : {room.playerAmount} / {room.maxPlayers}
 						</span>
-						{!(CanJoin(room.id, room.max_players, room.player_amount)) && (
+						{(CanJoin(room.id, room.maxPlayers, room.playerAmount)) && (
               <button onClick={() => JoinGame(room.id)}>Unirse</button>
             )}
-            <div>{room.player_amount === room.max_players && <span>La sala esta llena</span>}</div>
-            <div>{(CanJoin(room.id, room.max_players, room.player_amount)) && <span>La sala esta en juego</span>}</div>
+            <div>{room.playerAmount === room.maxPlayers && <span>La sala esta llena</span>}</div>
+            <div>{!(CanJoin(room.id, room.maxPlayers, room.playerAmount)) && <span>La sala esta en juego</span>}</div>
 					</li>
 				))}
 			</ul>
@@ -88,6 +89,7 @@ const Modal = (props) => {
 Modal.propTypes = {
   playerName: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
+  onRoomCreated: PropTypes.func.isRequired,
 }
 
 export default Modal;

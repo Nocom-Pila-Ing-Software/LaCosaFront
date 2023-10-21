@@ -7,24 +7,11 @@ const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
   const [roomID, setRoomID] = useState('');
-  //const [gameCreated, setGameCreated] = useState(false);
+  const [minPlayers, setMinPlayers] = useState(2);
+  const [maxPlayers, setMaxPlayers] = useState(12);
+
   const [createButtonDisabled, setButtonDisabled] = useState(false);
-  const [gameID, setGameID] = useState('');
 
-  const handleStartGame = (e) => {
-
-    e.preventDefault();
-    api.createGame({ 'roomID': roomID })
-    .then((response) => {
-      if (response && response.ok) {
-        console.log(response);
-        setGameID(response.data.gameID);
-      }
-    }).catch((error) => {
-      console.log(error);
-    })
-    props.onStartGame(hostName, roomID, gameID);
-  };
 
   const handleCreateRoom = () => {
 
@@ -35,15 +22,15 @@ const CreateGameForm = (props) => {
     //setGameCreated(true);
     setButtonDisabled(true);
 
-    api.createRoom({ "roomName": roomName, "hostName": hostName })
+    api.createRoom({ "roomName": roomName, "hostName": hostName, "minPlayers": minPlayers, "maxPlayers": maxPlayers })
       .then(data => {
-        const aux = data.roomID;
+        const aux = data.roomID.toString();
 
         console.log(aux);
 
         setRoomID(aux);
 
-        props.onRoomCreated(aux, hostName);
+        props.onRoomCreated(roomID, hostName);
       })
       .catch(error => {
         console.error('Error:', error);

@@ -5,8 +5,11 @@ import classes from '../styles/form-style.module.css'
 
 const LobbyScreenModal = (props) => {
   const [players, setPlayers] = useState([]);
-  const [canStartGame, setCanStartGame] = useState(false);
   const [localName, setLocalName] = useState('');
+  const [hostName, setHostName] = useState('');
+  const [hostID, setHostID] = useState(-1);
+  const [gameID, setGameID] = useState('');
+
 
   useEffect(() => {
 
@@ -15,14 +18,17 @@ const LobbyScreenModal = (props) => {
         const roomInfo = await api.getRoomInfo(props.roomID);
 
         console.log(roomInfo);
+        setHostName(roomInfo.host.name);
+        console.log(hostName);
+
+        setHostID(roomInfo.host.id);
+        console.log(hostID);
 
         setPlayers(roomInfo.Players);
-        console.log(roomInfo.Players);
-
         console.log(players);
-        setCanStartGame(true);
 
         setLocalName(props.localName);
+        console.log(localName);
 
       } catch (error) {
         console.error(error);
@@ -41,11 +47,35 @@ const LobbyScreenModal = (props) => {
 
   }, [props.localName]);
 
+  const handleLeave = () => {
+    try{
+      api.removePlayerFromRoom(props.roomID, { 'playerID': hostID});
+      
+    }catch(error){
+      console.error(error);
+    }
+  };
+
+
   const handleStartGame = (e) => {
     e.preventDefault();
     api.createGame({ 'roomID': props.roomID })
-    props.onStartGame(localName);
+    .then((response) => {
+      if (response && response.ok) {
+        console.log(response);
+        setGameID(response.data.gameID);
+      }
+    }).catch((error) => {
+      console.log(error);
+    })
+    props.onStartGame(localName, props.roomID, gameID);
   };
+
+  const isHost = localName === hostName;
+  console.log(hostID);
+  console.log(localName);
+  console.log(hostName);
+
 
   return (
     <div className={classes['blur-background']}>
@@ -58,8 +88,8 @@ const LobbyScreenModal = (props) => {
               </li>
           ))}
         </ul>
-        {canStartGame && <button onClick={handleStartGame}>Iniciar partida</button>}
-        <button onClick={props.onLeave}>Salir</button>
+        {isHost && <button onClick={handleStartGame}>Iniciar partida</button>}
+        <button onClick={() => { handleLeave(); props.onLeave(); }}>Abandonar Sala</button>
       </form>
     </div>
   );
@@ -67,7 +97,7 @@ const LobbyScreenModal = (props) => {
 }
 
 LobbyScreenModal.propTypes = {
-  roomID: PropTypes.number.isRequired,
+  roomID: PropTypes.string.isRequired,
   onStartGame: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
   localName: PropTypes.string.isRequired,
