@@ -4,7 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard } from "../../services";
+import { drawCard, playCard, discardCard } from "../../services";
 
 const Hand = (props) => {
   // Hand handling
@@ -129,6 +129,22 @@ const Hand = (props) => {
   }
 
 
+  const handleDiscardCard = async () => {
+    const bodyContent = {
+      "playerID": actualTurn,
+      "cardID": clickedCardId
+    }
+    discardCard("1", bodyContent)
+    .then((data) => {
+      console.log("Respuesta de discardCard: ", data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+    setHasDrawnCard(false)
+  }
+
   const handleDrawCard = async () => {
     const body = {
       "playerID": actualTurn
@@ -157,7 +173,8 @@ const Hand = (props) => {
           onClick={handlePlayCard}>Jugar Carta</button>
 
         <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !hasDrawnCard}>Descartar Carta</button>
+          disabled={!isTurn || !hasDrawnCard}
+          onClick={handleDiscardCard}>Descartar Carta</button>
 
         <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
           disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
