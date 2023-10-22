@@ -9,44 +9,6 @@ const LobbyScreenModal = (props) => {
   const [hostName, setHostName] = useState('');
   const [hostID, setHostID] = useState(-1);
 
-  // useEffect(() => {
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const roomInfo = await api.getRoomInfo(props.roomID);
-  //       console.log(roomInfo);
-
-  //       setHostName(roomInfo.host.name);
-  //       console.log(hostName);
-
-  //       setHostID(roomInfo.host.id);
-  //       console.log(hostID);
-
-  //       setPlayers(roomInfo.Players);
-  //       console.log(players);
-
-  //       setLocalName(props.localName);
-  //       console.log(localName);
-
-  //       if (roomInfo.hasStarted){
-  //         props.onStartGame(localName);
-  //       }
-        
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData();
-
-  //   const pollingIntervalId = setInterval(fetchData, 3000);
-  //   return () => {
-  //     clearInterval(pollingIntervalId);
-  //   };
-
-  // }, [localName]);
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -54,14 +16,19 @@ const LobbyScreenModal = (props) => {
   const pollRoom = () => {
     api.getRoomInfo(props.roomID)
       .then((data) => {
+
         console.log(props.roomID);
+
         setHostName(data.host.name);
-        console.log(hostName);
+
         setHostID(data.host.id);
+
         setPlayers(data.Players);
+
         setLocalName(props.localName);
+
         if (data.hasStarted) {
-          props.onStartGame(localName);
+          props.onStartGame();
         } else {
           setTimeout(pollRoom, 3000);
         }
@@ -78,7 +45,6 @@ const LobbyScreenModal = (props) => {
   const handleLeave = () => {
     try{
       api.removePlayerFromRoom(props.roomID, { 'playerID': hostID});
-
     }catch(error){
       console.error(error);
     }
@@ -90,6 +56,7 @@ const LobbyScreenModal = (props) => {
   };
 
   const isHost = localName === hostName;
+ //const isHostID = hostID === props.idPlayer;
 
   return (
     <div className={classes['blur-background']}>
@@ -108,7 +75,7 @@ const LobbyScreenModal = (props) => {
         ):(
           <p className={classes['loading-text']}>Esperando al anfitrión</p>
         )}
-        <button onClick={() => { handleLeave(); props.onLeave(); }}>Abandonar Sala</button>
+        <button onClick={() => { handleLeave(); props.onLeave();}}>Salir de la sala</button>
       </form>
     </div>
   );

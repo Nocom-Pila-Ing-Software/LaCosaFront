@@ -14,6 +14,7 @@ const JoinGameForm = (props) => {
     if (roomID.trim() !== '' && playerName.trim() !== '') {
       api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
         .then((response) => {
+          //const playerID = response.data.id.toString();
           props.onRoomCreated(roomID, playerName);
           if (response && response.ok) {
             console.log(response);

@@ -12,6 +12,7 @@ function App() {
   const [localPlayer, setLocalPlayer] = useState('');
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const [roomID, setRoomID] = useState('');
+  //const [idPlayer, setIdPlayer] = useState('');
 
 
 
@@ -19,6 +20,7 @@ function App() {
     setShowLobbyModal(true);
     setRoomID(createdRoomID);
     setLocalPlayer(localPlayerName);
+    //setIdPlayer(idPlayer);
   }
 
   const handleLeaveRoom = () => {
@@ -26,15 +28,13 @@ function App() {
     setRoomID('');
   };
 
-  const handleStartGame = async (localPlayerName) => {
+  const handleStartGame = async () => {
     try {
       const responsePromise = getRoomInfo(1);
       const response = await responsePromise;
       const players = await response.CountPlayers;
       setNOfPlayers(players);
       setGameStarted(true);
-      setLocalPlayer(localPlayerName);
-      console.log(localPlayerName);
       setShowLobbyModal(false);
 
     } catch (error) {
@@ -58,6 +58,7 @@ function App() {
           onStartGame={handleStartGame}
           onLeave={handleLeaveRoom}
           localName={localPlayer}
+          //idPlayer={idPlayer}
       />
       )}
     </div>
