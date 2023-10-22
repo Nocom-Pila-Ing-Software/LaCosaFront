@@ -23,7 +23,8 @@ const LobbyScreenModal = (props) => {
 
         setHostID(data.host.id);
 
-        setPlayers(data.Players);
+        setPlayers(data.Players); 
+        console.log(data.Players);
 
         setLocalName(props.localName);
 
@@ -42,9 +43,18 @@ const LobbyScreenModal = (props) => {
     pollRoom();
   }, [props.localName]);
 
-  const handleLeave = () => {
+  const removePlayerFromList = (playerID) => {
+    setPlayers((prevPlayers) => prevPlayers.filter((player) => player.id !== playerID));
+  };
+
+  const handleLeave = (id) => {
     try{
-      api.removePlayerFromRoom(props.roomID, { 'playerID': hostID});
+      api.removePlayerFromRoom(props.roomID, { 'playerID': id});
+      if(id === hostID){
+        props.closeLobbyModal();
+      }else{
+        removePlayerFromList(id);
+      }
     }catch(error){
       console.error(error);
     }
@@ -56,7 +66,7 @@ const LobbyScreenModal = (props) => {
   };
 
   const isHost = localName === hostName;
- //const isHostID = hostID === props.idPlayer;
+  const isHostID = hostID === props.idPlayer;
 
   return (
     <div className={classes['blur-background']}>
@@ -70,12 +80,16 @@ const LobbyScreenModal = (props) => {
               </li>
           ))}
         </ul>
-        {isHost ? (
+        {isHostID ? (
           <button onClick={handleStartGame}> Iniciar partida</button>
         ):(
           <p className={classes['loading-text']}>Esperando al anfitrión</p>
         )}
-        <button onClick={() => { handleLeave(); props.onLeave();}}>Salir de la sala</button>
+        {isHostID ? (
+          <button onClick={() => {handleLeave(hostID); props.onLeave();}}>Abandonar Sala</button>
+        ) : (
+          <button onClick={() => {handleLeave(props.idPlayer); props.onLeave();}}>Abandonar Sala</button>
+        )}
       </form>
     </div>
   );
@@ -87,6 +101,7 @@ LobbyScreenModal.propTypes = {
   onStartGame: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
   localName: PropTypes.string.isRequired,
+  idPlayer: PropTypes.number.isRequired,
 };
 
 export default LobbyScreenModal;

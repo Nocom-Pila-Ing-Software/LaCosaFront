@@ -24,9 +24,7 @@ const CreateGameForm = (props) => {
       .then(data => {
         const roomID = data.roomID.toString();
         console.log(roomID);
-
-        //const hostID = data.playerID.toString();
-        props.onRoomCreated(roomID, hostName);
+        props.onRoomCreated(roomID, hostName, data.playerID);
       })
       .catch(error => {
         console.error('Error:', error);

@@ -12,15 +12,18 @@ function App() {
   const [localPlayer, setLocalPlayer] = useState('');
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const [roomID, setRoomID] = useState('');
-  //const [idPlayer, setIdPlayer] = useState('');
+  const [idPlayer, setIdPlayer] = useState(-1);
 
 
-
-  const handleRoomCreated = (createdRoomID, localPlayerName) => {
+  const closeLobbyModal = () => {
+    setShowLobbyModal(false);
+  };
+  
+  const handleRoomCreated = (createdRoomID, localPlayerName, idPlayer) => {
     setShowLobbyModal(true);
     setRoomID(createdRoomID);
     setLocalPlayer(localPlayerName);
-    //setIdPlayer(idPlayer);
+    setIdPlayer(idPlayer);
   }
 
   const handleLeaveRoom = () => {
@@ -58,7 +61,8 @@ function App() {
           onStartGame={handleStartGame}
           onLeave={handleLeaveRoom}
           localName={localPlayer}
-          //idPlayer={idPlayer}
+          idPlayer={idPlayer}
+          closeLobbyModal={closeLobbyModal} 
       />
       )}
     </div>
