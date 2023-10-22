@@ -75,7 +75,7 @@ export const getRoomInfo = async (room_id) => {
 
 export const addPlayerToWaitingRoom = async (roomID, bodyContent) => {
     try {
-        const response = await axios.post(`${baseUrl}/room/${roomID}/players`, bodyContent);
+        const response = await axios.post(`${baseUrl}/room/${roomID}/player`, bodyContent);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -103,3 +103,13 @@ export const removePlayerFromRoom = async (room_id, bodyContent) => {
     }
 }
 
+
+export const discardCard = async (roomID, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${roomID}/discard-card`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
