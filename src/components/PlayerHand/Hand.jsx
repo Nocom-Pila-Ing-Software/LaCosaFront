@@ -4,7 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard } from "../../services";
+import { drawCard, playCard, discardCard, tradeCard } from "../../services";
 
 const Hand = (props) => {
   // Hand handling
@@ -157,6 +157,22 @@ const Hand = (props) => {
     }
   }
 
+  const handleTradeCard = async () => {
+    const bodyContent = {
+      "playerID": actualTurn,
+      "cardID": clickedCardId
+    }
+    tradeCard("1", bodyContent)
+    .then((data) => {
+      console.log("Respuesta de discardCard: ", data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+    setHasDrawnCard(false)
+  }
+
 
 
   return (
@@ -179,6 +195,11 @@ const Hand = (props) => {
         <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
           disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
           onClick={handleDrawCard}>Robar Carta</button>
+
+        <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
+          disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
+          onClick={handleTradeCard}
+          >Intercambiar carta</button>
 
         <select className={classes.select} value={selectedPlayer} onChange={(e) => setSelectedPlayer(e.target.value)} disabled={clickedCardUsername !== 'Lanzallamas'}>
           <option value="nextPlayer">Aplicar al jugador de la derecha</option>

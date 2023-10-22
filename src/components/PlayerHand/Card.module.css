@@ -1,23 +1,35 @@
-.card-La-Cosa {
-  background-image: url('../../assets/thing-card.png');
+.card{
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 130px;
-  width: 90px;
+  height: 140px;
+  width: 100px;
   margin: 1px;
   border-radius: 10px;
 }
 
+.card-La-Cosa {
+  background-image: url('../../assets/thing-card.png');
+}
+
+.card-infectado {
+  background-image: url('../../assets/infectado-card.png');
+}
+
+.card-Vigila-tus-espaldas {
+  background-image: url('../../assets/vigila-tus-espaldas-card.png');
+}
+
 .card-Lanzallamas {
   background-image: url('../../assets/lanzallamas-card.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 130px;
-  width: 90px;
-  margin: 1px;
-  border-radius: 10px;
+}
+
+.card-Seducción{
+  background-image: url('../../assets/seduccion-card.png');
+}
+
+.card-Cambio-de-lugar{
+  background-image: url('../../assets/cambio-lugar-card.png');
 }
 
 .card {
