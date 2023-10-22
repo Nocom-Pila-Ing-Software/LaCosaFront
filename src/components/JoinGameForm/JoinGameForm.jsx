@@ -1,24 +1,19 @@
 import React, { useState } from 'react'
 import classes from '../styles/form-style.module.css';
-import Modal from './JoinGameFormModal';
 import * as api from '../../services.js';
 import PropTypes from 'prop-types'
 
 const JoinGameForm = (props) => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
   const [roomID, setRoomID] = useState('');
   const [playerName, setPlayerName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
     if (roomID.trim() !== '' && playerName.trim() !== '') {
       api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
         .then((response) => {
-          openModal();
           props.onRoomCreated(roomID, playerName);
           if (response && response.ok) {
             console.log(response);
@@ -42,19 +37,13 @@ const JoinGameForm = (props) => {
         }
   }
 
-  const openModal = () => {
-    setIsModalOpen(true);
-    setIsJoinButtonDisabled(true);
-  };
-
   return (
     <div className={classes['form-background']}>
       <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
         <h2>Unirse a una partida</h2>
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
         <input type="text" required placeholder='ID de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)} />
-        <button onClick={handleSubmit} disabled={isJoinButtonDisabled}>Unirse</button>
-        {isModalOpen && <Modal />}
+        <button onClick={handleSubmit}>Unirse</button>
       </form>
     </div>
   )

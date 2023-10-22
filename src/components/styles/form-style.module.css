@@ -2,6 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
 
+
+@keyframes loadingDots {
+  0% { content: '.'; }
+  25% { content: '..'; }
+  50% { content: '...'; }
+  75% { content: '..'; }
+  100% { content: '.'; }
+}
+
 .form-background {
   background-color: #00240f;
   background-repeat: no-repeat;
@@ -70,7 +79,7 @@
   font-family: 'Arial', sans-serif; 
   font-size: 16px; 
   font-weight: bold;
-  text-align: left;
+  text-align:start;
   text-rendering: optimizeLegibility;
   color: #333;
   padding: 20px; 
@@ -79,7 +88,8 @@
 .players-list-item-container {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: normal;
+  justify-content:left;
   padding: 10px; 
   background-color: #679c61; 
   border-radius: 5px;
@@ -90,6 +100,14 @@
 
 
 .form-container h2 {
+  font-family: 'Metal Mania', cursive;
+  font-size: 35px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #74c774;
+}
+
+.form-container h3 {
   font-family: 'Metal Mania', cursive;
   font-size: 35px;
   margin-bottom: 10px;
@@ -130,6 +148,26 @@
   text-align: center;
   cursor: pointer;
   transition: .5;
+}
+
+.form-container p {
+  width: 80%;
+  margin-top: 20px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-family: 'Nosifer', cursive;
+  font-size: 20px;
+  color: black;
+  text-decoration: none;
+  text-align:center;
+}
+
+.loading-text::after {
+  content: '';
+  display: inline-block;
+  width: 1em; 
+  text-align: left;
+  animation: loadingDots 2s infinite;
 }
 
 .form-container button:hover {

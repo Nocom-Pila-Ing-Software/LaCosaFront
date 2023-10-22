@@ -9,43 +9,76 @@ const LobbyScreenModal = (props) => {
   const [hostName, setHostName] = useState('');
   const [hostID, setHostID] = useState(-1);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const fetchData = async () => {
-      try {
-        const roomInfo = await api.getRoomInfo(props.roomID);
-        console.log(roomInfo);
+  //   const fetchData = async () => {
+  //     try {
+  //       const roomInfo = await api.getRoomInfo(props.roomID);
+  //       console.log(roomInfo);
 
-        setHostName(roomInfo.host.name);
+  //       setHostName(roomInfo.host.name);
+  //       console.log(hostName);
+
+  //       setHostID(roomInfo.host.id);
+  //       console.log(hostID);
+
+  //       setPlayers(roomInfo.Players);
+  //       console.log(players);
+
+  //       setLocalName(props.localName);
+  //       console.log(localName);
+
+  //       if (roomInfo.hasStarted){
+  //         props.onStartGame(localName);
+  //       }
+        
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+
+  //   const pollingIntervalId = setInterval(fetchData, 3000);
+  //   return () => {
+  //     clearInterval(pollingIntervalId);
+  //   };
+
+  // }, [localName]);
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const pollRoom = () => {
+    api.getRoomInfo(props.roomID)
+      .then((data) => {
+        console.log(props.roomID);
+        setHostName(data.host.name);
         console.log(hostName);
-
-        setHostID(roomInfo.host.id);
-        console.log(hostID);
-
-        setPlayers(roomInfo.Players);
-        console.log(players);
-
+        setHostID(data.host.id);
+        setPlayers(data.Players);
         setLocalName(props.localName);
-        console.log(localName);
-
-      } catch (error) {
+        if (data.hasStarted) {
+          props.onStartGame(localName);
+        } else {
+          setTimeout(pollRoom, 3000);
+        }
+      })
+      .catch((error) => {
         console.error(error);
-      }
-    };
+      });
+  };
 
-    fetchData();
-
-    const pollingIntervalId = setInterval(fetchData, 3000);
-    return () => {
-      clearInterval(pollingIntervalId);
-    };
-
+  useEffect(() => {
+    pollRoom();
   }, [props.localName]);
 
   const handleLeave = () => {
     try{
       api.removePlayerFromRoom(props.roomID, { 'playerID': hostID});
-      
+
     }catch(error){
       console.error(error);
     }
@@ -54,18 +87,15 @@ const LobbyScreenModal = (props) => {
   const handleStartGame = (e) => {
     e.preventDefault();
     api.createGame({ 'roomID': props.roomID })
-    props.onStartGame(localName);
   };
 
   const isHost = localName === hostName;
-  console.log(hostID);
-  console.log(localName);
-  console.log(hostName);
 
   return (
     <div className={classes['blur-background']}>
-      <form action="" className={classes['form-container']} onSubmit={(e) => e.preventDefault()}>
+      <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
         <h2>Sala de Espera</h2>
+        <h3>{`ID de la Sala: ${props.roomID}`}</h3>
         <ul className={classes['players-list-item-container']}>
           {players.map((player, index) => (
             <li className={classes['players-list-item']} key={index}>
@@ -73,7 +103,11 @@ const LobbyScreenModal = (props) => {
               </li>
           ))}
         </ul>
-        <button disabled={!isHost} onClick={handleStartGame}>Iniciar partida</button>
+        {isHost ? (
+          <button onClick={handleStartGame}> Iniciar partida</button>
+        ):(
+          <p className={classes['loading-text']}>Esperando al anfitrión</p>
+        )}
         <button onClick={() => { handleLeave(); props.onLeave(); }}>Abandonar Sala</button>
       </form>
     </div>

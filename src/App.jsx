@@ -10,14 +10,12 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [nOfPlayers, setNOfPlayers] = useState(0);
   const [localPlayer, setLocalPlayer] = useState('');
-  const [roomCreated, setRoomCreated] = useState(false);
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const [roomID, setRoomID] = useState('');
 
 
 
   const handleRoomCreated = (createdRoomID, localPlayerName) => {
-    setRoomCreated(true);
     setShowLobbyModal(true);
     setRoomID(createdRoomID);
     setLocalPlayer(localPlayerName);
@@ -36,6 +34,7 @@ function App() {
       setNOfPlayers(players);
       setGameStarted(true);
       setLocalPlayer(localPlayerName);
+      console.log(localPlayerName);
       setShowLobbyModal(false);
 
     } catch (error) {
@@ -46,7 +45,7 @@ function App() {
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={nOfPlayers} localName={localPlayer} />
+        <Table nOfPlayers={nOfPlayers} localName={localPlayer}/>
       ) : (
         <>
           <CreateGameForm onRoomCreated={handleRoomCreated} />
