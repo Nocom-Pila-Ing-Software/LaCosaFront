@@ -23,7 +23,7 @@ const LobbyScreenModal = (props) => {
 
         setHostID(data.host.id);
 
-        setPlayers(data.Players); 
+        setPlayers(data.Players);
         console.log(data.Players);
 
         setLocalName(props.localName);
@@ -45,7 +45,7 @@ const LobbyScreenModal = (props) => {
 
   const handleLeave = (id) => {
     try{
-      api.removePlayerFromRoom(props.roomID, id)
+      api.removePlayerFromRoom(props.roomID, {"playerID": id})
     }catch(error){
       console.error(error);
     }
