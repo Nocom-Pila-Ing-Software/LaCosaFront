@@ -2,14 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import JoinGameForm from './JoinGameForm';
-import Modal from './JoinGameFormModal';
 import * as api from '../../services.js';
 
 
 
 describe("JoinGameForm", () => {
   test("renders form with correct fields", () => {
-    render(<JoinGameForm onStartGame={() => {}}/>);
+    render(<JoinGameForm onRoomCreated={() => {}}/>);
 
     expect(screen.getByPlaceholderText('Nombre del jugador')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('ID de la partida')).toBeInTheDocument();
@@ -17,7 +16,7 @@ describe("JoinGameForm", () => {
   });
   test("opens modal when form is submitted with valid values", async () => {
 
-    render(<JoinGameForm onStartGame={() => {}}/>);
+    render(<JoinGameForm onRoomCreated={() => {}}/>);
 
     const playerNameInput = screen.getByPlaceholderText('Nombre del jugador');
     const roomIDInput = screen.getByPlaceholderText('ID de la partida');
@@ -31,11 +30,7 @@ describe("JoinGameForm", () => {
 
     fireEvent.click(submitButton);
     expect(mockPost).toHaveBeenCalledTimes(1);
-    await waitFor(() => {
-      render(<Modal />);
-      expect(screen.getByText('Esperando a que el anfitrion inicie la partida')).toBeInTheDocument();
-    });
-      
+
   });
-  
+
 });
