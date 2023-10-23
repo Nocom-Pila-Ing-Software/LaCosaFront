@@ -43,18 +43,9 @@ const LobbyScreenModal = (props) => {
     pollRoom();
   }, [props.localName]);
 
-  const removePlayerFromList = (playerID) => {
-    setPlayers((prevPlayers) => prevPlayers.filter((player) => player.id !== playerID));
-  };
-
   const handleLeave = (id) => {
     try{
-      api.removePlayerFromRoom(props.roomID, { 'playerID': id});
-      if(id === hostID){
-        props.closeLobbyModal();
-      }else{
-        removePlayerFromList(id);
-      }
+      api.removePlayerFromRoom(props.roomID, id)
     }catch(error){
       console.error(error);
     }
@@ -80,7 +71,7 @@ const LobbyScreenModal = (props) => {
               </li>
           ))}
         </ul>
-        {isHostID ? (
+        {isHost ? (
           <button onClick={handleStartGame}> Iniciar partida</button>
         ):(
           <p className={classes['loading-text']}>Esperando al anfitrión</p>

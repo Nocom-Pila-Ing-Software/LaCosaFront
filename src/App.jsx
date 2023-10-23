@@ -14,11 +14,6 @@ function App() {
   const [roomID, setRoomID] = useState('');
   const [idPlayer, setIdPlayer] = useState(-1);
 
-
-  const closeLobbyModal = () => {
-    setShowLobbyModal(false);
-  };
-  
   const handleRoomCreated = (createdRoomID, localPlayerName, idPlayer) => {
     setShowLobbyModal(true);
     setRoomID(createdRoomID);
@@ -62,7 +57,6 @@ function App() {
           onLeave={handleLeaveRoom}
           localName={localPlayer}
           idPlayer={idPlayer}
-          closeLobbyModal={closeLobbyModal} 
       />
       )}
     </div>
