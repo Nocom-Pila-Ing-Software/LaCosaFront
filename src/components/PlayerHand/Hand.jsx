@@ -4,7 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard } from "../../services";
+import { drawCard, playCard, defendCard, getCardsDefend } from "../../services";
 
 const Hand = (props) => {
   // Hand handling
@@ -128,6 +128,61 @@ const Hand = (props) => {
     }
   }
 
+  const handleDefendCard = (targetPlayer) => {
+    if (targetPlayer) {
+      let bodyContent = {
+        "playerID": actualTurn,
+        "cardID": props.allGameData.lastPlayedCard.cardID
+      }
+
+      getCardsDefend(bodyContent.playerID, bodyContent.cardID)
+      .then((data) => {
+        console.log("Respuesta de getCardDefend: ", data);
+        if(!data.cards){
+          console.log('hola');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      bodyContent = {
+        "playerID": actualTurn,
+        "cardID": clickedCardId
+      }
+
+      defendCard(1, bodyContent)
+        .then((data) => {
+          console.log("Respuesta de defendCard: ", data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+    } else {
+      alert('No hay mas jugadores')
+    }
+  }
+
+  const handleOmitDefense = (targetPlayer) => {
+    if (targetPlayer) {
+      let bodyContent = {
+        "playerID": actualTurn,
+        "cardID": -1
+      }
+
+
+      defendCard(1, bodyContent)
+        .then((data) => {
+          console.log("Respuesta de defendCard: ", data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
+
 
   const handleDrawCard = async () => {
     const body = {
@@ -162,6 +217,11 @@ const Hand = (props) => {
         <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
           disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
           onClick={handleDrawCard}>Robar Carta</button>
+
+        <button 
+        onClick={handleDefendCard}>Defensa</button>
+
+        <button onClick={handleOmitDefense}>Omitir defensa</button>
 
         <select className={classes.select} value={selectedPlayer} onChange={(e) => setSelectedPlayer(e.target.value)} disabled={clickedCardUsername !== 'Lanzallamas'}>
           <option value="nextPlayer">Aplicar al jugador de la derecha</option>
