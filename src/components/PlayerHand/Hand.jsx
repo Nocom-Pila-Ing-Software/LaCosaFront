@@ -4,7 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard, tradeCard } from "../../services";
+import { drawCard, playCard, discardCard, tradeCard, defendCard } from "../../services";
 
 const Hand = (props) => {
   // Hand handling
@@ -26,8 +26,9 @@ const Hand = (props) => {
 
   // Live effect
   const [isAlive, setIsAlive] = useState(true)
-
   const [selectedPlayer, setSelectedPlayer] = useState('nextPlayer')
+
+  // Action to play
 
 
 
@@ -101,6 +102,7 @@ const Hand = (props) => {
       targetPlayer = leftPlayer;
     }
 
+
     applyCardEffect(targetPlayer)
 
     setHasDrawnCard(false)
@@ -128,6 +130,26 @@ const Hand = (props) => {
     }
   }
 
+  const handleDefendCard = (targetPlayer) => {
+    if (targetPlayer) {
+      const bodyContent = {
+        "playerID": actualTurn,
+        "targetPlayerID": targetPlayer.playerID,
+        "cardID": clickedCardId
+      }
+
+      defendCard(1, bodyContent)
+        .then((data) => {
+          console.log("Respuesta de playCard: ", data);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+
+    } else {
+      alert('No hay mas jugadores')
+    }
+  }
 
   const handleDiscardCard = async () => {
     const bodyContent = {
@@ -189,15 +211,15 @@ const Hand = (props) => {
           onClick={handlePlayCard}>Jugar Carta</button>
 
         <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !hasDrawnCard}
+          disabled={!isTurn }
           onClick={handleDiscardCard}>Descartar Carta</button>
 
         <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
           disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
           onClick={handleDrawCard}>Robar Carta</button>
 
-        <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
+        <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
+        
           onClick={handleTradeCard}
           >Intercambiar carta</button>
 

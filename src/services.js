@@ -116,5 +116,15 @@ export const tradeCard = async (roomID, bodyContent) => {
     }
 };
 
+export const defendCard = async (roomID, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${roomID}/defend-card`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 
 

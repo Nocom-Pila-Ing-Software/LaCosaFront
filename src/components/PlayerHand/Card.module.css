@@ -16,21 +16,15 @@
   background-image: url('../../assets/infectado-card.png');
 }
 
-.card-Vigila-tus-espaldas {
-  background-image: url('../../assets/vigila-tus-espaldas-card.png');
-}
-
 .card-Lanzallamas {
   background-image: url('../../assets/lanzallamas-card.png');
-}
-
-.card-Seducción{
-  background-image: url('../../assets/seduccion-card.png');
 }
 
 .card-Cambio-de-lugar{
   background-image: url('../../assets/cambio-lugar-card.png');
 }
+
+
 
 .card {
   background-color: rgb(41, 129, 66);
