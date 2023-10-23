@@ -88,6 +88,7 @@
 .players-list-item-container {
   display: flex;
   flex-direction: column;
+  width: 80%;
   align-items: normal;
   justify-content:left;
   padding: 10px; 

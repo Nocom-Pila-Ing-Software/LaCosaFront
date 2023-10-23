@@ -22,6 +22,7 @@ const LobbyScreenModal = (props) => {
         setHostName(data.host.name);
 
         setHostID(data.host.id);
+        console.log(data.host.id);
 
         setPlayers(data.Players);
         console.log(data.Players);
@@ -36,6 +37,7 @@ const LobbyScreenModal = (props) => {
       })
       .catch((error) => {
         console.error(error);
+        props.onLeave();
       });
   };
 
@@ -77,7 +79,7 @@ const LobbyScreenModal = (props) => {
           <p className={classes['loading-text']}>Esperando al anfitrión</p>
         )}
         {isHostID ? (
-          <button onClick={() => {handleLeave(hostID); props.onLeave();}}>Abandonar Sala</button>
+          <button onClick={() => {handleLeave(hostID);}}>Abandonar Sala</button>
         ) : (
           <button onClick={() => {handleLeave(props.idPlayer); props.onLeave();}}>Abandonar Sala</button>
         )}
