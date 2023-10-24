@@ -4,7 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard, tradeCard, defendCard } from "../../services";
+import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsUsability } from "../../services";
 
 const Hand = (props) => {
   // Hand handling
@@ -16,20 +16,19 @@ const Hand = (props) => {
 
   // Interface effects
   const [hasDrawnCard, setHasDrawnCard] = useState(false);
-  const [actualTurnUsername, setActualTurnUsername] = useState('')
   const [playersLiving, setPlayersLiving] = useState(0)
 
   // CardHandling
   const [clickedCardId, setClickedCardId] = useState(0)
   const [lastCardPlayed, setLastCardPlayed] = useState('')
-  const [clickedCardUsername, setClickedCardUsername] = useState('')
 
   // Live effect
   const [isAlive, setIsAlive] = useState(true)
   const [selectedPlayer, setSelectedPlayer] = useState('nextPlayer')
 
   // Action to play
-
+  const [currentAction, setCurrentAction] = useState('')
+  const [targetPlayers, setTargetPlayers] = useState([])
 
 
   useEffect(() => {
@@ -41,8 +40,8 @@ const Hand = (props) => {
 
       // Turns state
       const actualPlayerTurn = props.allGameData.players.find(((player) => player.playerID === actualTurn))
-      const actualPlayerTurnUsername = actualTurn ? actualPlayerTurn.username : 'No se encontro el usuario'
-      setActualTurnUsername(actualPlayerTurnUsername)
+      console.log(actualPlayerTurn);
+
       setActualTurn(props.allGameData.playerPlayingTurn.playerID)
 
       // Validating my turn
@@ -58,6 +57,25 @@ const Hand = (props) => {
       // Players living
       setPlayersLiving(props.allGameData.players.length)
 
+      // Setting action
+      const tempAction = props.allGameData.currentAction
+      setCurrentAction(tempAction)
+
+      const bodyContent = {
+        "playerID": actualTurn,
+        "cardID": clickedCardId
+      }
+
+      getPossibleTargets(bodyContent.playerID, bodyContent.cardID)
+        .then((data) => {
+          console.log("Respuesta de possibleTargets: ", data);
+          setTargetPlayers(data.targets)
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+
+      console.log(selectedPlayer);
     }
   }, [props.localPlayerInfo, props.allGameData.playerPlayingTurn]);
 
@@ -66,89 +84,26 @@ const Hand = (props) => {
   const handleCardClick = (cardId, cardName) => {
     setClickedCardId(cardId)
     setClickedCardUsername(cardName)
+
   }
 
 
   const handlePlayCard = () => {
-    const currentPlayerIndex = props.allGameData.players.findIndex((player) => player.playerID === actualTurn)
-
-    let nextPlayer = null;
-    for (let i = 1; i < props.allGameData.players.length; i++) {
-      const nextIndex = (currentPlayerIndex + i) % props.allGameData.players.length;
-      const potentialNextPlayer = props.allGameData.players[nextIndex];
-
-      if (potentialNextPlayer.is_alive) {
-        nextPlayer = potentialNextPlayer;
-        break;
-      }
+    const bodyContent = {
+      "playerID": actualTurn,
+      "targetPlayerID": selectedPlayer,
+      "cardID": clickedCardId
     }
 
-    let leftPlayer = null;
-    for (let i = 1; i < props.allGameData.players.length; i++) {
-      const leftIndex = (currentPlayerIndex - i + props.allGameData.players.length) % props.allGameData.players.length;
-      const potentialLeftPlayer = props.allGameData.players[leftIndex];
-
-      if (potentialLeftPlayer.is_alive) {
-        leftPlayer = potentialLeftPlayer;
-        break;
-      }
-    }
-
-    let targetPlayer = nextPlayer;
-
-    if (selectedPlayer === 'nextPlayer' && nextPlayer) {
-      targetPlayer = nextPlayer;
-    } else if (selectedPlayer === 'leftPlayer' && leftPlayer) {
-      targetPlayer = leftPlayer;
-    }
-
-
-    applyCardEffect(targetPlayer)
+    playCard(1, bodyContent)
+      .then((data) => {
+        console.log("Respuesta de playCard: ", data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
 
     setHasDrawnCard(false)
-  }
-
-  const applyCardEffect = (targetPlayer) => {
-    if (targetPlayer) {
-      const bodyContent = {
-        "playerID": actualTurn,
-        "targetPlayerID": targetPlayer.playerID,
-        "cardID": clickedCardId
-      }
-
-
-      playCard(1, bodyContent)
-        .then((data) => {
-          console.log("Respuesta de playCard: ", data);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-
-    } else {
-      alert('No hay mas jugadores')
-    }
-  }
-
-  const handleDefendCard = (targetPlayer) => {
-    if (targetPlayer) {
-      const bodyContent = {
-        "playerID": actualTurn,
-        "targetPlayerID": targetPlayer.playerID,
-        "cardID": clickedCardId
-      }
-
-      defendCard(1, bodyContent)
-        .then((data) => {
-          console.log("Respuesta de playCard: ", data);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-
-    } else {
-      alert('No hay mas jugadores')
-    }
   }
 
   const handleDiscardCard = async () => {
@@ -157,12 +112,12 @@ const Hand = (props) => {
       "cardID": clickedCardId
     }
     discardCard("1", bodyContent)
-    .then((data) => {
-      console.log("Respuesta de discardCard: ", data);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+      .then((data) => {
+        console.log("Respuesta de discardCard: ", data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
 
     setHasDrawnCard(false)
   }
@@ -179,18 +134,72 @@ const Hand = (props) => {
     }
   }
 
+  const handleDefendCard = (targetPlayer) => {
+    if (targetPlayer) {
+      let bodyContent = {
+        "playerID": actualTurn,
+        "cardID": props.allGameData.lastPlayedCard.cardID
+      }
+
+      getCardsDefend(bodyContent.playerID, bodyContent.cardID)
+        .then((data) => {
+          console.log("Respuesta de getCardDefend: ", data);
+          if (!data.cards) {
+            console.log('hola');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+      bodyContent = {
+        "playerID": actualTurn,
+        "cardID": clickedCardId
+      }
+
+      defendCard(1, bodyContent)
+        .then((data) => {
+          console.log("Respuesta de defendCard: ", data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+    } else {
+      alert('No hay mas jugadores')
+    }
+  }
+
+
+  const handleOmitDefense = (targetPlayer) => {
+    if (targetPlayer) {
+      let bodyContent = {
+        "playerID": actualTurn,
+        "cardID": -1
+      }
+
+      defendCard(1, bodyContent)
+        .then((data) => {
+          console.log("Respuesta de defendCard: ", data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
   const handleTradeCard = async () => {
     const bodyContent = {
       "playerID": actualTurn,
       "cardID": clickedCardId
     }
     tradeCard("1", bodyContent)
-    .then((data) => {
-      console.log("Respuesta de discardCard: ", data);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+      .then((data) => {
+        console.log("Respuesta de discardCard: ", data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
 
     setHasDrawnCard(false)
   }
@@ -200,33 +209,60 @@ const Hand = (props) => {
   return (
     <div className={HandClass.PLAYER}>
       <Deck />
-
-      <p className={classes.turn}>Turno de <span>{actualTurnUsername}</span></p>
       <p className={classes['last-played']}>{lastCardPlayed !== '' && `Se jugó ${lastCardPlayed}`}</p>
 
       <div className={classes.buttons}>
 
-        <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
-          onClick={handlePlayCard}>Jugar Carta</button>
+        {currentAction === 'action' && (
+          <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
+            disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
+            onClick={handlePlayCard}>Jugar Carta</button>
+        )}
 
-        <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn }
-          onClick={handleDiscardCard}>Descartar Carta</button>
+        {currentAction === 'action' && (
+          <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
+            disabled={!isTurn}
+            onClick={handleDiscardCard}>Descartar Carta</button>
+        )}
 
-        <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
-          disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
-          onClick={handleDrawCard}>Robar Carta</button>
+        {currentAction === 'action' && (
+          <select
+            className={classes.select}
+            value={selectedPlayer}
+            onChange={(e) => setSelectedPlayer(e.target.value)}
+          >
+            {targetPlayers.map((player) => (
+              <option key={player.playerID} value={player.playerID}>
+                {player.name}
+              </option>
+            ))}
+          </select>
+        )}
 
-        <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
-        
-          onClick={handleTradeCard}
+
+        {currentAction === 'draw' && (
+          <button className={(isTurn && isAlive && !hasDrawnCard && (playersLiving > 1)) ? classes['enabled-button'] : classes['disabled-button']}
+            disabled={!isTurn || !isAlive || hasDrawnCard || !(playersLiving > 1)}
+            onClick={handleDrawCard}>Robar Carta</button>
+        )}
+
+        {currentAction === 'trade' && (
+          <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
+            onClick={handleTradeCard}
           >Intercambiar carta</button>
+        )}
 
-        <select className={classes.select} value={selectedPlayer} onChange={(e) => setSelectedPlayer(e.target.value)} disabled={clickedCardUsername !== 'Lanzallamas'}>
-          <option value="nextPlayer">Aplicar al jugador de la derecha</option>
-          <option value="leftPlayer">Aplicar al jugador a tu izquierda</option>
-        </select>
+        {currentAction === 'defense' && (
+          <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
+            onClick={handleDefendCard}>Defensa</button>
+        )}
+
+
+        {currentAction === 'defense' && (
+          <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
+            onClick={handleOmitDefense}>Omitir defensa</button>
+        )}
+
       </div>
       {isAlive ? (
         <div className={classes['hand-container__hand']}>

@@ -1,4 +1,4 @@
-.card{
+.card {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -8,7 +8,7 @@
   border-radius: 10px;
 }
 
-.card-La-Cosa {
+.card-La-cosa {
   background-image: url('../../assets/thing-card.png');
 }
 
@@ -20,8 +20,12 @@
   background-image: url('../../assets/lanzallamas-card.png');
 }
 
-.card-Cambio-de-lugar{
+.card-Cambio-de-lugar {
   background-image: url('../../assets/cambio-lugar-card.png');
+}
+
+.card-Más-vale-que-corras {
+  background-image: url('../../assets/mas-vale-que-corras-card.png');
 }
 
 
