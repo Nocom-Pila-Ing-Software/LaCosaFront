@@ -1,37 +1,32 @@
 import React, { useState } from 'react'
 import classes from '../styles/form-style.module.css';
-import * as api from '../../services.js';
-import PropTypes from 'prop-types'
+import Modal from './JoinGameFormModal';
+import PropTypes from 'prop-types';
 
 const JoinGameForm = (props) => {
 
-  const [roomID, setRoomID] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
   const [playerName, setPlayerName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  }
 
-    if (roomID.trim() !== '' && playerName.trim() !== '') {
-      api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
-        .then((data) => {
-          props.onRoomCreated(roomID, playerName, data.playerID);
-        })
-        .catch((error) => {
-          if(error.response && error.response.status === 404){ 
-            console.log("La sala no existe");
-            alert('La sala no existe, introduce una ID de sala existente.');
-          } else if(error.response && error.response.status === 400){
-            if(error.response.data && error.response.data.detail === "Game has already started"){
-              console.log("El juego ya ha comenzado, no puedes unirte.");
-              alert('El juego ya ha comenzado, no puedes unirte.');
-            }else{
-            console.log("El nombre de jugador introducido ya existe, por favor ingrese otro.");
-            alert('El nombre de jugador introducido ya existe, por favor ingrese otro.');
-            }
-          }
-        })} else {
-          alert('Por favor ingresa ID de partida y un nombre de jugador.');
-        }
+  const openModal = (e) => {
+    e.preventDefault();
+    if (playerName.trim() == '') {
+      alert('Por favor ingresa un nombre de jugador.'); 
+    }else{ 
+      setIsModalOpen(true);
+      console.log(isModalOpen);
+      setIsJoinButtonDisabled(true);
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setIsJoinButtonDisabled(false);
   }
 
   return (
@@ -39,8 +34,8 @@ const JoinGameForm = (props) => {
       <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
         <h2>Unirse a una partida</h2>
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
-        <input type="text" required placeholder='ID de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)} />
-        <button onClick={handleSubmit}>Unirse</button>
+        <button onClick={openModal} disabled={isJoinButtonDisabled}>Ver Listas De partidas</button>
+        {isModalOpen && <Modal playerName={playerName} closeModal={closeModal} onRoomCreated={props.onRoomCreated} />}
       </form>
     </div>
   )

@@ -21,6 +21,7 @@ const Table = (props) => {
 
     const fetchData = async () => {
       try {
+        console.log(props.gameID)
         const gameStartedInfo = await getGameInfo(1);
 
         // Game data
@@ -131,6 +132,7 @@ const Table = (props) => {
 Table.propTypes = {
   nOfPlayers: PropTypes.number.isRequired,
   localName: PropTypes.string.isRequired,
+  gameID: PropTypes.number.isRequired,
   onGameEnd: PropTypes.func.isRequired,
 }
 

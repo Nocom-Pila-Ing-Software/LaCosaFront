@@ -9,6 +9,7 @@ const CreateGameForm = (props) => {
 
   const [createButtonDisabled, setButtonDisabled] = useState(false);
 
+
   const handleCreateRoom = () => {
 
     if (hostName.trim() === '' || roomName.trim() === '') {
@@ -18,9 +19,9 @@ const CreateGameForm = (props) => {
   
     setButtonDisabled(true);
 
-    api.createRoom({ "roomName": roomName, "hostName": hostName, "minPlayers": 2, "maxPlayers": 12})
+    api.createRoom({ "roomName": roomName, "hostName": hostName, "minPlayers": 2, "maxPlayers": 12 })
       .then(data => {
-        const roomID = data.roomID.toString();
+        const roomID = data.roomID;
         console.log(roomID);
         props.onRoomCreated(roomID, hostName, data.playerID);
       })

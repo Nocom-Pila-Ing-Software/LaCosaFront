@@ -155,7 +155,6 @@ const Hand = (props) => {
         "playerID": actualTurn,
         "cardID": clickedCardId
       }
-
       defendCard(1, bodyContent)
         .then((data) => {
           console.log("Respuesta de defendCard: ", data);
