@@ -29,6 +29,7 @@ const Hand = (props) => {
   // Action to play
   const [currentAction, setCurrentAction] = useState('')
   const [targetPlayers, setTargetPlayers] = useState([])
+  const [role, setRole] = useState("")
 
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const Hand = (props) => {
     if (props.localPlayerInfo) {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
+      setRole(props.localPlayerInfo.playerInfo.role);
 
       // Turns state
       const actualPlayerTurn = props.allGameData.players.find(((player) => player.playerID === actualTurn))
@@ -283,6 +285,7 @@ const Hand = (props) => {
       )}
 
       <p>{props.name}</p>
+      <p>{role}</p>
     </div >
 
   )
