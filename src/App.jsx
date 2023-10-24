@@ -51,14 +51,19 @@ function App() {
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={nOfPlayers} localName={localPlayer} onGameEnd={gameEnded} gameID={gameIDCurrent}/>
+        <Table
+            nOfPlayers={nOfPlayers}
+            localName={localPlayer}
+            onGameEnd={gameEnded}
+            gameID={gameIDCurrent}
+        />
       ) : (
         <>
           <CreateGameForm onRoomCreated={handleRoomCreated} />
           <JoinGameForm onRoomCreated={handleRoomCreated}/>
         </>
       )}
-      {showLobbyModal && 
+      {showLobbyModal &&
       (<LobbyScreenModal
           roomID={roomID}
           onStartGame={handleStartGame}
@@ -68,7 +73,7 @@ function App() {
       />
       )}
     </div>
-  );  
+  );
 }
 
 export default App;

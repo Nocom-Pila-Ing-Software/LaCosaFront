@@ -22,7 +22,7 @@ const Table = (props) => {
     const fetchData = async () => {
       try {
         console.log(props.gameID)
-        const gameStartedInfo = await getGameInfo(1);
+        const gameStartedInfo = await getGameInfo(props.gameID);
 
         // Game data
         const players = (gameStartedInfo.players).concat(gameStartedInfo.deadPlayers);
@@ -97,14 +97,14 @@ const Table = (props) => {
           <form action="" onSubmit={handleSubmit}>
             <h2>El juego ha terminado.....</h2>
             {allGameData.result.humansWin ? (
-              <div> 
+              <div>
               <h3>¡GANAN LOS HUMANOS!</h3>
               <ul>
                 {allGameData.result.winners.map((winner, index) => (
                   <li key={index}>{winner.username}</li>
                 ))}
               </ul>
-              <button onClick={handleGameEnd}>Salir</button>  
+              <button onClick={handleGameEnd}>Salir</button>
               </div>
             ):(
               <div>
@@ -112,13 +112,13 @@ const Table = (props) => {
                 <ul>
                   {allGameData.result.winners.map((winner) => (
                     <li key={winner.playerID}>
-                      <div> 
+                      <div>
                         <span> {winner.username} </span>
-                      </div> 
+                      </div>
                     </li>
                   ))}
                 </ul>
-                <button onClick={handleGameEnd}>Salir</button>  
+                <button onClick={handleGameEnd}>Salir</button>
               </div>
             )}
           </form>
