@@ -24,7 +24,7 @@ const Hand = (props) => {
 
   // Live effect
   const [isAlive, setIsAlive] = useState(true)
-  const [selectedPlayer, setSelectedPlayer] = useState('nextPlayer')
+  const [selectedPlayer, setSelectedPlayer] = useState(-1)
 
   // Action to play
   const [currentAction, setCurrentAction] = useState('')
@@ -70,6 +70,7 @@ const Hand = (props) => {
         .then((data) => {
           console.log("Respuesta de possibleTargets: ", data);
           setTargetPlayers(data.targets)
+          setSelectedPlayer(data.targets[0].playerID)
         })
         .catch((error) => {
           console.error(error);
@@ -225,7 +226,10 @@ const Hand = (props) => {
           <select
             className={classes.select}
             value={selectedPlayer}
-            onChange={(e) => setSelectedPlayer(e.target.value)}
+            onChangeCapture={(e) => {
+                console.log("Selected player: ", e.target.value);
+                setSelectedPlayer(e.target.value)}
+            }
           >
             {targetPlayers.map((player) => (
               <option key={player.playerID} value={player.playerID}>

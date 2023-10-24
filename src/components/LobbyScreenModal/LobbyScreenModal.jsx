@@ -31,9 +31,9 @@ const LobbyScreenModal = (props) => {
         setLocalName(props.localName);
 
         if (!data.hasStarted) {
-          setTimeout(pollRoom, 3000); 
+          setTimeout(pollRoom, 3000);
         }else{
-          props.onStartGame(props.roomID, gameID);
+          props.onStartGame(props.roomID, props.roomID);
         }
       })
       .catch((error) => {
@@ -54,7 +54,7 @@ const LobbyScreenModal = (props) => {
       const aux = data.gameID;
       setGameID(aux);
       console.log(aux)
-      
+
     }).catch((error) => {
       console.log(error);
     })
