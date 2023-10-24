@@ -1,27 +1,20 @@
 import React, { useState } from 'react'
 import classes from '../styles/form-style.module.css';
-import Modal from './JoinGameFormModal';
 import * as api from '../../services.js';
 import PropTypes from 'prop-types'
 
 const JoinGameForm = (props) => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isJoinButtonDisabled, setIsJoinButtonDisabled] = useState(false);
   const [roomID, setRoomID] = useState('');
   const [playerName, setPlayerName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (roomID.trim() !== '' && playerName.trim() !== '') {
       api.addPlayerToWaitingRoom(roomID, { 'playerName': playerName })
-        .then((response) => {
-          openModal();
-          if (response && response.ok) {
-            console.log(response);
-          }
-          pollRoom()
-
+        .then((data) => {
+          props.onRoomCreated(roomID, playerName, data.playerID);
         })
         .catch((error) => {
           if(error.response && error.response.status === 404){ 
@@ -40,25 +33,6 @@ const JoinGameForm = (props) => {
           alert('Por favor ingresa ID de partida y un nombre de jugador.');
         }
   }
-  
-  const pollRoom = () => {
-    api.getRoomInfo(roomID)
-      .then((data) => {
-        if (data.hasStarted) {
-          props.onStartGame(playerName)
-        } else {
-          // The game hasn't started yet, continue polling after 3 seconds.
-          setTimeout(pollRoom, 3000);
-        }
-      })
-  }
-
-
-  const openModal = () => {
-    setIsModalOpen(true);
-    setIsJoinButtonDisabled(true);
-  };
-
 
   return (
     <div className={classes['form-background']}>
@@ -66,15 +40,14 @@ const JoinGameForm = (props) => {
         <h2>Unirse a una partida</h2>
         <input type="text" required placeholder='Nombre del jugador' value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
         <input type="text" required placeholder='ID de la partida' value={roomID} onChange={(e) => setRoomID(e.target.value)} />
-        <button onClick={handleSubmit} disabled={isJoinButtonDisabled}>Unirse</button>
-        {isModalOpen && <Modal />}
+        <button onClick={handleSubmit}>Unirse</button>
       </form>
     </div>
   )
 }
 
 JoinGameForm.propTypes = {
-  onStartGame: PropTypes.func.isRequired,
+  onRoomCreated: PropTypes.func.isRequired,
 }
 
 export default JoinGameForm;
