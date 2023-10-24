@@ -4,7 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsUsability } from "../../services";
+import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend } from "../../services";
 
 const Hand = (props) => {
   // Hand handling
@@ -81,9 +81,8 @@ const Hand = (props) => {
 
 
 
-  const handleCardClick = (cardId, cardName) => {
+  const handleCardClick = (cardId) => {
     setClickedCardId(cardId)
-    setClickedCardUsername(cardName)
 
   }
 
@@ -204,8 +203,6 @@ const Hand = (props) => {
     setHasDrawnCard(false)
   }
 
-
-
   return (
     <div className={HandClass.PLAYER}>
       <Deck />
@@ -253,7 +250,7 @@ const Hand = (props) => {
         )}
 
         {currentAction === 'defense' && (
-          <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
+          <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
             onClick={handleDefendCard}>Defensa</button>
         )}
 
