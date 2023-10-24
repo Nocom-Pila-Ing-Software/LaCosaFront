@@ -25,7 +25,7 @@ const Modal = (props) => {
     return () => {
       clearInterval(pollingIntervalId);
     };
-	}, [listRooms]);
+	}, []);
 
   const JoinGame = async (roomID) => {
     const body = {'playerName': props.playerName};
@@ -34,7 +34,7 @@ const Modal = (props) => {
       props.onRoomCreated(roomID, props.playerName, data.playerID);
     })
     .catch((error) => {
-      if(error.response && error.response.status === 404){ 
+      if(error.response && error.response.status === 404){
         console.log("La sala no existe");
         alert('La sala no existe, introduce una ID de sala existente.');
       } else if(error.response && error.response.status === 400){
@@ -63,9 +63,9 @@ const Modal = (props) => {
 			<ul>
 				{listRooms.map((room) => (
 					<li key={room.id}>
-            <div> 
+            <div>
 						<span>{room.name}</span>
-            </div> 
+            </div>
 						<span>
 						Jugadores : {room.playerAmount} / {room.maxPlayers}
 						</span>
