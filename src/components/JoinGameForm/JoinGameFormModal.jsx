@@ -67,7 +67,7 @@ const Modal = (props) => {
 						<span>{room.name}</span>
             </div> 
 						<span>
-						  Jugadores : {room.playerAmount} / {room.maxPlayers}
+						Jugadores : {room.playerAmount} / {room.maxPlayers}
 						</span>
 						{(CanJoin(room.id, room.maxPlayers, room.playerAmount)) && (
               <button onClick={() => JoinGame(room.id)}>Unirse</button>

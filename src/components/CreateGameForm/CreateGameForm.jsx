@@ -6,8 +6,6 @@ import * as api from '../../services.js';
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [minPlayers, setMinPlayers] = useState(2);
-  const [maxPlayers, setMaxPlayers] = useState(12);
 
   const [createButtonDisabled, setButtonDisabled] = useState(false);
 
@@ -21,7 +19,7 @@ const CreateGameForm = (props) => {
   
     setButtonDisabled(true);
 
-    api.createRoom({ "roomName": roomName, "hostName": hostName, "minPlayers": minPlayers, "maxPlayers": maxPlayers })
+    api.createRoom({ "roomName": roomName, "hostName": hostName, "minPlayers": 2, "maxPlayers": 12 })
       .then(data => {
         const roomID = data.roomID;
         console.log(roomID);
