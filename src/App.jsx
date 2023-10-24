@@ -4,27 +4,41 @@ import CreateGameForm from './components/CreateGameForm/CreateGameForm';
 import Table from './components/Table/Table';
 import React, { useState } from 'react';
 import { getRoomInfo } from './services';
+import LobbyScreenModal from './components/LobbyScreenModal/LobbyScreenModal';
 
 function App() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [nOfPlayers, setNOfPlayers] = useState(0)
-  const [localPlayer, setLocalPlayer] = useState('')
+  const [nOfPlayers, setNOfPlayers] = useState(0);
+  const [localPlayer, setLocalPlayer] = useState('');
+  const [showLobbyModal, setShowLobbyModal] = useState(false);
+  const [roomID, setRoomID] = useState('');
+  const [idPlayer, setIdPlayer] = useState(-1);
 
-  const handleStartGame = async (localPlayerName) => {
+  const handleRoomCreated = (createdRoomID, localPlayerName, idPlayer) => {
+    setShowLobbyModal(true);
+    setRoomID(createdRoomID);
+    setLocalPlayer(localPlayerName);
+    setIdPlayer(idPlayer);
+  }
+
+  const handleLeaveRoom = () => {
+    setShowLobbyModal(false);
+    setRoomID('');
+  };
+
+  const handleStartGame = async () => {
     try {
       const responsePromise = getRoomInfo(1);
       const response = await responsePromise;
       const players = await response.CountPlayers;
-      setNOfPlayers(players)
-      setLocalPlayer(localPlayerName)
+      setNOfPlayers(players);
       setGameStarted(true);
+      setShowLobbyModal(false);
 
     } catch (error) {
-      // Maneja los errores aquí
       console.error(error);
     }
   };
-
 
   const gameEnded = () => {
     setGameStarted(false);
@@ -37,12 +51,21 @@ function App() {
         <Table nOfPlayers={nOfPlayers} localName={localPlayer} onGameEnd={gameEnded} />
       ) : (
         <>
-          <CreateGameForm onStartGame={handleStartGame} />
-          <JoinGameForm onStartGame={handleStartGame} />
+          <CreateGameForm onRoomCreated={handleRoomCreated} />
+          <JoinGameForm onRoomCreated={handleRoomCreated}/>
         </>
       )}
+      {showLobbyModal && 
+      (<LobbyScreenModal
+          roomID={roomID}
+          onStartGame={handleStartGame}
+          onLeave={handleLeaveRoom}
+          localName={localPlayer}
+          idPlayer={idPlayer}
+      />
+      )}
     </div>
-  );
+  );  
 }
 
 export default App;
