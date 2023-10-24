@@ -1,11 +1,41 @@
-.card {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 140px;
-  width: 100px;
-  margin: 1px;
-  border-radius: 10px;
+.card-Infectado {
+  background-image: url('../../assets/infectado.png');
+}
+
+.card-Vigila-tus-espaldas {
+  background-image: url('../../assets/vigila-tus-espaldas.png');
+}
+
+.card-Seduccion {
+  background-image: url('../../assets/seduccion.png');
+}
+
+.card-No-gracias {
+  background-image: url('../../assets/no-gracias.png');
+}
+
+.card-Nada-de-barbacoas {
+  background-image: url('../../assets/nada-de-barbacoas.png');
+}
+
+.card-Nada-de-barbacoas {
+  background-image: url('../../assets/nada-de-barbacoas.png');
+}
+
+.card-Mas-vale-que-corras {
+  background-image: url('../../assets/mas-vale-que-corras.png');
+}
+
+.card-Aqui-estoy-bien {
+  background-image: url('../../assets/aqui-estoy-bien.png');
+}
+
+.card-Cambio-de-lugar {
+  background-image: url('../../assets/cambio-de-lugar.png');
+}
+
+.card-La-Cosa {
+  background-image: url('../../assets/thing-card.png');
 }
 
 .card-La-cosa {
@@ -20,6 +50,12 @@
   background-image: url('../../assets/lanzallamas-card.png');
 }
 
+.background_img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .card-Cambio-de-lugar {
   background-image: url('../../assets/cambio-lugar-card.png');
 }
@@ -32,12 +68,8 @@
 
 .card {
   background-color: rgb(41, 129, 66);
-  height: 190px;
-  width: 130px;
   margin: 1px;
   border-radius: 10px;
-
-
   transition: transform 0.3s ease;
 }
 
