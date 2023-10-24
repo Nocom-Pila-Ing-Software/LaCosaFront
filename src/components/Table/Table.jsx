@@ -37,6 +37,7 @@ const Table = (props) => {
         setAllDeadPlayers(gameStartedInfo.deadPlayers)
 
         setLocalPlayerInfo({ playerFound, playerInfo });
+        setGameEnded(gameStartedInfo.result.isGameOver);
 
       } catch (error) {
         console.error(error);
