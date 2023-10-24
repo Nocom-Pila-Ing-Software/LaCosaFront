@@ -1,3 +1,40 @@
+
+.card-Infectado {
+  background-image: url('../../assets/infectado.png');
+}
+
+.card-Vigila-tus-espaldas {
+  background-image: url('../../assets/vigila-tus-espaldas.png');
+}
+
+.card-Seduccion {
+  background-image: url('../../assets/seduccion.png');
+}
+
+.card-No-gracias {
+  background-image: url('../../assets/no-gracias.png');
+}
+
+.card-Nada-de-barbacoas {
+  background-image: url('../../assets/nada-de-barbacoas.png');
+}
+
+.card-Nada-de-barbacoas {
+  background-image: url('../../assets/nada-de-barbacoas.png');
+}
+
+.card-Mas-vale-que-corras {
+  background-image: url('../../assets/mas-vale-que-corras.png');
+}
+
+.card-Aqui-estoy-bien {
+  background-image: url('../../assets/aqui-estoy-bien.png');
+}
+
+.card-Cambio-de-lugar {
+  background-image: url('../../assets/cambio-de-lugar.png');
+}
+
 .card-La-Cosa {
   background-image: url('../../assets/thing-card.png');
 }
