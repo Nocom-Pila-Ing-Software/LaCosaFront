@@ -7,6 +7,7 @@ const Card = (props) => {
 
   const playCard = () => {
     const { id, name, description } = props;
+    console.log(props.name);
     props.onCardClick(id, name, description);
 
   }

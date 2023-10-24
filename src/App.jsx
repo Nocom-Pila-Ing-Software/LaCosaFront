@@ -43,10 +43,15 @@ function App() {
     }
   };
 
+  const gameEnded = () => {
+    setGameStarted(false);
+    alert("Volviendo a la pantalla de inicio");
+  }
+
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={nOfPlayers} localName={localPlayer} gameID={gameIDCurrent} />
+        <Table nOfPlayers={nOfPlayers} localName={localPlayer} onGameEnd={gameEnded} gameID={gameIDCurrent}/>
       ) : (
         <>
           <CreateGameForm onRoomCreated={handleRoomCreated} />
