@@ -102,3 +102,24 @@ export const getWaitingRooms = async () => {
         throw error;
     }
 }; 
+
+
+export const removePlayerFromRoom = async (room_id, bodyContent) => {
+    try {
+        const response = await axios.delete(`${baseUrl}/room/${room_id}/player`, {data: bodyContent});
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const discardCard = async (roomID, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${roomID}/discard-card`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

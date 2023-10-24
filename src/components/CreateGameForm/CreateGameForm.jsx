@@ -6,7 +6,6 @@ import * as api from '../../services.js';
 const CreateGameForm = (props) => {
   const [hostName, setHostName] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [roomID, setRoomID] = useState('');
   const [minPlayers, setMinPlayers] = useState(2);
   const [maxPlayers, setMaxPlayers] = useState(12);
 
@@ -19,22 +18,19 @@ const CreateGameForm = (props) => {
       alert("Por favor, complete ambos campos antes de crear una partida");
       return;
     }
-    //setGameCreated(true);
+  
     setButtonDisabled(true);
 
     api.createRoom({ "roomName": roomName, "hostName": hostName, "minPlayers": minPlayers, "maxPlayers": maxPlayers })
       .then(data => {
-        const aux = data.roomID.toString();
-
-        console.log(aux);
-
-        setRoomID(aux);
-
-        props.onRoomCreated(roomID, hostName);
+        const roomID = data.roomID;
+        console.log(roomID);
+        props.onRoomCreated(roomID, hostName, data.playerID);
       })
       .catch(error => {
         console.error('Error:', error);
       });
+
   };
 
   const handleSubmit = (e) => {
@@ -69,3 +65,4 @@ CreateGameForm.propTypes = {
 };
 
 export default CreateGameForm;
+

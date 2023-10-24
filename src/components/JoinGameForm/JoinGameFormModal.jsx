@@ -30,12 +30,8 @@ const Modal = (props) => {
   const JoinGame = async (roomID) => {
     const body = {'playerName': props.playerName};
     await api.addPlayerToWaitingRoom(roomID, body)
-    .then((response) => {
-      if (response && response.ok) {
-        console.log(response);
-      }
-      props.onRoomCreated(roomID, props.playerName);
-
+    .then((data) => {
+      props.onRoomCreated(roomID, props.playerName, data.playerID);
     })
     .catch((error) => {
       if(error.response && error.response.status === 404){ 

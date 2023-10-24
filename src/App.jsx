@@ -7,40 +7,35 @@ import { getRoomInfo } from './services';
 import LobbyScreenModal from './components/LobbyScreenModal/LobbyScreenModal';
 
 function App() {
-  const [roomCreated, setRoomCreated] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [nOfPlayers, setNOfPlayers] = useState(0);
   const [localPlayer, setLocalPlayer] = useState('');
-
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const [roomID, setRoomID] = useState('');
+  const [idPlayer, setIdPlayer] = useState(-1);
 
-
-  const handleRoomCreated = (createdRoomID, localPlayerName) => {
-    setRoomCreated(true);
+  const handleRoomCreated = (createdRoomID, localPlayerName, idPlayer) => {
     setShowLobbyModal(true);
-    console.log(roomCreated);
     setRoomID(createdRoomID);
     setLocalPlayer(localPlayerName);
+    setIdPlayer(idPlayer);
   }
 
   const handleLeaveRoom = () => {
     setShowLobbyModal(false);
     setRoomID('');
   };
-  const [roomIDStarted, setRoomIDStarted] = useState('')
-  const [gameID, setGameID] = useState('')
+  const [gameIDCurrent, setGameIDCurrent] = useState(-1)
 
-  const handleStartGame = async (localPlayerName, RoomID, GameID) => {
+  const handleStartGame = async (RoomID, GameID) => {
     try {
-      setRoomIDStarted(RoomID);
-      setGameID(GameID);
-      const responsePromise = getRoomInfo(roomIDStarted);
+      setGameIDCurrent(GameID);
+      console.log(GameID);
+      const responsePromise = getRoomInfo(RoomID);
       const response = await responsePromise;
       const players = await response.CountPlayers;
       setNOfPlayers(players);
       setGameStarted(true);
-      setLocalPlayer(localPlayerName);
       setShowLobbyModal(false);
 
     } catch (error) {
@@ -51,7 +46,7 @@ function App() {
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={nOfPlayers} localName={localPlayer} gameID={gameID} />
+        <Table nOfPlayers={nOfPlayers} localName={localPlayer} gameID={gameIDCurrent} />
       ) : (
         <>
           <CreateGameForm onRoomCreated={handleRoomCreated} />
@@ -63,7 +58,8 @@ function App() {
           roomID={roomID}
           onStartGame={handleStartGame}
           onLeave={handleLeaveRoom}
-          localName ={localPlayer}
+          localName={localPlayer}
+          idPlayer={idPlayer}
       />
       )}
     </div>

@@ -8,79 +8,74 @@ const LobbyScreenModal = (props) => {
   const [localName, setLocalName] = useState('');
   const [hostName, setHostName] = useState('');
   const [hostID, setHostID] = useState(-1);
-  const [gameID, setGameID] = useState('');
+  const [gameID, setGameID] = useState(-1);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
-  useEffect(() => {
+  const pollRoom = () => {
+    api.getRoomInfo(props.roomID)
+      .then((data) => {
 
-    const fetchData = async () => {
-      try {
-        const roomInfo = await api.getRoomInfo(props.roomID);
+        console.log(props.roomID);
 
-        console.log(roomInfo);
-        setHostName(roomInfo.host.name);
-        console.log(hostName);
+        setHostName(data.host.name);
 
-        setHostID(roomInfo.host.id);
-        console.log(hostID);
+        setHostID(data.host.id);
+        console.log(data.host.id);
 
-        setPlayers(roomInfo.Players);
-        console.log(players);
+        setPlayers(data.Players);
+        console.log(data.Players);
 
         setLocalName(props.localName);
-        console.log(localName);
 
-      } catch (error) {
+        if (!data.hasStarted) {
+          setTimeout(pollRoom, 3000); 
+        }else{
+          props.onStartGame(props.roomID, gameID);
+        }
+      })
+      .catch((error) => {
         console.error(error);
-      }
-    };
+        props.onLeave();
+      });
+  };
 
-  
-    fetchData();
-
-
-
-    const pollingIntervalId = setInterval(fetchData, 3000);
-    return () => {
-      clearInterval(pollingIntervalId);
-    };
-
+  useEffect(() => {
+    pollRoom();
   }, [props.localName]);
 
-  const handleLeave = () => {
-    try{
-      api.removePlayerFromRoom(props.roomID, { 'playerID': hostID});
+  const handleStartGame = (e) => {
+    e.preventDefault();
+    api.createGame({"roomID": props.roomID})
+    .then((data) => {
+      console.log(data.gameID);
+      const aux = data.gameID;
+      setGameID(aux);
+      console.log(aux)
       
+    }).catch((error) => {
+      console.log(error);
+    })
+  };
+
+  const handleLeave = (id) => {
+    try{
+      api.removePlayerFromRoom(props.roomID, {"playerID": id})
     }catch(error){
       console.error(error);
     }
   };
 
-
-  const handleStartGame = (e) => {
-    e.preventDefault();
-    api.createGame({ 'roomID': props.roomID })
-    .then((response) => {
-      if (response && response.ok) {
-        console.log(response);
-        setGameID(response.data.gameID);
-      }
-    }).catch((error) => {
-      console.log(error);
-    })
-    props.onStartGame(localName, props.roomID, gameID);
-  };
-
   const isHost = localName === hostName;
-  console.log(hostID);
-  console.log(localName);
-  console.log(hostName);
-
+  const isHostID = hostID === props.idPlayer;
 
   return (
     <div className={classes['blur-background']}>
-      <form action="" className={classes['form-container']} onSubmit={(e) => e.preventDefault()}>
+      <form action="" className={classes['form-container']} onSubmit={handleSubmit}>
         <h2>Sala de Espera</h2>
+        <h3>{`ID de la Sala: ${props.roomID}`}</h3>
         <ul className={classes['players-list-item-container']}>
           {players.map((player, index) => (
             <li className={classes['players-list-item']} key={index}>
@@ -88,8 +83,16 @@ const LobbyScreenModal = (props) => {
               </li>
           ))}
         </ul>
-        {isHost && <button onClick={handleStartGame}>Iniciar partida</button>}
-        <button onClick={() => { handleLeave(); props.onLeave(); }}>Abandonar Sala</button>
+        {isHost ? (
+          <button onClick={handleStartGame}> Iniciar partida</button>
+        ):(
+          <p className={classes['loading-text']}>Esperando al anfitrión</p>
+        )}
+        {isHostID ? (
+          <button onClick={() => {handleLeave(hostID);}}>Abandonar Sala</button>
+        ) : (
+          <button onClick={() => {handleLeave(props.idPlayer); props.onLeave();}}>Abandonar Sala</button>
+        )}
       </form>
     </div>
   );
@@ -97,10 +100,11 @@ const LobbyScreenModal = (props) => {
 }
 
 LobbyScreenModal.propTypes = {
-  roomID: PropTypes.string.isRequired,
+  roomID: PropTypes.number.isRequired,
   onStartGame: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
   localName: PropTypes.string.isRequired,
+  idPlayer: PropTypes.number.isRequired,
 };
 
 export default LobbyScreenModal;
