@@ -25,10 +25,13 @@ function App() {
     setShowLobbyModal(false);
     setRoomID('');
   };
+  const [gameIDCurrent, setGameIDCurrent] = useState(-1)
 
-  const handleStartGame = async () => {
+  const handleStartGame = async (RoomID, GameID) => {
     try {
-      const responsePromise = getRoomInfo(1);
+      setGameIDCurrent(GameID);
+      console.log(GameID);
+      const responsePromise = getRoomInfo(RoomID);
       const response = await responsePromise;
       const players = await response.CountPlayers;
       setNOfPlayers(players);
@@ -40,10 +43,15 @@ function App() {
     }
   };
 
+  const gameEnded = () => {
+    setGameStarted(false);
+    alert("Volviendo a la pantalla de inicio");
+  }
+
   return (
     <div className="App">
       {gameStarted ? (
-        <Table nOfPlayers={nOfPlayers} localName={localPlayer}/>
+        <Table nOfPlayers={nOfPlayers} localName={localPlayer} onGameEnd={gameEnded} gameID={gameIDCurrent}/>
       ) : (
         <>
           <CreateGameForm onRoomCreated={handleRoomCreated} />

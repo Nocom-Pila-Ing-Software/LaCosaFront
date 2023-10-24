@@ -1,4 +1,3 @@
-
 .card-Infectado {
   background-image: url('../../assets/infectado.png');
 }
@@ -39,6 +38,14 @@
   background-image: url('../../assets/thing-card.png');
 }
 
+.card-La-cosa {
+  background-image: url('../../assets/thing-card.png');
+}
+
+.card-infectado {
+  background-image: url('../../assets/infectado-card.png');
+}
+
 .card-Lanzallamas {
   background-image: url('../../assets/lanzallamas-card.png');
 }
@@ -49,12 +56,20 @@
   background-size: cover;
 }
 
+.card-Cambio-de-lugar {
+  background-image: url('../../assets/cambio-lugar-card.png');
+}
+
+.card-Más-vale-que-corras {
+  background-image: url('../../assets/mas-vale-que-corras-card.png');
+}
+
+
+
 .card {
   background-color: rgb(41, 129, 66);
   margin: 1px;
   border-radius: 10px;
-
-
   transition: transform 0.3s ease;
 }
 

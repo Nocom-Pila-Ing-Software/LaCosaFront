@@ -14,12 +14,14 @@ const Table = (props) => {
   const [localPlayerInfo, setLocalPlayerInfo] = useState('')
   const [allGameData, setAllGameData] = useState('')
   const [allDeadPlayers, setAllDeadPlayers] = useState([])
+  const [gameEnded, setGameEnded] = useState(false)
 
   useEffect(() => {
     let localPlayer = props.localName;
 
     const fetchData = async () => {
       try {
+        console.log(props.gameID)
         const gameStartedInfo = await getGameInfo(1);
 
         // Game data
@@ -38,7 +40,7 @@ const Table = (props) => {
 
       } catch (error) {
         console.error(error);
-        alert("La partida ha terminado")
+        setGameEnded(true);
       }
     };
 
@@ -59,7 +61,14 @@ const Table = (props) => {
 
   const nameOfDeaths = allDeadPlayers.map((user) => user.username)
 
+  const handleGameEnd = (e) => {
+    e.preventDefault();
+    props.onGameEnd();
+  }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
 
   return (
@@ -83,7 +92,38 @@ const Table = (props) => {
           </div>
         )
       })}
-
+      {gameEnded && (
+        <div className={classes['overlay']}>
+          <form action="" onSubmit={handleSubmit}>
+            <h2>El juego ha terminado.....</h2>
+            {allGameData.result.humansWin ? (
+              <div> 
+              <h3>¡GANAN LOS HUMANOS!</h3>
+              <ul>
+                {allGameData.result.winners.map((winner, index) => (
+                  <li key={index}>{winner.username}</li>
+                ))}
+              </ul>
+              <button onClick={handleGameEnd}>Salir</button>  
+              </div>
+            ):(
+              <div>
+                <h3>¡GANO LA COSA!</h3>
+                <ul>
+                  {allGameData.result.winners.map((winner) => (
+                    <li key={winner.playerID}>
+                      <div> 
+                        <span> {winner.username} </span>
+                      </div> 
+                    </li>
+                  ))}
+                </ul>
+                <button onClick={handleGameEnd}>Salir</button>  
+              </div>
+            )}
+          </form>
+        </div>
+      )}
     </div>
 
   );
@@ -92,6 +132,8 @@ const Table = (props) => {
 Table.propTypes = {
   nOfPlayers: PropTypes.number.isRequired,
   localName: PropTypes.string.isRequired,
+  gameID: PropTypes.number.isRequired,
+  onGameEnd: PropTypes.func.isRequired,
 }
 
 export default Table;
