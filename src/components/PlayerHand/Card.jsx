@@ -13,7 +13,7 @@ const Card = (props) => {
 
   const cardName = 'card-' + props.name.replace(/\s+/g, '-');
   return (
-    <div className={`${classes[cardName]} ${classes.card} ${props.id === props.selectedCardID ? classes.selected : ''}`} onClick={playCard}>
+    <div className={`${classes[cardName]} ${classes.background_img} ${classes.card} ${props.id === props.selectedCardID ? classes.selected : ''}`} onClick={playCard}>
 
     </div>
   )
