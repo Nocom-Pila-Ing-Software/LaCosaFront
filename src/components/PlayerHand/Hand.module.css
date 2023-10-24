@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+
+.hand-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hand-container__hand {
+  display: flex;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+
+}
+
+.enabled-button {
+  background-color: #427c44;
+  margin: 10px;
+  border: none;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.enabled-button:hover {
+  transition: .5s;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.disabled-button {
+  background-color: #5e5e5e;
+  margin: 10px;
+  border: none;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.turn,
+.last-played {
+  font-size: 15px;
+  margin-top: -15px;
+}
+
+.turn span,
+.last-played span {
+  color: rgb(179, 255, 0);
+  font-size: 18px;
+
+}
+
+.death-text {
+  font-family: 'Nosifer', cursive;
+  color: rgb(255, 73, 73);
+}
+
+.select {
+  font-size: 16px;
+  height: 47px;
+  margin-top: 10px;
+
+}
