@@ -112,3 +112,59 @@ export const discardCard = async (roomID, bodyContent) => {
         throw error;
     }
 };
+
+
+export const tradeCard = async (roomID, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${roomID}/trade-card`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+
+
+export const defendCard = async (room_id, bodyContent) => {
+    try{
+        const response = await axios.put(`${baseUrl}/game/${room_id}/defend-card`, bodyContent);
+        return response.data;
+    } catch (error){
+        console.error(error);
+        throw error;
+    }
+}
+
+
+
+export const getCardsUsability = async (player_id) => {
+    try {
+        const response = await axios.get(`${baseUrl}/player/${player_id}/cards-usability`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getPossibleTargets = async (player_id, card_id) => {
+    try {
+        const response = await axios.get(`${baseUrl}/player/${player_id}/targets/${card_id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getCardsDefend = async (player_id, card_id) => {
+    try {
+        const response = await axios.get(`${baseUrl}/player/${player_id}/cards-defend/${card_id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
