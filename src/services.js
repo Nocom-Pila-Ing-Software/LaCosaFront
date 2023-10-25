@@ -101,12 +101,12 @@ export const getWaitingRooms = async () => {
         console.error(error);
         throw error;
     }
-}; 
+};
 
 
 export const removePlayerFromRoom = async (room_id, bodyContent) => {
     try {
-        const response = await axios.delete(`${baseUrl}/room/${room_id}/player`, {data: bodyContent});
+        const response = await axios.delete(`${baseUrl}/room/${room_id}/player`, { data: bodyContent });
         return response.data;
     } catch (error) {
         console.error(error);
@@ -138,10 +138,10 @@ export const tradeCard = async (roomID, bodyContent) => {
 
 
 export const defendCard = async (room_id, bodyContent) => {
-    try{
+    try {
         const response = await axios.put(`${baseUrl}/game/${room_id}/defend-card`, bodyContent);
         return response.data;
-    } catch (error){
+    } catch (error) {
         console.error(error);
         throw error;
     }
@@ -172,6 +172,16 @@ export const getPossibleTargets = async (player_id, card_id) => {
 export const getCardsDefend = async (player_id, card_id) => {
     try {
         const response = await axios.get(`${baseUrl}/player/${player_id}/cards-defend/${card_id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getCardsToTrade = async (player_id, card_id) => {
+    try {
+        const response = await axios.get(`${baseUrl}/player/${player_id}/cards-trade`);
         return response.data;
     } catch (error) {
         console.error(error);
