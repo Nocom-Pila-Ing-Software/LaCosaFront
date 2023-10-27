@@ -21,10 +21,11 @@ export const handleDrawCard = async (actualTurn, drawCard, setHasDrawnCard) => {
   }
   try {
     await drawCard(1, body)
-    setHasDrawnCard(true)
   } catch (error) {
     console.error(error)
   }
+  setHasDrawnCard(true)
+
 }
 
 export const handleOmitDefense = (targetPlayer, actualTurn, defendCard) => {
