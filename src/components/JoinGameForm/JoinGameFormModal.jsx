@@ -19,8 +19,6 @@ const Modal = (props) => {
 				})
 		}
 
-		ObtenerPartidas();
-
 		const pollingIntervalId = setInterval(ObtenerPartidas, 3000);
     return () => {
       clearInterval(pollingIntervalId);
