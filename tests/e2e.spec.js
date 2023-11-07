@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 
-const NUM_PLAYERS = 4;
+const NUM_PLAYERS = 8;
 
 async function join_player(context, name) {
     const page1 = await context.newPage();
@@ -15,13 +15,13 @@ test('has title', async ({ page, context }) => {
     let host = page
     await host.goto('http://localhost:5173/');
     await host.getByPlaceholder('Nombre del anfitrion').click();
-    await host.getByPlaceholder('Nombre del anfitrion').fill('host');
+    await host.getByPlaceholder('Nombre del anfitrion').fill('p1');
     await host.getByPlaceholder('Nombre de la partida').click();
     await host.getByPlaceholder('Nombre de la partida').fill('partida');
     await host.getByRole('button', { name: 'Crear partida' }).click();
 
     // P1
-    for (let i = 0; i < NUM_PLAYERS-1; i++) {
+    for (let i = 2; i <= NUM_PLAYERS; i++) {
         await join_player(context, 'p' + i);
     }
     await host.getByRole('button', { name: 'Iniciar partida' }).click();
