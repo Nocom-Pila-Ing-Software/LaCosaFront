@@ -25,5 +25,5 @@ test('has title', async ({ page, context }) => {
         await join_player(context, 'p' + i);
     }
     await host.getByRole('button', { name: 'Iniciar partida' }).click();
-    await host.pause()
+    await new Promise(() => {})
 });
