@@ -13,4 +13,4 @@ curl "http://127.0.0.1:8000" -s > /dev/null || display_warning_and_exit "WARNING
 # This will open a browser with N tabs, one for each player
 # You can define amount of players in a constant on tests/
 # The script will automatically log all players into the game
-npx playwright test tests/ --headed
+npx playwright test tests/ --timeout 0 --headed
