@@ -1,9 +1,9 @@
-export const handleDiscardCard = async (actualTurn, clickedCardId, discardCard) => {
+export const handleDiscardCard = async (actualTurn, clickedCardId, discardCard, gameId) => {
   const bodyContent = {
     "playerID": actualTurn,
     "cardID": clickedCardId
   }
-  discardCard("1", bodyContent)
+  discardCard(gameId, bodyContent)
     .then((data) => {
       console.log("Respuesta de discardCard: ", data);
     })
@@ -15,12 +15,12 @@ export const handleDiscardCard = async (actualTurn, clickedCardId, discardCard) 
 }
 
 
-export const handleDrawCard = async (actualTurn, drawCard, setHasDrawnCard) => {
+export const handleDrawCard = async (actualTurn, drawCard, setHasDrawnCard, gameId) => {
   const body = {
     "playerID": actualTurn
   }
   try {
-    await drawCard(1, body)
+    await drawCard(gameId, body)
   } catch (error) {
     console.error(error)
   }
@@ -28,14 +28,14 @@ export const handleDrawCard = async (actualTurn, drawCard, setHasDrawnCard) => {
 
 }
 
-export const handleOmitDefense = (targetPlayer, actualTurn, defendCard) => {
+export const handleOmitDefense = (targetPlayer, actualTurn, defendCard, gameId) => {
   if (targetPlayer) {
     let bodyContent = {
       "playerID": actualTurn,
       "cardID": -1
     }
 
-    defendCard(1, bodyContent)
+    defendCard(gameId, bodyContent)
       .then((data) => {
         console.log("Respuesta de defendCard: ", data);
       })
@@ -45,12 +45,12 @@ export const handleOmitDefense = (targetPlayer, actualTurn, defendCard) => {
   }
 }
 
-export const handleTradeCard = async (actualTurn, clickedCardId, tradeCard) => {
+export const handleTradeCard = async (actualTurn, clickedCardId, tradeCard, gameId) => {
   const bodyContent = {
     "playerID": actualTurn,
     "cardID": clickedCardId
   }
-  tradeCard("1", bodyContent)
+  tradeCard(gameId, bodyContent)
     .then((data) => {
       console.log("Respuesta de discardCard: ", data);
     })
@@ -61,7 +61,7 @@ export const handleTradeCard = async (actualTurn, clickedCardId, tradeCard) => {
 
 }
 
-export const handleDefendCard = (actualTurn, cardID, clickedCardId, getCardsDefend, defendCard) => {
+export const handleDefendCard = (actualTurn, cardID, clickedCardId, getCardsDefend, defendCard, gameId) => {
 
   let bodyContent = {
     "playerID": actualTurn,
@@ -83,7 +83,7 @@ export const handleDefendCard = (actualTurn, cardID, clickedCardId, getCardsDefe
     "playerID": actualTurn,
     "cardID": clickedCardId
   }
-  defendCard(1, bodyContent)
+  defendCard(gameId, bodyContent)
     .then((data) => {
       console.log("Respuesta de defendCard: ", data);
     })
@@ -93,14 +93,14 @@ export const handleDefendCard = (actualTurn, cardID, clickedCardId, getCardsDefe
 
 }
 
-export const handlePlayCard = async (actualTurn, selectedPlayer, clickedCardId, playCard) => {
+export const handlePlayCard = async (actualTurn, selectedPlayer, clickedCardId, playCard, gameId) => {
   const bodyContent = {
     "playerID": actualTurn,
     "targetPlayerID": selectedPlayer,
     "cardID": clickedCardId
   }
 
-  await playCard(1, bodyContent)
+  await playCard(gameId, bodyContent)
     .then((data) => {
       console.log("Respuesta de playCard: ", data);
     })

@@ -161,13 +161,13 @@ const Hand = (props) => {
         {currentAction === 'action' && isTurn && canPlayCard && (
           <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
             disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
-            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard)}>Jugar Carta</button>
+            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>
         )}
 
         {currentAction === 'action' && isTurn && (
           <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
             disabled={!isTurn}
-            onClick={() => handleDiscardCard(actualTurn, clickedCardId, discardCard)}>Descartar Carta</button>
+            onClick={() => handleDiscardCard(actualTurn, clickedCardId, discardCard, props.allGameData.gameID)}>Descartar Carta</button>
         )}
 
         {currentAction === 'action' && isTurn && canPlayCard && (
@@ -192,24 +192,24 @@ const Hand = (props) => {
         {currentAction === 'draw' && isTurn && (
           <button className={(isTurn && isAlive && !hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
             disabled={!isTurn || !isAlive || hasDrawnCard}
-            onClick={() => handleDrawCard(actualTurn, drawCard, setHasDrawnCard)}>Robar Carta</button>
+            onClick={() => handleDrawCard(actualTurn, drawCard, setHasDrawnCard, props.allGameData.gameID)}>Robar Carta</button>
         )}
 
         {currentAction === 'trade' && isTurn && (
           <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
-            onClick={() => handleTradeCard(actualTurn, clickedCardId, tradeCard)}
+            onClick={() => handleTradeCard(actualTurn, clickedCardId, tradeCard, props.allGameData.gameID)}
           >Intercambiar carta</button>
         )}
 
         {currentAction === 'defense' && isTurn && canDefend && (
           <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
-            onClick={() => handleDefendCard(actualTurn, lastCardPlayedID, clickedCardId, getCardsDefend, defendCard)}>Defensa</button>
+            onClick={() => handleDefendCard(actualTurn, lastCardPlayedID, clickedCardId, getCardsDefend, defendCard, props.allGameData.gameID)}>Defensa</button>
         )}
 
 
         {currentAction === 'defense' && isTurn && (
           <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
-            onClick={() => handleOmitDefense(selectedPlayer, actualTurn, defendCard)}>Omitir defensa</button>
+            onClick={() => handleOmitDefense(selectedPlayer, actualTurn, defendCard, props.allGameData.gameID)}>Omitir defensa</button>
         )}
 
       </div>
