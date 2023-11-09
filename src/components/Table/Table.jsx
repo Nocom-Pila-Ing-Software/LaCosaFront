@@ -1,5 +1,6 @@
 import OtherPlayerHand from "../OtherPlayersHands/OtherPlayerHand";
 import Hand from "../PlayerHand/Hand";
+import Chat from "../Chat/Chat";
 import classes from './Table.module.css'
 import sitConfigs from "../../utils/sitConfigs"
 import React from 'react'
@@ -11,7 +12,7 @@ const Table = (props) => {
   let actualTable = sitConfigs[props.nOfPlayers];
 
   const [playersInfo, setPlayersInfo] = useState([])
-  const [localPlayerInfo, setLocalPlayerInfo] = useState('')
+  const [localPlayerInfo, setLocalPlayerInfo] = useState("")
   const [allGameData, setAllGameData] = useState('')
   const [allDeadPlayers, setAllDeadPlayers] = useState([])
   const [gameEnded, setGameEnded] = useState(false)
@@ -124,6 +125,9 @@ const Table = (props) => {
           </form>
         </div>
       )}
+      <Chat
+        localPlayerInfo={localPlayerInfo}
+      />
     </div>
 
   );
