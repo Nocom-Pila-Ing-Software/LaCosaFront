@@ -127,6 +127,7 @@ const Table = (props) => {
       )}
       <Chat
         localPlayerInfo={localPlayerInfo}
+        roomID={props.gameID}
       />
     </div>
 
