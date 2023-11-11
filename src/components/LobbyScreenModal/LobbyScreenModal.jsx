@@ -90,7 +90,7 @@ const LobbyScreenModal = (props) => {
 }
 
 LobbyScreenModal.propTypes = {
-  roomID: PropTypes.number.isRequired,
+  roomID: PropTypes.string.isRequired,
   onStartGame: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
   localName: PropTypes.string.isRequired,
