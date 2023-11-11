@@ -114,10 +114,9 @@ const Hand = (props) => {
             console.error(error);
           })
       }
-
       /* CURRENT ACTION: DEFENSE */
       if (currentAction === 'defense') {
-        getCardsDefend(bodyContent.playerID, bodyContent.cardID)
+        getCardsDefend(bodyContent.playerID, lastCardPlayedID)
           .then((data) => {
             console.log("Respuesta de getCardsDefend: ", data);
             setCardsToDefend(data.cards)
@@ -135,7 +134,7 @@ const Hand = (props) => {
       }
     }
 
-    const pollingIntervalId = setInterval(useEffect, 3000);
+    const pollingIntervalId = setInterval(useEffect, 2000);
     return () => {
       clearInterval(pollingIntervalId);
     };
@@ -152,7 +151,6 @@ const Hand = (props) => {
   return (
     <div className={HandClass.PLAYER}>
       <Deck />
-      <p className={classes['last-played']}>{lastCardPlayed !== '' && `Se jugó ${lastCardPlayed}`}</p>
       {
         !isTurn && (
           <p className={classes['last-played']}>Espera a que sea tu turno para poder jugar</p>
