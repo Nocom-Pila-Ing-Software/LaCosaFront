@@ -8,7 +8,6 @@ const LobbyScreenModal = (props) => {
   const [localName, setLocalName] = useState('');
   const [hostName, setHostName] = useState('');
   const [hostID, setHostID] = useState(-1);
-  const [gameID, setGameID] = useState(-1);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,17 +47,7 @@ const LobbyScreenModal = (props) => {
 
   const handleStartGame = (e) => {
     e.preventDefault();
-    api.createGame({ "roomID": props.roomID })
-      .then((data) => {
-        console.log(data.gameID);
-        console.log(gameID);
-        const aux = data.gameID;
-        setGameID(aux);
-        console.log(aux)
-
-      }).catch((error) => {
-        console.log(error);
-      })
+    api.createGame({"roomID": props.roomID})
   };
 
   const handleLeave = (id) => {
@@ -101,7 +90,7 @@ const LobbyScreenModal = (props) => {
 }
 
 LobbyScreenModal.propTypes = {
-  roomID: PropTypes.number.isRequired,
+  roomID: PropTypes.string.isRequired,
   onStartGame: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired,
   localName: PropTypes.string.isRequired,
