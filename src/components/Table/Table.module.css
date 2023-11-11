@@ -90,8 +90,10 @@
 .overlay li {
   list-style: disc;
   margin-bottom: 10px;
-  color: rgb(30, 255, 0); /* Cambia el color de la viñeta */
-  font-weight: bold; /* Cambia el peso de la fuente de la viñeta */
+  color: rgb(30, 255, 0);
+  /* Cambia el color de la viñeta */
+  font-weight: bold;
+  /* Cambia el peso de la fuente de la viñeta */
   left: 0;
 }
 

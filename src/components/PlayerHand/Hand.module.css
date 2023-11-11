@@ -34,17 +34,6 @@
   cursor: pointer;
 }
 
-.disabled-button {
-  background-color: #5e5e5e;
-  margin: 10px;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  transition: transform 0.3s ease;
-}
 
 .turn,
 .last-played {
@@ -69,4 +58,10 @@
   height: 47px;
   margin-top: 10px;
 
+}
+
+ul {
+  overflow-y: auto;
+  max-height: 150px;
+  margin-bottom: 10px;
 }

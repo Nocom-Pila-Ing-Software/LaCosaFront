@@ -85,11 +85,30 @@
   cursor: pointer;
 }
 
+.canPlay {
+  box-shadow: 0 0 20px 10px rgba(0, 164, 175, 0.5);
+}
+
+.cannotPlay {
+  box-shadow: 0 0 20px 10px rgba(180, 43, 43, 0.5);
+}
 
 @media (max-width: 1400px) {
   .card {
     height: 135px;
     width: 100px;
+  }
+
+  .card.selected {
+    border: 2px solid white;
+
+  }
+}
+
+@media (min-width: 1400px) {
+  .card {
+    height: 175px;
+    width: 130px;
   }
 
   .card.selected {
