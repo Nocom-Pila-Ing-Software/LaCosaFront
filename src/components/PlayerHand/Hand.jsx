@@ -17,7 +17,6 @@ const Hand = (props) => {
 
   // CardHandling
   const [clickedCardId, setClickedCardId] = useState(0)
-  const [lastCardPlayed, setLastCardPlayed] = useState('')
   const [lastCardPlayedID, setLastCardPlayedID] = useState(0)
 
   // Live effect
@@ -53,7 +52,6 @@ const Hand = (props) => {
       setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
 
       // Last played card state
-      setLastCardPlayed(props.allGameData.lastPlayedCard.name)
       setLastCardPlayedID(props.allGameData.lastPlayedCard.cardID)
 
       // Life cicle
@@ -103,7 +101,7 @@ const Hand = (props) => {
           .then((data) => {
             console.log("Respuesta de cardsToTrade: ", data);
             setCardsToTrade(data.cards)
-
+            console.log(canTrade);
             const possibleCardToTrade = cardsToTrade.find(card => card.cardID === clickedCardId)
             if (possibleCardToTrade) {
               const cardTradeability = possibleCardToTrade.usable
@@ -126,6 +124,7 @@ const Hand = (props) => {
             if (possibleCardToDefend) {
               const isDefensible = possibleCardToDefend.usable
               setCanDefend(isDefensible)
+              console.log(canDefend);
             }
           })
           .catch((error) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './Card.module.css'
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,7 @@ const Card = (props) => {
     ${classes.background_img} 
     ${classes.card} 
     ${props.id === props.selectedCardID ? classes.selected : ''}
-    ${((isTradeable || isPlayable)) ? classes.canPlay : classes.cannotPlay}
+    ${((isTradeable || isPlayable || canDefend)) ? classes.canPlay : classes.cannotPlay}
     `}
       onClick={playCard}>
     </div>
@@ -29,6 +29,9 @@ Card.propTypes = {
   description: PropTypes.string.isRequired,
   onCardClick: PropTypes.func.isRequired,
   selectedCardID: PropTypes.number.isRequired,
+  cardsToPlay: PropTypes.array.isRequired,
+  cardsToTrade: PropTypes.array.isRequired,
+  cardsToDefend: PropTypes.array.isRequired,
 }
 
 export default Card;
