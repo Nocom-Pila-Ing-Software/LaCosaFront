@@ -158,7 +158,7 @@ const Hand = (props) => {
       <div className={classes.buttons}>
         {currentAction === 'action' && isTurn && canPlayCard && (
           <button className={classes['enabled-button']}
-            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>        
+            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>
         )}
 
         {currentAction === 'action' && isTurn && (

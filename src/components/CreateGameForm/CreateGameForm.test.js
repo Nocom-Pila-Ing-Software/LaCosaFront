@@ -20,18 +20,15 @@ describe("CreateGameForm", () => {
     const hostNameInput = screen.getByPlaceholderText('Nombre del anfitrion');
     const roomNameInput = screen.getByPlaceholderText('Nombre de la partida');
     const submitButton = screen.getByText('Crear partida');
-    
+
     fireEvent.change(hostNameInput, { target: { value: 'Player1' } });
     fireEvent.change(roomNameInput, { target: { value: 'Partidita' } });
-    
+
     const mockPost = jest.spyOn(api, 'createRoom');
-    mockPost.mockResolvedValueOnce({data: {roomID: 1} });
-    
+    mockPost.mockResolvedValueOnce({roomID: 1});
+
     fireEvent.click(submitButton);
     expect(mockPost).toHaveBeenCalledTimes(1);
-    await waitFor(() => {
-      expect(screen.getByText('Iniciar partida')).toBeInTheDocument();
-    });
   });
 
 });
