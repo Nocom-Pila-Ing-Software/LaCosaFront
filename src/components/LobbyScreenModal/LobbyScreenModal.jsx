@@ -47,7 +47,7 @@ const LobbyScreenModal = (props) => {
 
   const handleStartGame = (e) => {
     e.preventDefault();
-    api.createGame({"roomID": props.roomID})
+    api.createGame({"roomID": props.roomID});
   };
 
   const handleLeave = (id) => {
