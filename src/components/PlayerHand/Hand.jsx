@@ -3,7 +3,6 @@ import Card from "./Card";
 import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
-import Deck from "../UI/Deck";
 import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade } from "../../services";
 import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
 
@@ -39,6 +38,9 @@ const Hand = (props) => {
   const [cardsToDefend, setCardsToDefend] = useState([])
   const [canDefend, setCanDefend] = useState(false)
 
+  // Logs
+  const [logs, setLogs] = useState([])
+
 
   useEffect(() => {
     console.log(props.localPlayerInfo);
@@ -47,6 +49,11 @@ const Hand = (props) => {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
       setActualTurn(props.allGameData.playerPlayingTurn.playerID)
+
+      // Logs
+      const updateLogs = props.allGameData.events
+      setLogs(updateLogs)
+
 
       // Validating my turn
       setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
@@ -149,7 +156,12 @@ const Hand = (props) => {
 
   return (
     <div className={HandClass.PLAYER}>
-      <Deck />
+      <ul className={classes["list-of-events"]}>
+        {logs.map((event, index) => (
+          <li key={index} className={classes.event}>{event}</li>
+        ))}
+      </ul>
+
       {
         !isTurn && (
           <p className={classes['last-played']}>Espera a que sea tu turno para poder jugar</p>
@@ -197,7 +209,7 @@ const Hand = (props) => {
           >Intercambiar carta</button>
         )}
 
-        {currentAction === 'defense' && isTurn && canDefend && (
+        {currentAction === 'defense' && isTurn && (
           <button className={classes['enabled-button']}
             onClick={() => handleDefendCard(actualTurn, lastCardPlayedID, clickedCardId, getCardsDefend, defendCard)}>Defensa</button>
         )}
