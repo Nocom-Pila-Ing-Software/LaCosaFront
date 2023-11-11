@@ -6,7 +6,7 @@ import * as api from '../../services.js';
 
 describe("CreateGameForm", () => {
   test("renders form with correct fields", () => {
-    render(<CreateGameForm onStartGame={() => {}}/>);
+    render(<CreateGameForm onRoomCreated={() => {}}/>);
 
     expect(screen.getByText('LA COSA')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Nombre del anfitrion')).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe("CreateGameForm", () => {
     });
   test("Opens modal when form is submitted with valid values", async () => {
     
-    render(<CreateGameForm onStartGame={() => {}}/>);
+    render(<CreateGameForm onRoomCreated={() => {}}/>);
     
     const hostNameInput = screen.getByPlaceholderText('Nombre del anfitrion');
     const roomNameInput = screen.getByPlaceholderText('Nombre de la partida');

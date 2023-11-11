@@ -11,11 +11,10 @@ export const handleDiscardCard = async (actualTurn, clickedCardId, discardCard, 
       console.log(error);
     })
 
-  setHasDrawnCard(false)
 }
 
 
-export const handleDrawCard = async (actualTurn, drawCard, setHasDrawnCard, gameId) => {
+export const handleDrawCard = async (actualTurn, drawCard, gameId) => {
   const body = {
     "playerID": actualTurn
   }
@@ -24,7 +23,6 @@ export const handleDrawCard = async (actualTurn, drawCard, setHasDrawnCard, game
   } catch (error) {
     console.error(error)
   }
-  setHasDrawnCard(true)
 
 }
 
@@ -57,7 +55,6 @@ export const handleTradeCard = async (actualTurn, clickedCardId, tradeCard, game
     .catch((error) => {
       console.log(error);
     })
-  setHasDrawnCard(false)
 
 }
 
@@ -107,7 +104,4 @@ export const handlePlayCard = async (actualTurn, selectedPlayer, clickedCardId, 
     .catch((error) => {
       console.error(error);
     })
-
-  setHasDrawnCard(false)
 }
-

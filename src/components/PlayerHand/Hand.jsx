@@ -15,12 +15,8 @@ const Hand = (props) => {
   const [isTurn, setIsTurn] = useState(true)
   const [actualTurn, setActualTurn] = useState(1)
 
-  // Interface effects
-  const [hasDrawnCard, setHasDrawnCard] = useState(false);
-
   // CardHandling
   const [clickedCardId, setClickedCardId] = useState(0)
-  const [lastCardPlayed, setLastCardPlayed] = useState('')
   const [lastCardPlayedID, setLastCardPlayedID] = useState(0)
 
   // Live effect
@@ -50,18 +46,12 @@ const Hand = (props) => {
     if (props.localPlayerInfo) {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
-
-      // Turns state
-      const actualPlayerTurn = props.allGameData.players.find(((player) => player.playerID === actualTurn))
-      console.log(actualPlayerTurn);
-
       setActualTurn(props.allGameData.playerPlayingTurn.playerID)
 
       // Validating my turn
       setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
 
       // Last played card state
-      setLastCardPlayed(props.allGameData.lastPlayedCard.name)
       setLastCardPlayedID(props.allGameData.lastPlayedCard.cardID)
 
       // Life cicle
@@ -76,7 +66,8 @@ const Hand = (props) => {
         "playerID": actualTurn,
         "cardID": clickedCardId
       }
-      console.log(currentAction);
+
+      /* CURRENT ACTION: ACTION */
       if (currentAction === 'action') {
         getPossibleTargets(bodyContent.playerID, bodyContent.cardID)
           .then((data) => {
@@ -90,82 +81,88 @@ const Hand = (props) => {
         getCardsUsability(actualTurn)
           .then((data) => {
             console.log("Respuesta de getCardsUsability: ", data);
-            console.log(data.cards);
             setCardsToPlay(data.cards)
           })
           .catch((error) => {
             console.error(error);
           })
 
-      } else if (currentAction === 'trade') {
+        const possibleCardToPlay = cardsToPlay.find(card => card.cardID === clickedCardId)
+        if (possibleCardToPlay) {
+          const cardPlayability = possibleCardToPlay.playable
+          setCanPlayCard(cardPlayability)
+          console.log(canPlayCard);
+        }
+      }
+
+      /* CURRENT ACTION: TRADE */
+      if (currentAction === 'trade') {
         getCardsToTrade(actualTurn)
           .then((data) => {
             console.log("Respuesta de cardsToTrade: ", data);
             setCardsToTrade(data.cards)
+            console.log(canTrade);
+            const possibleCardToTrade = cardsToTrade.find(card => card.cardID === clickedCardId)
+            if (possibleCardToTrade) {
+              const cardTradeability = possibleCardToTrade.usable
+              setCanTrade(cardTradeability)
+            }
           })
           .catch((error) => {
             console.error(error);
           })
-
-      } else if (currentAction === 'defense') {
-        getCardsDefend(bodyContent.playerID, bodyContent.cardID)
+      }
+      /* CURRENT ACTION: DEFENSE */
+      if (currentAction === 'defense') {
+        getCardsDefend(bodyContent.playerID, lastCardPlayedID)
           .then((data) => {
             console.log("Respuesta de getCardsDefend: ", data);
             setCardsToDefend(data.cards)
             console.log(cardsToDefend);
+
+            const possibleCardToDefend = cardsToDefend.find(card => card.cardID === clickedCardId)
+            if (possibleCardToDefend) {
+              const isDefensible = possibleCardToDefend.usable
+              setCanDefend(isDefensible)
+              console.log(canDefend);
+            }
           })
           .catch((error) => {
             console.error(error);
           })
       }
-
-      const clickedCard = cardsToPlay.find(card => card.cardID === clickedCardId)
-
-      const tradeableCard = cardsToTrade.find(card => card.cardID === clickedCardId)
-      const defenseCard = cardsToDefend.find(card => card.cardID === clickedCardId)
-
-      console.log(defenseCard);
-      if (currentAction === 'action' && clickedCard) {
-        const isPlayable = clickedCard.playable
-        setCanPlayCard(isPlayable)
-
-      } else if (currentAction === 'trade' && tradeableCard) {
-        const isTradeable = tradeableCard.usable
-        setCanTrade(isTradeable)
-      } else if (currentAction === 'defense' && defenseCard) {
-        const isDefensible = defenseCard.usable
-        setCanDefend(isDefensible)
-      }
     }
 
-    const pollingIntervalId = setInterval(useEffect, 4000);
+    const pollingIntervalId = setInterval(useEffect, 2000);
     return () => {
       clearInterval(pollingIntervalId);
     };
-  }, [props.localPlayerInfo, props.allGameData.playerPlayingTurn]);
-
+  }, [props.localPlayerInfo, props.allGameData]);
 
   const handleCardClick = (cardId) => {
     setClickedCardId(cardId)
-    setSelectedPlayer(targetPlayers[0].playerID)
+    if (currentAction === 'action') {
+      setSelectedPlayer(targetPlayers[0].playerID)
+    }
+    console.log(selectedPlayer);
   }
-
 
   return (
     <div className={HandClass.PLAYER}>
-      <p className={classes['last-played']}>{lastCardPlayed !== '' && `Se jugó ${lastCardPlayed}`}</p>
       <Deck />
-
+      {
+        !isTurn && (
+          <p className={classes['last-played']}>Espera a que sea tu turno para poder jugar</p>
+        )
+      }
       <div className={classes.buttons}>
-
         {currentAction === 'action' && isTurn && canPlayCard && (
-          <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-            disabled={!isTurn || !hasDrawnCard || (clickedCardId === 0)}
-            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>
+          <button className={classes['enabled-button']}
+            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>        
         )}
 
         {currentAction === 'action' && isTurn && (
-          <button className={(isTurn && hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
+          <button className={classes['enabled-button']}
             disabled={!isTurn}
             onClick={() => handleDiscardCard(actualTurn, clickedCardId, discardCard, props.allGameData.gameID)}>Descartar Carta</button>
         )}
@@ -174,10 +171,11 @@ const Hand = (props) => {
           <select
             className={classes.select}
             value={selectedPlayer}
-            onChangeCapture={(e) => {
-              console.log("Selected player: ", e.target.value);
-              setSelectedPlayer(e.target.value)
-            }
+            onChangeCapture={
+              (e) => {
+                console.log("Selected player: ", e.target.value);
+                setSelectedPlayer(e.target.value)
+              }
             }
           >
             {targetPlayers.map((player) => (
@@ -188,31 +186,28 @@ const Hand = (props) => {
           </select>
         )}
 
-
         {currentAction === 'draw' && isTurn && (
-          <button className={(isTurn && isAlive && !hasDrawnCard) ? classes['enabled-button'] : classes['disabled-button']}
-            disabled={!isTurn || !isAlive || hasDrawnCard}
-            onClick={() => handleDrawCard(actualTurn, drawCard, setHasDrawnCard, props.allGameData.gameID)}>Robar Carta</button>
+          <button className={classes['enabled-button']}
+            onClick={() => handleDrawCard(actualTurn, drawCard, props.allGameData.gameID)}>Robar Carta</button>
         )}
 
         {currentAction === 'trade' && isTurn && (
-          <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
+          <button className={classes['enabled-button']}
             onClick={() => handleTradeCard(actualTurn, clickedCardId, tradeCard, props.allGameData.gameID)}
           >Intercambiar carta</button>
         )}
 
         {currentAction === 'defense' && isTurn && canDefend && (
-          <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
+          <button className={classes['enabled-button']}
             onClick={() => handleDefendCard(actualTurn, lastCardPlayedID, clickedCardId, getCardsDefend, defendCard, props.allGameData.gameID)}>Defensa</button>
         )}
 
-
         {currentAction === 'defense' && isTurn && (
-          <button className={(isTurn) ? classes['enabled-button'] : classes['disabled-button']}
+          <button className={classes['enabled-button']}
             onClick={() => handleOmitDefense(selectedPlayer, actualTurn, defendCard, props.allGameData.gameID)}>Omitir defensa</button>
         )}
-
       </div>
+
       {isAlive ? (
         <div className={classes['hand-container__hand']}>
           {hand.map((card) => (
@@ -222,12 +217,11 @@ const Hand = (props) => {
               name={card.name}
               description={card.description}
               onCardClick={handleCardClick}
-              disabled={!isTurn && !canPlayCard}
+              disabled={!isTurn}
               selectedCardID={clickedCardId}
               cardsToPlay={cardsToPlay}
               cardsToTrade={cardsToTrade}
               cardsToDefend={cardsToDefend}
-              currentAction={currentAction}
             />
           ))}
         </div>

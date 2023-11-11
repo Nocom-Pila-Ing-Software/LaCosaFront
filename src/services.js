@@ -179,7 +179,7 @@ export const getCardsDefend = async (player_id, card_id) => {
     }
 }
 
-export const getCardsToTrade = async (player_id, card_id) => {
+export const getCardsToTrade = async (player_id) => {
     try {
         const response = await axios.get(`${baseUrl}/player/${player_id}/cards-trade`);
         return response.data;
