@@ -3,7 +3,7 @@
     bottom: 5rem;
     width: 15rem;
     left: 14rem;
-    max-height: 7.5rem;
+    max-height: 7rem;
     transition: max-height 0.3s ease;
 
 }
@@ -12,12 +12,13 @@
     background-color: #427c44;
     border: none;
     color: white;
-    padding: 15px;
+    padding: 10px;
     width: 50%;
     height: 30%;
     text-align: center;
     text-decoration: none;
     font-size: 15px;
+		font-family: 'Metal Mania', cursive;
     transition: transform 0.3s ease;
 }
 
@@ -35,6 +36,21 @@
 .list-of-msg {
     overflow-y: scroll;
     font-family: 'Metal Mania', cursive;
+		font-size: 15px;
+}
+
+.message{
+		margin: 8px; 
+  	padding: 8px;
+  	display: table;
+  	font-size: 14px;
+  	border-radius: 5px;
+}
+
+.myMessage{
+    background-color: #427c44;
+    color:white;
+    margin-right: auto;
 }
 
 .chat input {

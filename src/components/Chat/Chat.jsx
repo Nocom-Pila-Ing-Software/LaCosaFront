@@ -52,8 +52,7 @@ const Chat = ({ roomID, localPlayerInfo }) => {
         {messages.slice().reverse().map((message, index) => (
           <li
             key={index}
-            className={`my-2 p-2 table text-sm rounded-md ${message.username === "Me" ? "bg-sky-700 ml-auto" : "bg-black"
-              }`}
+            className={`message ${message.username === "Me" ? classes.myMessage : classes.othersMessage}`}
           >
             <b>{message.username}</b>: {message.msg}
           </li>
@@ -64,6 +63,7 @@ const Chat = ({ roomID, localPlayerInfo }) => {
         name="message"
         type="text"
         placeholder="Escribe tu mensaje..."
+        autoComplete="off"
         onChange={(e) => setMessage(e.target.value)}
         className=""
         value={message}
