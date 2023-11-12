@@ -43,6 +43,8 @@ const Hand = (props) => {
   useEffect(() => {
     console.log(props.localPlayerInfo);
     console.log(props.allGameData)
+
+
     if (props.localPlayerInfo) {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
@@ -229,7 +231,7 @@ const Hand = (props) => {
         <p className={classes['death-text']}>Estas muerto!</p>
       )}
 
-      <p>{props.name}</p>
+      <p>{props.name} eres {props.localPlayerInfo.playerInfo.role}</p>
     </div >
 
   )
