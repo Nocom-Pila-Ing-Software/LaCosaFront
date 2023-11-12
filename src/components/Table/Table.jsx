@@ -6,6 +6,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { getGameInfo, getPlayerInfo } from "../../services";
+import ModalOfCards from "../UI/ModalOfCards";
 
 const Table = (props) => {
   let actualTable = sitConfigs[props.nOfPlayers];
@@ -15,6 +16,9 @@ const Table = (props) => {
   const [allGameData, setAllGameData] = useState('')
   const [allDeadPlayers, setAllDeadPlayers] = useState([])
   const [gameEnded, setGameEnded] = useState(false)
+
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [cartasPaMostrar, setCartasPaMostrar] = useState([])
 
   useEffect(() => {
     let localPlayer = props.localName;
@@ -27,16 +31,22 @@ const Table = (props) => {
         const players = (gameStartedInfo.players).concat(gameStartedInfo.deadPlayers);
         setPlayersInfo(players);
         setAllGameData(gameStartedInfo);
+        console.log(allGameData);
 
         // Info of current player
         const playerFound = players.find((player) => player.username === localPlayer);
         const playerInfo = await getPlayerInfo(playerFound.playerID);
-
         // Deaths
         setAllDeadPlayers(gameStartedInfo.deadPlayers)
 
         setLocalPlayerInfo({ playerFound, playerInfo });
         setGameEnded(gameStartedInfo.result.isGameOver);
+
+        if (localPlayerInfo) {
+          let cartulis = localPlayerInfo.playerInfo.shownCards
+          console.log(cartulis);
+          setCartasPaMostrar(cartulis)
+        }
 
       } catch (error) {
         console.error(error);
@@ -46,10 +56,13 @@ const Table = (props) => {
 
     fetchData();
 
+
     const pollingIntervalId = setInterval(fetchData, 3000);
     return () => {
       clearInterval(pollingIntervalId);
     };
+
+
   }, [props.localName]);
 
 
@@ -71,12 +84,31 @@ const Table = (props) => {
   };
 
 
+  const revelationChoice = () => {
+    setModalIsOpen(true)
+    console.log(localPlayerInfo.playerInfo.shownCards)
+    setModalIsOpen(false)
+
+  }
+
+
   return (
     <div className={classes['table-container']}>
+
+      <h2>Cartas a Mostrar</h2>
+      <ul>
+        {cartasPaMostrar.map((carta) => (
+          <li key={carta.cardID}>
+            <h3>{carta.name}</h3>
+          </li>
+        ))}
+      </ul>
+
       <Hand
         name={props.localName}
         localPlayerInfo={localPlayerInfo}
         allGameData={allGameData}
+        onRevelationChoice={revelationChoice}
       />
 
       {actualTable.map((player, index) => {

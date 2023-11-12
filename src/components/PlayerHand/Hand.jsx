@@ -3,7 +3,6 @@ import Card from "./Card";
 import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
-import Deck from "../UI/Deck";
 import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade, revelationsRound } from "../../services";
 import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleRevelations, handleTradeCard } from "./cardUtils";
 
@@ -41,6 +40,7 @@ const Hand = (props) => {
 
   // Revelations helper
   const [hasInfected, setHasInfected] = useState(null)
+  const [publicCards, setPublicCards] = useState([])
 
 
   useEffect(() => {
@@ -67,7 +67,11 @@ const Hand = (props) => {
 
       const infectadoCard = hand.find(card => card.name === "Infeccion")
       setHasInfected(!!infectadoCard)
-      console.log(hasInfected);
+
+      if (props.localPlayerInfo) {
+        console.log(props.localPlayerInfo.playerInfo.shownCards);
+        setPublicCards(props.localPlayerInfo.playerInfo.shownCards)
+      }
 
       const bodyContent = {
         "playerID": actualTurn,
@@ -155,9 +159,11 @@ const Hand = (props) => {
     console.log(selectedPlayer);
   }
 
+  const handleShowCards = () => {
+  }
+
   return (
     <div className={HandClass.PLAYER}>
-      <Deck />
       {
         !isTurn && (
           <p className={classes['last-played']}>Espera a que sea tu turno para poder jugar</p>
@@ -218,7 +224,11 @@ const Hand = (props) => {
         {currentAction === 'revelations' && isTurn && (
           <>
             <button className={classes['enabled-button']}
-              onClick={() => handleRevelations(props.allGameData.gameID, actualTurn, 'all', revelationsRound)}>Mostrar Cartas</button>
+              onClick={() => {
+                handleRevelations(props.allGameData.gameID, actualTurn, 'all', revelationsRound)
+                handleShowCards()
+              }}>Mostrar Cartas</button>
+
             <button className={classes['enabled-button']}
               onClick={() => handleRevelations(props.allGameData.gameID, actualTurn, 'none', revelationsRound)}>No Mostrar cartas</button>
 
