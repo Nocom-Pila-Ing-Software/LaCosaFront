@@ -39,12 +39,13 @@ const Hand = (props) => {
   const [cardsToDefend, setCardsToDefend] = useState([])
   const [canDefend, setCanDefend] = useState(false)
 
+  // Role
+  const [role, setRole] = useState('')
+
 
   useEffect(() => {
     console.log(props.localPlayerInfo);
     console.log(props.allGameData)
-
-
     if (props.localPlayerInfo) {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
@@ -63,6 +64,16 @@ const Hand = (props) => {
       // Setting action
       const tempAction = props.allGameData.currentAction
       setCurrentAction(tempAction)
+
+      let rolePlayer = props.localPlayerInfo.playerInfo.role
+      console.log(rolePlayer);
+      if (rolePlayer === 'thing') {
+        setRole("La Cosa")
+      } else if (rolePlayer === 'human') {
+        setRole("Humano")
+      } else if (rolePlayer === 'infected') {
+        setRole("Infectado")
+      }
 
       const bodyContent = {
         "playerID": actualTurn,
@@ -231,7 +242,7 @@ const Hand = (props) => {
         <p className={classes['death-text']}>Estas muerto!</p>
       )}
 
-      <p>{props.name} eres {props.localPlayerInfo.playerInfo.role}</p>
+      <p>{props.name} eres {role}</p>
     </div >
 
   )
