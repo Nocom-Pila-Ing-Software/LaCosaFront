@@ -50,6 +50,10 @@
   background-image: url('../../assets/lanzallamas-card.png');
 }
 
+.card-Puerta-atrancada {
+  background-image: url('../../assets//puertra-atrancada.png');
+}
+
 .background_img {
   background-position: center;
   background-repeat: no-repeat;
