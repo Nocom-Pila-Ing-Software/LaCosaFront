@@ -160,7 +160,7 @@ const Hand = (props) => {
   }
 
   const handleShowCards = () => {
-    props.onRevelationChoice(publicCards)
+    props.onRevelationChoice()
   }
 
   return (
