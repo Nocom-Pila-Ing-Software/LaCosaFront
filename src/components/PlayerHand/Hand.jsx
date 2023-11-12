@@ -4,6 +4,7 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
+import ModalCards from "../UI/ModalCards";
 import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade } from "../../services";
 import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
 
@@ -38,6 +39,8 @@ const Hand = (props) => {
   // Defend behavior
   const [cardsToDefend, setCardsToDefend] = useState([])
   const [canDefend, setCanDefend] = useState(false)
+
+  const [openModal, setOpenModal] = useState(false)
 
 
   useEffect(() => {
@@ -94,7 +97,9 @@ const Hand = (props) => {
           console.log(canPlayCard);
         }
       }
-
+      if (props.allGameData.lastPlayedCard.name === 'whisky') {
+        setOpenModal(true);
+      }
       /* CURRENT ACTION: TRADE */
       if (currentAction === 'trade') {
         getCardsToTrade(actualTurn)
@@ -132,6 +137,7 @@ const Hand = (props) => {
           })
       }
     }
+              // hacer el componente del modal que se abre, pasado la el name de la carta y poco mas, hacer la llamada en la fase de trade
 
     const pollingIntervalId = setInterval(useEffect, 2000);
     return () => {
@@ -190,6 +196,13 @@ const Hand = (props) => {
           <button className={classes['enabled-button']}
             onClick={() => handleDrawCard(actualTurn, drawCard, props.allGameData.gameID)}>Robar Carta</button>
         )}
+
+        {isTurn && openModal && (
+          <ModalCards
+              hand={hand}
+              closeModal={() => setOpenModal(false)}
+          />
+        )}    
 
         {currentAction === 'trade' && isTurn && (
           <button className={classes['enabled-button']}
