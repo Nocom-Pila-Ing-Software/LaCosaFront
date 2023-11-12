@@ -4,8 +4,8 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade } from "../../services";
-import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
+import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade, revelationsRound } from "../../services";
+import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleRevelations, handleTradeCard } from "./cardUtils";
 
 const Hand = (props) => {
   // Hand handling
@@ -39,6 +39,9 @@ const Hand = (props) => {
   const [cardsToDefend, setCardsToDefend] = useState([])
   const [canDefend, setCanDefend] = useState(false)
 
+  // Revelations helper
+  const [hasInfected, setHasInfected] = useState(null)
+
 
   useEffect(() => {
     console.log(props.localPlayerInfo);
@@ -61,6 +64,10 @@ const Hand = (props) => {
       // Setting action
       const tempAction = props.allGameData.currentAction
       setCurrentAction(tempAction)
+
+      const infectadoCard = hand.find(card => card.name === "Infeccion")
+      setHasInfected(!!infectadoCard)
+      console.log(hasInfected);
 
       const bodyContent = {
         "playerID": actualTurn,
@@ -132,6 +139,7 @@ const Hand = (props) => {
           })
       }
     }
+
 
     const pollingIntervalId = setInterval(useEffect, 2000);
     return () => {
@@ -205,6 +213,21 @@ const Hand = (props) => {
         {currentAction === 'defense' && isTurn && (
           <button className={classes['enabled-button']}
             onClick={() => handleOmitDefense(selectedPlayer, actualTurn, defendCard, props.allGameData.gameID)}>Omitir defensa</button>
+        )}
+
+        {currentAction === 'revelations' && isTurn && (
+          <>
+            <button className={classes['enabled-button']}
+              onClick={() => handleRevelations(props.allGameData.gameID, actualTurn, 'all', revelationsRound)}>Mostrar Cartas</button>
+            <button className={classes['enabled-button']}
+              onClick={() => handleRevelations(props.allGameData.gameID, actualTurn, 'none', revelationsRound)}>No Mostrar cartas</button>
+
+            {hasInfected && (
+              <button className={classes['enabled-button']}
+                onClick={() => handleRevelations(props.allGameData.gameID, actualTurn, 'infection', revelationsRound)}>Mostrar Infectado</button>
+            )}
+
+          </>
         )}
       </div>
 

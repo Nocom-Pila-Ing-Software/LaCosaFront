@@ -105,3 +105,18 @@ export const handlePlayCard = async (actualTurn, selectedPlayer, clickedCardId, 
       console.error(error);
     })
 }
+
+export const handleRevelations = async (gameID, actualTurn, cardsToShow, revelationsRound) => {
+  const bodyContent = {
+    "playerID": actualTurn,
+    "cardsToShow": cardsToShow
+  }
+
+  await revelationsRound(gameID, bodyContent)
+    .then((data) => {
+      console.log("Respuesta de revelationsRound: ", data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+}
