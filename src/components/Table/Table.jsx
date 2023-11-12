@@ -28,7 +28,7 @@ const Table = (props) => {
         const players = (gameStartedInfo.players).concat(gameStartedInfo.deadPlayers);
         setPlayersInfo(players);
         setAllGameData(gameStartedInfo);
-
+        console.log(allGameData);
         // Info of current player
         const playerFound = players.find((player) => player.username === localPlayer);
         const playerInfo = await getPlayerInfo(playerFound.playerID);
@@ -125,7 +125,9 @@ const Table = (props) => {
           </form>
         </div>
       )}
+
       <Chat
+        events={allGameData.events}
         localPlayerInfo={localPlayerInfo}
         roomID={props.gameID}
       />
