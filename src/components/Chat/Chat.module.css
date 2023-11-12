@@ -1,0 +1,46 @@
+.chat {
+    position: absolute;
+    bottom: 5rem;
+    width: 15rem;
+    left: 14rem;
+    max-height: 7.5rem;
+    transition: max-height 0.3s ease;
+
+}
+
+.chat button {
+    background-color: #427c44;
+    border: none;
+    color: white;
+    padding: 15px;
+    width: 50%;
+    height: 30%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    transition: transform 0.3s ease;
+}
+
+.chat button:hover {
+    background-color: #48704a;
+    cursor: pointer;
+}
+
+.chat ul {
+    list-style: none;
+    max-height: 5rem;
+    background-color: rgb(207, 207, 207, 0.4);
+}
+
+.list-of-msg {
+    overflow-y: scroll;
+    font-family: 'Metal Mania', cursive;
+}
+
+.chat input {
+    outline: none;
+    background-color: 2px solid rgb(125, 145, 88);
+    font-family: 'Metal Mania', cursive;
+    padding: 5px;
+    width: 100%;
+}
