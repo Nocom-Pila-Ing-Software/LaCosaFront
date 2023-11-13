@@ -1,5 +1,6 @@
 import OtherPlayerHand from "../OtherPlayersHands/OtherPlayerHand";
 import Hand from "../PlayerHand/Hand";
+import ShownHand from "../PlayerHand/ShownHand";
 import classes from './Table.module.css'
 import sitConfigs from "../../utils/sitConfigs"
 import React from 'react'
@@ -15,6 +16,7 @@ const Table = (props) => {
   const [allGameData, setAllGameData] = useState('')
   const [allDeadPlayers, setAllDeadPlayers] = useState([])
   const [gameEnded, setGameEnded] = useState(false)
+  const [shownCards, setShownCards] = useState([])
 
   useEffect(() => {
     let localPlayer = props.localName;
@@ -31,6 +33,8 @@ const Table = (props) => {
         // Info of current player
         const playerFound = players.find((player) => player.username === localPlayer);
         const playerInfo = await getPlayerInfo(playerFound.playerID);
+        setShownCards(playerInfo.shownCards)
+        console.log(shownCards)
 
         // Deaths
         setAllDeadPlayers(gameStartedInfo.deadPlayers)
@@ -46,7 +50,7 @@ const Table = (props) => {
 
     fetchData();
 
-    const pollingIntervalId = setInterval(fetchData, 3000);
+    const pollingIntervalId = setInterval(fetchData, 2000);
     return () => {
       clearInterval(pollingIntervalId);
     };
@@ -70,7 +74,6 @@ const Table = (props) => {
     e.preventDefault();
   };
 
-
   return (
     <div className={classes['table-container']}>
       <Hand
@@ -78,6 +81,7 @@ const Table = (props) => {
         localPlayerInfo={localPlayerInfo}
         allGameData={allGameData}
       />
+    {shownCards && <ShownHand shownCards={shownCards} />}
 
       {actualTable.map((player, index) => {
 
