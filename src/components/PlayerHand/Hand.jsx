@@ -4,8 +4,8 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade } from "../../services";
-import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
+import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade, declareVictory } from "../../services";
+import { handleDeclareVictory, handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
 
 const Hand = (props) => {
   // Hand handling
@@ -66,7 +66,7 @@ const Hand = (props) => {
       setCurrentAction(tempAction)
 
       let rolePlayer = props.localPlayerInfo.playerInfo.role
-      console.log(rolePlayer);
+      setRole(rolePlayer)
       if (rolePlayer === 'thing') {
         setRole("La Cosa")
       } else if (rolePlayer === 'human') {
@@ -169,6 +169,11 @@ const Hand = (props) => {
         )
       }
       <div className={classes.buttons}>
+
+        {role === 'La Cosa' && (
+          <button className={classes["enabled-button"]}
+            onClick={() => handleDeclareVictory(declareVictory, actualTurn, props.allGameData.gameID)}>Declarar Victoria</button>
+        )}
         {currentAction === 'action' && isTurn && canPlayCard && (
           <button className={classes['enabled-button']}
             onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>

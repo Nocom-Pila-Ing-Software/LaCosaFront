@@ -105,3 +105,17 @@ export const handlePlayCard = async (actualTurn, selectedPlayer, clickedCardId, 
       console.error(error);
     })
 }
+
+export const handleDeclareVictory = async (declareVictory, playerID, gameId) => {
+  const bodyContent = {
+    "playerID": playerID,
+  }
+
+  await declareVictory(gameId, bodyContent)
+    .then((data) => {
+      console.log("Respuesta de declareVictory: ", data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+} 
