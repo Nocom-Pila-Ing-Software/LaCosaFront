@@ -189,6 +189,7 @@ export const getCardsToTrade = async (player_id) => {
     }
 }
 
+
 export const confirmSeenCards = async (player_id) => {
     try {
         const response = await axios.put(`${baseUrl}/player/${player_id}/confirm-seen`);
