@@ -17,7 +17,6 @@ const Hand = (props) => {
 
   // CardHandling
   const [clickedCardId, setClickedCardId] = useState(0)
-  const [lastCardPlayed, setLastCardPlayed] = useState('')
   const [lastCardPlayedID, setLastCardPlayedID] = useState(0)
 
   // Live effect
@@ -40,6 +39,9 @@ const Hand = (props) => {
   const [cardsToDefend, setCardsToDefend] = useState([])
   const [canDefend, setCanDefend] = useState(false)
 
+  // Role
+  const [role, setRole] = useState('')
+
 
   useEffect(() => {
     console.log(props.localPlayerInfo);
@@ -53,7 +55,6 @@ const Hand = (props) => {
       setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
 
       // Last played card state
-      setLastCardPlayed(props.allGameData.lastPlayedCard.name)
       setLastCardPlayedID(props.allGameData.lastPlayedCard.cardID)
 
       // Life cicle
@@ -63,6 +64,16 @@ const Hand = (props) => {
       // Setting action
       const tempAction = props.allGameData.currentAction
       setCurrentAction(tempAction)
+
+      let rolePlayer = props.localPlayerInfo.playerInfo.role
+      console.log(rolePlayer);
+      if (rolePlayer === 'thing') {
+        setRole("La Cosa")
+      } else if (rolePlayer === 'human') {
+        setRole("Humano")
+      } else if (rolePlayer === 'infected') {
+        setRole("Infectado")
+      }
 
       const bodyContent = {
         "playerID": actualTurn,
@@ -103,7 +114,7 @@ const Hand = (props) => {
           .then((data) => {
             console.log("Respuesta de cardsToTrade: ", data);
             setCardsToTrade(data.cards)
-
+            console.log(canTrade);
             const possibleCardToTrade = cardsToTrade.find(card => card.cardID === clickedCardId)
             if (possibleCardToTrade) {
               const cardTradeability = possibleCardToTrade.usable
@@ -114,10 +125,9 @@ const Hand = (props) => {
             console.error(error);
           })
       }
-
       /* CURRENT ACTION: DEFENSE */
       if (currentAction === 'defense') {
-        getCardsDefend(bodyContent.playerID, bodyContent.cardID)
+        getCardsDefend(bodyContent.playerID, lastCardPlayedID)
           .then((data) => {
             console.log("Respuesta de getCardsDefend: ", data);
             setCardsToDefend(data.cards)
@@ -127,6 +137,7 @@ const Hand = (props) => {
             if (possibleCardToDefend) {
               const isDefensible = possibleCardToDefend.usable
               setCanDefend(isDefensible)
+              console.log(canDefend);
             }
           })
           .catch((error) => {
@@ -135,7 +146,7 @@ const Hand = (props) => {
       }
     }
 
-    const pollingIntervalId = setInterval(useEffect, 3000);
+    const pollingIntervalId = setInterval(useEffect, 2000);
     return () => {
       clearInterval(pollingIntervalId);
     };
@@ -160,13 +171,13 @@ const Hand = (props) => {
       <div className={classes.buttons}>
         {currentAction === 'action' && isTurn && canPlayCard && (
           <button className={classes['enabled-button']}
-            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard)}>Jugar Carta</button>
+            onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>
         )}
 
         {currentAction === 'action' && isTurn && (
           <button className={classes['enabled-button']}
             disabled={!isTurn}
-            onClick={() => handleDiscardCard(actualTurn, clickedCardId, discardCard)}>Descartar Carta</button>
+            onClick={() => handleDiscardCard(actualTurn, clickedCardId, discardCard, props.allGameData.gameID)}>Descartar Carta</button>
         )}
 
         {currentAction === 'action' && isTurn && canPlayCard && (
@@ -190,23 +201,23 @@ const Hand = (props) => {
 
         {currentAction === 'draw' && isTurn && (
           <button className={classes['enabled-button']}
-            onClick={() => handleDrawCard(actualTurn, drawCard)}>Robar Carta</button>
+            onClick={() => handleDrawCard(actualTurn, drawCard, props.allGameData.gameID)}>Robar Carta</button>
         )}
 
         {currentAction === 'trade' && isTurn && (
           <button className={classes['enabled-button']}
-            onClick={() => handleTradeCard(actualTurn, clickedCardId, tradeCard)}
+            onClick={() => handleTradeCard(actualTurn, clickedCardId, tradeCard, props.allGameData.gameID)}
           >Intercambiar carta</button>
         )}
 
         {currentAction === 'defense' && isTurn && canDefend && (
           <button className={classes['enabled-button']}
-            onClick={() => handleDefendCard(actualTurn, lastCardPlayedID, clickedCardId, getCardsDefend, defendCard)}>Defensa</button>
+            onClick={() => handleDefendCard(actualTurn, lastCardPlayedID, clickedCardId, getCardsDefend, defendCard, props.allGameData.gameID)}>Defensa</button>
         )}
 
         {currentAction === 'defense' && isTurn && (
           <button className={classes['enabled-button']}
-            onClick={() => handleOmitDefense(selectedPlayer, actualTurn, defendCard)}>Omitir defensa</button>
+            onClick={() => handleOmitDefense(selectedPlayer, actualTurn, defendCard, props.allGameData.gameID)}>Omitir defensa</button>
         )}
       </div>
 
@@ -231,7 +242,7 @@ const Hand = (props) => {
         <p className={classes['death-text']}>Estas muerto!</p>
       )}
 
-      <p>{props.name}</p>
+      <p>{props.name} eres {role}</p>
     </div >
 
   )
