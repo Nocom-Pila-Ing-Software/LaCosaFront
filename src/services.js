@@ -200,9 +200,9 @@ export const confirmSeenCards = async (player_id) => {
 };
 
 
-export const declareVictory = async (roomID) => {
+export const declareVictory = async (roomID, bodyContent) => {
   try {
-    const response = await axios.put(`${baseUrl}/game/${roomID}/declare-victory`);
+    const response = await axios.put(`${baseUrl}/game/${roomID}/declare-victory`, bodyContent);
     return response.data;
   } catch (error) {
     console.error(error);
