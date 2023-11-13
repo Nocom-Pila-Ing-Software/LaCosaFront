@@ -4,8 +4,8 @@ import classes from './Hand.module.css'
 import HandClass from '../Table/Table.module.css'
 import PropTypes from 'prop-types';
 import Deck from "../UI/Deck";
-import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade } from "../../services";
-import { handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
+import { drawCard, playCard, discardCard, tradeCard, defendCard, getPossibleTargets, getCardsDefend, getCardsUsability, getCardsToTrade, declareVictory } from "../../services";
+import { handleDeclareVictory, handleDefendCard, handleDiscardCard, handleDrawCard, handleOmitDefense, handlePlayCard, handleTradeCard } from "./cardUtils";
 
 const Hand = (props) => {
   // Hand handling
@@ -41,6 +41,7 @@ const Hand = (props) => {
 
   // Role
   const [role, setRole] = useState('')
+  const [idThing, setIdThing] = useState(0)
 
 
   useEffect(() => {
@@ -50,6 +51,16 @@ const Hand = (props) => {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
       setActualTurn(props.allGameData.playerPlayingTurn.playerID)
+
+      if (props.localPlayerInfo) {
+        let infoPlayer = props.localPlayerInfo.playerFound.playerID
+        let localHand = props.localPlayerInfo.playerInfo.hand
+        let laCosa = localHand.find(carta => carta.name === "La cosa");
+        if (laCosa) {
+          setIdThing(infoPlayer)
+        }
+      }
+
 
       // Validating my turn
       setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
@@ -66,7 +77,7 @@ const Hand = (props) => {
       setCurrentAction(tempAction)
 
       let rolePlayer = props.localPlayerInfo.playerInfo.role
-      console.log(rolePlayer);
+      setRole(rolePlayer)
       if (rolePlayer === 'thing') {
         setRole("La Cosa")
       } else if (rolePlayer === 'human') {
@@ -169,6 +180,12 @@ const Hand = (props) => {
         )
       }
       <div className={classes.buttons}>
+
+        {role === 'La Cosa' && (
+          <button className={classes["enabled-button"]}
+            onClick={() => handleDeclareVictory(declareVictory, idThing, props.allGameData.gameID)}>Declarar Victoria</button>
+        )}
+
         {currentAction === 'action' && isTurn && canPlayCard && (
           <button className={classes['enabled-button']}
             onClick={() => handlePlayCard(actualTurn, selectedPlayer, clickedCardId, playCard, props.allGameData.gameID)}>Jugar Carta</button>
