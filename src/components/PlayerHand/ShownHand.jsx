@@ -14,7 +14,7 @@ const ShownHand = (props) => {
                 console.log(cardName)
                 return (
                     <div
-                        index={card.cardID}
+                        key={card.cardID}
                         className={`${cardClasses[cardName]} ${cardClasses.background_img} ${cardClasses.card}`}
                     >
                     </div>
@@ -25,7 +25,7 @@ const ShownHand = (props) => {
             <button onClick={props.closeModal}>Creo que vi suficiente...</button>
         </div>
     )
-}  
+}
 
 ShownHand.propTypes = {
     shownCards: PropTypes.array.isRequired,
