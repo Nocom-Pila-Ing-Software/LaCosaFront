@@ -189,3 +189,12 @@ export const getCardsToTrade = async (player_id) => {
     }
 }
 
+export const removePlayerFromGame = async (room_id, bodyContent) => {
+    try{
+        const response = await axios.delete(`${baseUrl}/game/${room_id}/leave-game`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

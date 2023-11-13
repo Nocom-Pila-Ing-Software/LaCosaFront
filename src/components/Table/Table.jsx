@@ -5,7 +5,7 @@ import sitConfigs from "../../utils/sitConfigs"
 import React from 'react'
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
-import { getGameInfo, getPlayerInfo } from "../../services";
+import { getGameInfo, getPlayerInfo, removePlayerFromGame } from "../../services";
 
 const Table = (props) => {
   let actualTable = sitConfigs[props.nOfPlayers];
@@ -63,6 +63,7 @@ const Table = (props) => {
 
   const handleGameEnd = (e) => {
     e.preventDefault();
+    removePlayerFromGame(props.gameID, { "playerID": localPlayerInfo.playerFound.playerID });
     props.onGameEnd();
   }
 
