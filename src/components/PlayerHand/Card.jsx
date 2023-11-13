@@ -12,9 +12,10 @@ const Card = (props) => {
   const isTradeable = props.cardsToTrade.some(card => card.name === props.name && card.usable)
   const canDefend = props.cardsToDefend.some(card => card.name === props.name && card.usable === true)
   return (
-    <div className={`${classes[cardName]} 
-    ${classes.background_img} 
-    ${classes.card} 
+    <div className={`${classes[cardName]}
+    ${classes.background_img}
+    ${classes.card}
+    ${classes.hand_card}
     ${props.id === props.selectedCardID ? classes.selected : ''}
     ${((isTradeable || isPlayable || canDefend)) ? classes.canPlay : classes.cannotPlay}
     `}

@@ -1,3 +1,7 @@
+.card-Whisky {
+  background-image: url('../../assets/whisky.png');
+}
+
 .card-Infeccion {
   background-image: url('../../assets/infectado.png');
 }
@@ -91,12 +95,14 @@
   transition: transform 0.3s ease;
 }
 
-.card.selected {
-  border: 2px solid white;
-
+.hand_card {
 }
 
-.card:hover {
+.hand_card.selected {
+  border: 2px solid white;
+}
+
+.hand_card:hover {
   transition: .5s;
   background-color: grey;
   transform: translateY(-10px);
