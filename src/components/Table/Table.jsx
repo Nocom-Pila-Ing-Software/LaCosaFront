@@ -17,6 +17,7 @@ const Table = (props) => {
   const [allDeadPlayers, setAllDeadPlayers] = useState([])
   const [gameEnded, setGameEnded] = useState(false)
   const [shownCards, setShownCards] = useState([])
+  const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     let localPlayer = props.localName;
@@ -35,6 +36,7 @@ const Table = (props) => {
         const playerInfo = await getPlayerInfo(playerFound.playerID);
         setShownCards(playerInfo.shownCards)
         console.log(shownCards)
+        setOpenModal(playerInfo.shownCards.length > 0)
 
         // Deaths
         setAllDeadPlayers(gameStartedInfo.deadPlayers)
@@ -74,6 +76,12 @@ const Table = (props) => {
     e.preventDefault();
   };
 
+  const closeModal = (e) => {
+    e.preventDefault();
+    setOpenModal(false);
+    setShownCards([]);
+  }
+
   return (
     <div className={classes['table-container']}>
       <Hand
@@ -81,7 +89,7 @@ const Table = (props) => {
         localPlayerInfo={localPlayerInfo}
         allGameData={allGameData}
       />
-    {shownCards && <ShownHand shownCards={shownCards} />}
+    {openModal && <ShownHand shownCards={shownCards} closeModal={closeModal} />}
 
       {actualTable.map((player, index) => {
 
