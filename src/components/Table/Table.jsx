@@ -6,7 +6,7 @@ import sitConfigs from "../../utils/sitConfigs"
 import React from 'react'
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
-import { getGameInfo, getPlayerInfo } from "../../services";
+import { getGameInfo, getPlayerInfo, confirmSeenCards } from "../../services";
 
 const Table = (props) => {
   let actualTable = sitConfigs[props.nOfPlayers];
@@ -35,7 +35,6 @@ const Table = (props) => {
         const playerFound = players.find((player) => player.username === localPlayer);
         const playerInfo = await getPlayerInfo(playerFound.playerID);
         setShownCards(playerInfo.shownCards)
-        console.log(shownCards)
         setOpenModal(playerInfo.shownCards.length > 0)
 
         // Deaths
@@ -80,6 +79,7 @@ const Table = (props) => {
     e.preventDefault();
     setOpenModal(false);
     setShownCards([]);
+    confirmSeenCards(localPlayerInfo.playerFound.playerID)
   }
 
   return (
