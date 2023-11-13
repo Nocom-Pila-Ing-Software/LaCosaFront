@@ -92,4 +92,13 @@ const Chat = ({ roomID, localPlayerInfo, events }) => {
   );
 };
 
+Chat.propTypes = {
+  events: PropTypes.arrayOf(PropTypes.string),
+  localPlayerInfo: PropTypes.shape({
+    playerFound: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  roomID: PropTypes.string.isRequired,
+};
 export default Chat;
