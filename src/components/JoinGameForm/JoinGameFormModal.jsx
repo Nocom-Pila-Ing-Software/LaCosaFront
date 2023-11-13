@@ -9,23 +9,22 @@ const Modal = (props) => {
 
   useEffect(() => {
     const ObtenerPartidas = async () => {
-			await api.getWaitingRooms()
-				.then((data) => {
-					setListRooms(data.rooms);
-				})
-				.catch((error) => {
-					console.log(error);
-					setListRooms([]);
-				})
-		}
-
-		ObtenerPartidas();
-
-		const pollingIntervalId = setInterval(ObtenerPartidas, 3000);
+      try {
+        const games = await api.getWaitingRooms();
+        setListRooms(games.rooms);
+      } catch (error) {
+        console.log(error);
+        setListRooms([]);
+      }
+    };
+  
+    ObtenerPartidas();
+  
+    const pollingIntervalId = setInterval(ObtenerPartidas, 3000);
     return () => {
       clearInterval(pollingIntervalId);
     };
-	}, []);
+  }, []);
 
   const JoinGame = async (roomID) => {
     const body = {'playerName': props.playerName};
