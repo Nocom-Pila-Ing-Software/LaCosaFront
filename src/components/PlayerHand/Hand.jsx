@@ -152,7 +152,6 @@ const Hand = (props) => {
   return (
     <div className={HandClass.PLAYER}>
       <Deck />
-      <p className={classes['last-played']}>{lastCardPlayed !== '' && `Se jugó ${lastCardPlayed}`}</p>
       {
         !isTurn && (
           <p className={classes['last-played']}>Espera a que sea tu turno para poder jugar</p>
