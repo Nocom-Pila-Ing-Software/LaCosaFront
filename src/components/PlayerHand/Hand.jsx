@@ -41,6 +41,7 @@ const Hand = (props) => {
 
   // Role
   const [role, setRole] = useState('')
+  const [idThing, setIdThing] = useState(0)
 
 
   useEffect(() => {
@@ -50,6 +51,16 @@ const Hand = (props) => {
       // Hand state
       setHand(props.localPlayerInfo.playerInfo.hand);
       setActualTurn(props.allGameData.playerPlayingTurn.playerID)
+
+      if (props.localPlayerInfo) {
+        let infoPlayer = props.localPlayerInfo.playerFound.playerID
+        let localHand = props.localPlayerInfo.playerInfo.hand
+        let laCosa = localHand.find(carta => carta.name === "La cosa");
+        if (laCosa) {
+          setIdThing(infoPlayer)
+        }
+      }
+
 
       // Validating my turn
       setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
@@ -172,7 +183,7 @@ const Hand = (props) => {
 
         {role === 'La Cosa' && (
           <button className={classes["enabled-button"]}
-            onClick={() => handleDeclareVictory(declareVictory, actualTurn, props.allGameData.gameID)}>Declarar Victoria</button>
+            onClick={() => handleDeclareVictory(declareVictory, idThing, props.allGameData.gameID)}>Declarar Victoria</button>
         )}
         {currentAction === 'action' && isTurn && canPlayCard && (
           <button className={classes['enabled-button']}
