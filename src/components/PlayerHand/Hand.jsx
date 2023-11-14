@@ -229,7 +229,7 @@ const Hand = (props) => {
               id={card.cardID}
               name={card.name}
               description={card.description}
-              onCardClick={handleCardClick}
+              onCardClick={props.handleCardClick || handleCardClick}
               disabled={!isTurn}
               selectedCardID={clickedCardId}
               cardsToPlay={cardsToPlay}
