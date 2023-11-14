@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const baseUrl = 'http://localhost:8000'; // Change this to your API base URL
 
@@ -211,6 +212,9 @@ export const declareVictory = async (roomID, bodyContent) => {
   }
 };
 
+
+export const getWebsocket = (roomID) => new W3CWebSocket(`ws://127.0.0.1:8000/room/ws/${roomID}`);
+
 export const revelationsRound = async (room_id, bodyContent) => {
     try {
         const response = await axios.put(`${baseUrl}/game/${room_id}/revelations`, bodyContent);
@@ -230,3 +234,4 @@ export const removePlayerFromGame = async (room_id, bodyContent) => {
         throw error;
     }
 }
+
