@@ -64,7 +64,7 @@ const Hand = (props) => {
 
 
       // Validating my turn
-      setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
+      setIsTurn(props.allGameData.playerPlayingTurn.playerID === props.localPlayerInfo.playerFound.playerID)
 
       // Last played card state
       setLastCardPlayedID(props.allGameData.lastPlayedCard.cardID)
@@ -266,7 +266,7 @@ const Hand = (props) => {
               id={card.cardID}
               name={card.name}
               description={card.description}
-              onCardClick={handleCardClick}
+              onCardClick={props.handleCardClick || handleCardClick}
               disabled={!isTurn}
               selectedCardID={clickedCardId}
               cardsToPlay={cardsToPlay}
@@ -289,7 +289,7 @@ Hand.propTypes = {
   name: PropTypes.string.isRequired,
   localPlayerInfo: PropTypes.object.isRequired,
   allGameData: PropTypes.object.isRequired,
-
+  handleCardClick: PropTypes.func
 }
 
 export default Hand;
