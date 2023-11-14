@@ -19,6 +19,7 @@
 .enabled-button {
   background-color: #427c44;
   margin: 10px;
+  border-radius: 80px;
   border: none;
   color: white;
   padding: 15px;

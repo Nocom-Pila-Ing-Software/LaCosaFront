@@ -1,3 +1,7 @@
+.card-Whisky {
+  background-image: url('../../assets/whisky.png');
+}
+
 .card-Infeccion {
   background-image: url('../../assets/infectado.png');
 }
@@ -54,21 +58,35 @@
   background-image: url('../../assets/puerta-atrancada.png');
 }
 
-.background_img {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.card-Analisis {
+  background-image: url('../../assets/analisis.png');
+}
+
+.card-Sospecha {
+  background-image: url('../../assets/sospecha.png');
+}
+
+.card-Aterrador {
+  background-image: url('../../assets/aterrador.png');
+}
+
+.card-Fallaste {
+  background-image: url('../../assets/fallaste.png');
 }
 
 .card-Cambio-de-lugar {
   background-image: url('../../assets/cambio-lugar-card.png');
 }
 
-.card-Más-vale-que-corras {
+.card-Mas-vale-que-corras {
   background-image: url('../../assets/mas-vale-que-corras-card.png');
 }
 
-
+.background_img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .card {
   background-color: rgb(41, 129, 66);
@@ -77,12 +95,14 @@
   transition: transform 0.3s ease;
 }
 
-.card.selected {
-  border: 2px solid white;
-
+.hand_card {
 }
 
-.card:hover {
+.hand_card.selected {
+  border: 2px solid white;
+}
+
+.hand_card:hover {
   transition: .5s;
   background-color: grey;
   transform: translateY(-10px);
