@@ -12,7 +12,7 @@ const Card = (props) => {
   const isTradeable = props.cardsToTrade.some(card => card.name === props.name && card.usable)
   const canDefend = props.cardsToDefend.some(card => card.name === props.name && card.usable === true)
   return (
-    <div className={`${classes[cardName]}
+    <div data-testid={props.name} className={`${classes[cardName]}
     ${classes.background_img}
     ${classes.card}
     ${classes.hand_card}
