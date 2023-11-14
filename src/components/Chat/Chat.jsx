@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 import PropTypes from 'prop-types';
 import classes from "./Chat.module.css"
 import {getWebsocket} from "../../services.js";
