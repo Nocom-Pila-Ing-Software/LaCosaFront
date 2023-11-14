@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const baseUrl = 'http://localhost:8000'; // Change this to your API base URL
 
@@ -210,3 +211,6 @@ export const declareVictory = async (roomID, bodyContent) => {
     throw error;
   }
 };
+
+export const getWebsocket = (roomID) => new W3CWebSocket(`ws://127.0.0.1:8000/room/ws/${roomID}`);
+

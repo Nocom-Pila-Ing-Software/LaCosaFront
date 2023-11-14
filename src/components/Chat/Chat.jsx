@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import PropTypes from 'prop-types';
 import classes from "./Chat.module.css"
+import {getWebsocket} from "../../services.js";
 
 const Chat = (props) => {
   const [messages, setMessages] = useState([]);
@@ -12,7 +13,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     // Create the WebSocket connection only if it hasn't been created yet
-    const ws = new W3CWebSocket(`ws://127.0.0.1:8000/room/ws/${props.roomID}`);
+    const ws = getWebsocket(props.roomID)
     setSocket(ws);
     console.log("THIS EXECUTES", props.roomID);
     console.log(props.events);
