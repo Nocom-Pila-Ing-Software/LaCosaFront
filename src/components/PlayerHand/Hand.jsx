@@ -52,7 +52,7 @@ const Hand = (props) => {
       setActualTurn(props.allGameData.playerPlayingTurn.playerID)
 
       // Validating my turn
-      setIsTurn(actualTurn === props.localPlayerInfo.playerFound.playerID)
+      setIsTurn(props.allGameData.playerPlayingTurn.playerID === props.localPlayerInfo.playerFound.playerID)
 
       // Last played card state
       setLastCardPlayedID(props.allGameData.lastPlayedCard.cardID)
