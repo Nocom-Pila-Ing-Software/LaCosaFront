@@ -212,5 +212,26 @@ export const declareVictory = async (roomID, bodyContent) => {
   }
 };
 
+
 export const getWebsocket = (roomID) => new W3CWebSocket(`ws://127.0.0.1:8000/room/ws/${roomID}`);
+
+export const revelationsRound = async (room_id, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${room_id}/revelations`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const removePlayerFromGame = async (room_id, bodyContent) => {
+    try{
+        const response = await axios.delete(`${baseUrl}/game/${room_id}/leave-game`, { data: bodyContent });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 
