@@ -14,7 +14,7 @@ const ShownHand = (props) => {
                 console.log(cardName)
                 return (
                     <div
-                        key={card.cardID}
+                        key={card.cardID} data-testid="card-row"
                         className={`${cardClasses[cardName]} ${cardClasses.background_img} ${cardClasses.card}`}
                     >
                     </div>
