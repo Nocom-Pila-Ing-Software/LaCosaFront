@@ -49,7 +49,7 @@ const Chat = (props) => {
 
   return (
 
-    <form onSubmit={handleSubmit} className={classes.chat}>
+    <form role="form" onSubmit={handleSubmit} className={classes.chat}>
       <button onClick={() => setShowLogs(false)}>Chat</button>
       <button onClick={() => setShowLogs(true)}>Logs</button>
 
