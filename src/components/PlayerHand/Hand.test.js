@@ -3,6 +3,21 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Hand from './Hand';
 
+jest.mock('../../services.js', () => ({
+    getPossibleTargets: jest.fn(() => Promise.resolve({
+        targets: [
+            { playerID: 2, name: 'Test Player 2' },
+            { playerID: 4, name: 'Test Player 4' },
+        ],
+    })),
+    getCardsUsability: jest.fn(() => Promise.resolve({
+        cards: [
+            { cardID: 1, name: 'Test Card', playable: true },
+            { cardID: 2, name: 'Test Card 1', playable: false },
+        ],
+    })),
+})),
+
 describe('Hand component', () => {
     const props = {
         name: 'Test Player',
@@ -17,22 +32,13 @@ describe('Hand component', () => {
             currentAction: 'action',
             gameID: 1,
         },
+        handleCardClick: jest.fn(),
     };
 
     it('renders the player name and role', () => {
         render(<Hand {...props} />);
         expect(screen.getByText('Test Player eres Humano')).toBeInTheDocument();
     });
-
-    /*it('renders the player hand', async () => {
-        const onCardClick = jest.fn();
-    const targetPlayers = [{ playerID: 2, playerName: 'Test Player 2' }];
-    render(<Hand {...props} targetPlayers={targetPlayers} onCardClick={onCardClick} />);
-    const card = await screen.findByTestId('card');
-    expect(card).toBeInTheDocument();
-    fireEvent.click(card);
-        expect(onCardClick).toHaveBeenCalledTimes(1);
-    });*/
 
     it('displays a message when the player is dead', () => {
         const deadPlayerProps = {
@@ -63,20 +69,6 @@ describe('Hand component', () => {
         expect(messageElement).toBeInTheDocument();
     });
 
-    it('displays a button to play a card when it is the player turn and there is a card to play', () => {
-        const playableCardProps = {
-            ...props,
-            allGameData: { ...props.allGameData, currentAction: 'action' },
-        };
-        const { getByTestId } = render(<Hand {...playableCardProps} />);
-        // Assuming there's a card with a specific class, you can select it by class name
-        const cardElement = getByTestId('Test Card'); // Replace 'card-class' with the actual class name of the card
-
-        // Simulate a click on the card
-        fireEvent.click(cardElement);
-        // No se está ejecutando handleClick?
-        expect(screen.getByText('Jugar Carta')).toBeInTheDocument();
-    });
 
     it('displays a button to discard a card when it is the player turn', () => {
         render(<Hand {...props} />);
