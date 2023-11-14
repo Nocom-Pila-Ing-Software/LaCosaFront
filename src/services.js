@@ -210,3 +210,13 @@ export const declareVictory = async (roomID, bodyContent) => {
     throw error;
   }
 };
+
+export const revelationsRound = async (room_id, bodyContent) => {
+    try {
+        const response = await axios.put(`${baseUrl}/game/${room_id}/revelations`, bodyContent);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
