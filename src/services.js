@@ -220,3 +220,13 @@ export const revelationsRound = async (room_id, bodyContent) => {
         throw error;
     }
 }
+
+export const removePlayerFromGame = async (room_id, bodyContent) => {
+    try{
+        const response = await axios.delete(`${baseUrl}/game/${room_id}/leave-game`, { data: bodyContent });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
