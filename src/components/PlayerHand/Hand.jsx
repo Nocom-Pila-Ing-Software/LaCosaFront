@@ -252,7 +252,7 @@ Hand.propTypes = {
   name: PropTypes.string.isRequired,
   localPlayerInfo: PropTypes.object.isRequired,
   allGameData: PropTypes.object.isRequired,
-
+  handleCardClick: PropTypes.func
 }
 
 export default Hand;
